@@ -1,0 +1,34 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Local tool folders
+.codex
+.claude/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# Build output
+dist/
+build/
+tmp/
+
+# Go build / test artifacts
+*.out
+coverage.out
+
+# Dependency caches
+node_modules/
+
+# Planning / assignment artifacts
+PROJECT_PLAN.md
+PART_B_BACKEND_PLAN.md
+task_current_part_B.png
