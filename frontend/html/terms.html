@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Selwa - Terms of Service & Privacy | Ethical Artisan Marketplace</title>
+    <!-- Google Fonts & simple reset -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="../css/hi.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #faf7f2;
+            /* warm, Bhutan-inspired natural tone */
+            color: #1e2a2e;
+            line-height: 1.5;
+        }
+
+        /* main container with dynamic page switching */
+        .app-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        /* header & brand */
+        .legal-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #2c5f2d 0%, #6b4e2e 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-icon {
+            font-size: 2rem;
+        }
+
+        .tagline {
+            color: #5b6e5c;
+            font-size: 0.95rem;
+            font-weight: 400;
+            border-top: 1px solid #e2dcd0;
+            display: inline-block;
+            padding-top: 0.6rem;
+        }
+
+        /* navigation pills for multi-page (different sections) */
+        .nav-pages {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0 2rem;
+            border-bottom: 2px solid #e9e0d3;
+            padding-bottom: 0.75rem;
+        }
+
+        .page-btn {
+            background: transparent;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.6rem 1.6rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #4a5b4c;
+            background: #f0ebe2;
+        }
+
+        .page-btn.active {
+            background: #2c5f2d;
+            color: white;
+            box-shadow: 0 4px 10px rgba(44, 95, 45, 0.2);
+        }
+
+        .page-btn:hover:not(.active) {
+            background: #e2d9cd;
+            color: #1f3b21;
+        }
+
+        /* card style for legal content */
+        .legal-card {
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.02);
+            padding: 2rem 2rem 2.5rem;
+            transition: all 0.2s;
+            border: 1px solid #f0e9de;
+        }
+
+        /* page content blocks */
+        .legal-page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .legal-page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e2b;
+            letter-spacing: -0.3px;
+            margin-bottom: 1.2rem;
+            border-left: 5px solid #d9a13b;
+            padding-left: 1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: #4a6741;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.2rem 0 0.4rem;
+            color: #5b4b34;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #2c3e2f;
+        }
+
+        .legal-list {
+            margin: 0.75rem 0 1rem 1.8rem;
+            list-style-type: disc;
+        }
+
+        .legal-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .signature-block {
+            margin-top: 2rem;
+            border-top: 1px solid #e3d8cb;
+            padding-top: 1.5rem;
+            font-style: italic;
+            color: #6c7a68;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #8b6b42;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px dashed #cbad7a;
+        }
+
+        /* footer */
+        .app-footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9b8e7a;
+            border-top: 1px solid #e7dfd3;
+            padding-top: 1.8rem;
+        }
+
+        @media (max-width: 640px) {
+            .legal-card {
+                padding: 1.3rem;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .page-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="legal-header">
+            <div class="brand">
+                <span class="brand-icon">🏔️✨</span>
+                <span>Selwa</span>
+            </div>
+            <div class="tagline">woven with heart · supporting Bhutanese artisans directly</div>
+        </div>
+
+        <!-- multi-page navigation: Terms of Service, Privacy Policy, Artisan Support Commitment (Third page) -->
+        <div class="nav-pages">
+            <button class="page-btn" data-page="terms">📜 Terms of Service</button>
+            <button class="page-btn" data-page="privacy">🔒 Privacy Policy</button>
+            <button class="page-btn" data-page="artisan">🤝 Artisan Pledge & Support</button>
+        </div>
+
+        <!-- TERMS OF SERVICE PAGE -->
+        <div id="terms-page" class="legal-page active-page">
+            <div class="legal-card">
+                <h1>Terms of Service</h1>
+                <p><strong>Effective Date:</strong> April 27, 2026</p>
+                <p>Welcome to Selwa (“Company”, “we”, “our”, “us”). These Terms of Service (“Terms”) govern your access
+                    to and use of the Selwa website, marketplace, and any related services (collectively, the
+                    “Platform”). By creating an account, browsing, or purchasing products, you agree to be bound by
+                    these Terms. If you do not agree, please do not use the Platform.</p>
+
+                <h2>1. Our Mission & Direct Artisan Support</h2>
+                <p>Selwa connects conscious consumers with master artisans in Bhutan. Every purchase directly supports
+                    Bhutanese weaving, woodcraft, and textile traditions. We operate a fair-trade inspired model: <span
+                        class="highlight">at least 80% of your product purchase price (minus essential transaction fees)
+                        goes directly to the artisan cooperative or individual maker.</span> We provide full
+                    transparency on artisan impact reports upon request.</p>
+
+                <h2>2. Account Registration & Responsibilities</h2>
+                <p>To place orders, you must create an account with accurate, up-to-date information. You are
+                    responsible for safeguarding your password and all activities under your account. Notify us
+                    immediately of any unauthorized use. Selwa reserves the right to suspend accounts that violate our
+                    terms or engage in fraudulent activity.</p>
+
+                <h2>3. Orders, Payments & Pricing</h2>
+                <p>All prices are listed in USD (or local currency where indicated) and exclude applicable taxes and
+                    shipping charges. After placing an order, you’ll receive an email confirmation. We reserve the right
+                    to cancel orders due to pricing errors, stock unavailability, or suspected fraud. Payments are
+                    processed via secure third-party gateways; we do not store full payment credentials.</p>
+
+                <h2>4. Shipping, Returns & Damages</h2>
+                <p>We ship from Bhutan and partner hubs. Delivery times vary (usually 10–20 business days). If your item
+                    arrives damaged or defective, contact us within 7 days. Due to the handmade nature & artisan support
+                    model, returns for change of mind are accepted within 14 days of delivery but return shipping costs
+                    are borne by the buyer. Final sales on custom/commissioned pieces are non-refundable unless damaged.
+                </p>
+
+                <h2>5. Intellectual Property</h2>
+                <p>All content on Selwa (including text, graphics, logos, artisan imagery) is owned by Selwa or our
+                    artisan partners. You may not reproduce, distribute, or exploit any content without written
+                    permission. Traditional Bhutanese patterns are cultural heritage — we honor their use exclusively to
+                    benefit originating communities.</p>
+
+                <h2>6. Prohibited Conduct</h2>
+                <p>You agree not to: (a) use the Platform for any illegal purpose; (b) harass, abuse, or harm artisans
+                    or other users; (c) attempt to bypass our security measures; (d) resell artisan products without
+                    explicit agreement; (e) submit false information.</p>
+
+                <h2>7. Disclaimers & Limitation of Liability</h2>
+                <p>Selwa provides the Platform “as is.” While we strive to accurately describe artisan products, slight
+                    variations in color, weave, and size are part of the handmade charm. To the fullest extent permitted
+                    by law, Selwa is not liable for indirect or consequential damages arising from use of the
+                    marketplace. Our total liability does not exceed the amount paid by you for the product in question.
+                </p>
+
+                <h2>8. Governing Law & Dispute Resolution</h2>
+                <p>These Terms are governed by the laws of Bhutan and (to the extent applicable) your local consumer
+                    laws. Any disputes shall first be attempted to resolve through good-faith negotiation. If
+                    unresolved, disputes will be settled by binding arbitration in Thimphu, Bhutan, unless mandatory
+                    local jurisdiction applies.</p>
+
+                <h2>9. Changes to Terms</h2>
+                <p>We may update these Terms from time to time. Material changes will be notified via email or prominent
+                    notice on our website. Your continued use after changes constitutes acceptance.</p>
+
+                <h2>10. Contact Us</h2>
+                <p>For questions about these Terms or artisan support, email <strong>legal@selwa.bt</strong> or write to
+                    Selwa, P.O. Box 1245, Thimphu, Bhutan.</p>
+
+                <div class="signature-block">
+                    🌿 By using Selwa, you embrace ethical commerce and empower Bhutanese heritage.
+                </div>
+            </div>
+        </div>
+
+        <!-- PRIVACY POLICY PAGE -->
+        <div id="privacy-page" class="legal-page">
+            <div class="legal-card">
+                <h1>Privacy Policy</h1>
+                <p><strong>Last updated:</strong> April 27, 2026</p>
+                <p>Selwa (“we”, “us”, “our”) respects your privacy. This Privacy Policy explains how we collect, use,
+                    disclose, and safeguard your information when you visit our website, create an account, or make a
+                    purchase. By using Selwa, you consent to data practices described herein.</p>
+
+                <h2>1. Information We Collect</h2>
+                <p><strong>Personal Data:</strong> When you create an account (full name, email address, password
+                    hashed), billing/shipping address, phone number, and purchase history. <strong>Payment
+                        Information:</strong> Processed by third-party PCI-DSS compliant processors; we never store full
+                    card details. <strong>Usage Data:</strong> IP address, browser type, pages visited, and referral
+                    source to improve user experience.</p>
+
+                <h2>2. How We Use Your Information</h2>
+                <ul class="legal-list">
+                    <li>Process and fulfil your orders, including sharing shipping details with logistics partners
+                        (e.g., Bhutan Post, DHL).</li>
+                    <li>Communicate order updates, artisan stories, and occasional marketing (opt-out anytime).</li>
+                    <li>Enhance platform security, detect fraud, and comply with legal obligations.</li>
+                    <li>Support impact reporting: anonymized aggregated data may be shared to show artisan income
+                        growth.</li>
+                </ul>
+
+                <h2>3. Direct Artisan Connection & Data Sharing</h2>
+                <p>To fulfill our direct-support model, we may share your name, shipping address, and purchased item
+                    details with the respective artisan cooperative or shipping facilitator. Artisans never receive your
+                    payment credentials or email address (unless you opt into a direct “thank you” note program). We
+                    obligate our partners to keep your data confidential and use it solely for order fulfillment.</p>
+
+                <h2>4. Cookies & Tracking Technologies</h2>
+                <p>We use essential cookies for cart functionality and optional analytics cookies (Google Analytics
+                    anonymized). You may disable cookies in browser settings, but some features may not work properly.
+                </p>
+
+                <h2>5. Data Retention</h2>
+                <p>We retain account information as long as your account is active, plus as needed for tax, legal, or
+                    warranty purposes (typically 5 years). You may request deletion of your personal data by contacting
+                    privacy@selwa.bt, subject to legal retention requirements.</p>
+
+                <h2>6. Your Rights</h2>
+                <p>Depending on your jurisdiction, you may have the right to access, correct, delete, or restrict
+                    processing of your personal data. To exercise these rights, email us. We will respond within 30
+                    days. For EU/UK residents, we comply with GDPR standards; for California residents, CCPA rights
+                    apply.</p>
+
+                <h2>7. Children’s Privacy</h2>
+                <p>Selwa does not knowingly collect data from children under 16. If we discover such data, we will
+                    delete it immediately.</p>
+
+                <h2>8. Third-Party Links</h2>
+                <p>Our site may link to artisan social media or payment providers. We are not responsible for their
+                    privacy practices. Please review their policies independently.</p>
+
+                <h2>9. Security Measures</h2>
+                <p>We employ SSL encryption, regular security scans, and strict access controls. However, no internet
+                    transmission is 100% secure, so we encourage strong passwords and caution.</p>
+
+                <h2>10. Changes to This Policy</h2>
+                <p>We’ll post any changes on this page with an updated “Last updated” date. For material changes, we’ll
+                    notify you via email or site banner.</p>
+
+                <div class="signature-block">
+                    🛡️ Your trust is our foundation — we honor it with clarity and integrity.
+                </div>
+            </div>
+        </div>
+
+        <!-- ARTISAN SUPPORT & PLEDGE page (third distinct page) -->
+        <div id="artisan-page" class="legal-page">
+            <div class="legal-card">
+                <h1>🤲 Artisan Pledge & Direct Support Framework</h1>
+                <p>This document outlines Selwa’s binding commitment to Bhutanese maker communities. It serves as a
+                    supplemental addendum to our Terms of Service and embodies our core promise: <strong>empower,
+                        preserve, and celebrate Bhutanese craftsmanship.</strong></p>
+
+                <h2>🇧🇹 Fair Compensation Guarantee</h2>
+                <p>Selwa ensures that artisans receive between 75% – 85% of the final retail price (depending on product
+                    category). This is significantly above industry standards. We publish yearly impact metrics,
+                    including average incomes for each partner collective. We never negotiate unfair rates — all pricing
+                    agreements are co-designed with artisan groups.</p>
+
+                <h2>🧵 Transparency & Storytelling</h2>
+                <p>Every product page includes details about the artisan or village where it was made. Whenever
+                    possible, we feature the maker’s name, their craft lineage, and the cultural significance. We do not
+                    anonymize traditional crafts. Customers can also send digital "thank you notes" that we translate
+                    and pass to the artisans (only with your permission).</p>
+
+                <h2>🛡️ Ethical Supply Chain</h2>
+                <p>We operate zero child labor, zero forced labor, and safe working conditions. Regular on-site visits
+                    from Selwa representatives (in partnership with local NGOs) guarantee that workshops meet our
+                    ethical code. Third-party audits happen annually. Artisans can raise concerns anonymously through
+                    our grievance channel (support@selwa.bt).</p>
+
+                <h2>🌿 Community Investment & Cultural Preservation</h2>
+                <p>At least 5% of Selwa’s net profits are reinvested into artisan-led initiatives: weaving looms,
+                    natural dye workshops, and youth apprenticeship programs in Bhutan. By purchasing, you directly
+                    contribute to sustaining endangered crafts like <em>yathra</em> (yak wool weaving) and
+                    <em>thagzo</em> (traditional loom techniques).</p>
+
+                <h2>📦 Special Conditions for Custom Orders</h2>
+                <p>If you commission a bespoke artisan piece (e.g., handwoven kira, wooden mask), we will provide a
+                    transparent breakdown of materials + time + artisan fee. Due to handmade nature, production may take
+                    6–12 weeks. You can request progress updates, and cancellation before weaving begins is eligible for
+                    refund minus 15% planning fee. After start, order is final but may be transferable.</p>
+
+                <h2>📍 Dispute Resolution for Artisans</h2>
+                <p>Artisans and collectives have direct mediation rights with Selwa management. Any payment dispute or
+                    quality claim will be addressed within 14 business days. We commit to translation services
+                    (Dzongkha/English) and fair arbitration.</p>
+
+                <h2>🤝 Zero greenwashing, real impact</h2>
+                <p>This pledge is legally binding and auditable. We partner with the Bhutan Chamber of Commerce &
+                    Industry to validate artisan payments. For each order, you receive a digital "impact receipt"
+                    showing the exact amount that goes to the maker community.</p>
+
+                <div class="signature-block">
+                    ✨ “Happiness is a handmade thread.” — Selwa co-founders, in solidarity with Bhutanese artisans. ✨
+                </div>
+                <p style="margin-top: 1rem; font-size:0.85rem; background:#F8F3EA; padding:0.8rem; border-radius:20px;">
+                    ❝ By agreeing to Selwa’s Terms & creating an account, you acknowledge this Artisan Pledge and
+                    support an ethical marketplace rooted in dignity and cultural reverence. ❞</p>
+            </div>
+        </div>
+
+        <!-- extra footer note referencing the sign-up form context -->
+        <div class="app-footer">
+            <p>✨ Join Selwa and support Bhutanese artisans directly — your journey begins with an account. ✨<br>
+                By clicking "Create account" on the registration form, you agree to our <strong>Terms of
+                    Service</strong>, <strong>Privacy Policy</strong>, and the <strong>Artisan Pledge</strong>
+                above.<br>
+                © 2026 Selwa — Ethical marketplace bridging Bhutan and the world.</p>
+        </div>
+    </div>
+
+    <!-- simple JS for multi-page navigation -->
+    <script>
+        (function () {
+            // get all page containers
+            const pages = {
+                terms: document.getElementById('terms-page'),
+                privacy: document.getElementById('privacy-page'),
+                artisan: document.getElementById('artisan-page')
+            };
+            const buttons = document.querySelectorAll('.page-btn');
+
+            function activatePage(pageId) {
+                // hide all pages
+                Object.values(pages).forEach(page => {
+                    if (page) page.classList.remove('active-page');
+                });
+                // show selected
+                if (pages[pageId]) {
+                    pages[pageId].classList.add('active-page');
+                }
+                // update button active state
+                buttons.forEach(btn => {
+                    const dataPage = btn.getAttribute('data-page');
+                    if (dataPage === pageId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                // optional: scroll to top of card for readability
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // add event listeners to buttons
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const pageName = btn.getAttribute('data-page');
+                    if (pageName === 'terms') activatePage('terms');
+                    else if (pageName === 'privacy') activatePage('privacy');
+                    else if (pageName === 'artisan') activatePage('artisan');
+                });
+            });
+
+            // ensure default active page: terms ( already active via class but sync)
+            const initialActive = document.querySelector('.page-btn.active');
+            if (!initialActive || !initialActive.getAttribute('data-page')) {
+                activatePage('terms');
+            } else {
+                const defaultPage = initialActive.getAttribute('data-page');
+                if (defaultPage && pages[defaultPage]) activatePage(defaultPage);
+                else activatePage('terms');
+            }
+        })();
+    </script>
+</body>
+
+</html>

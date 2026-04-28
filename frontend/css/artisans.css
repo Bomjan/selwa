@@ -1,0 +1,75 @@
+/* ── Hero banner ── */
+.artisan-hero {
+    background: var(--amber-light);
+}
+
+/* ── Filter buttons ── */
+.filter-btn {
+    border: 1.5px solid #ddd;
+    color: #555;
+    background: #fff;
+    border-radius: 20px;
+    font-size: .8rem;
+    padding: 4px 14px;
+    transition: all .2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--amber-dark);
+    color: #fff;
+    border-color: var(--amber-dark);
+}
+
+/* ── Artisan profile card ── */
+.artisan-profile-card {
+    border: 0.5px solid #ddd;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow .2s;
+    background: #fff;
+}
+
+.artisan-profile-card:hover {
+    box-shadow: 0 4px 18px rgba(133, 79, 11, .1);
+}
+
+.artisan-banner {
+    height: 72px;
+}
+
+.artisan-body {
+    position: relative;
+}
+
+.artisan-avatar-lg {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: var(--amber-mid);
+    color: var(--amber-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: 3px solid #fff;
+    margin-top: -44px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Craft tags ── */
+.craft-tag {
+    background: var(--amber-light);
+    color: var(--amber-deep);
+    border-radius: 20px;
+    font-size: .7rem;
+    padding: 3px 10px;
+    font-weight: 500;
+}
+
+/* ── Join CTA ── */
+.join-cta {
+    background: var(--amber-light);
+}

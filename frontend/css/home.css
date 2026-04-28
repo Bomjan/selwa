@@ -1,0 +1,56 @@
+/* ── Hero ── */
+.hero {
+    background: var(--amber-light);
+}
+
+.hero-img-box {
+    background: var(--amber-mid);
+    border-radius: 16px;
+    width: 260px;
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+}
+
+/* ── Stats bar ── */
+.stats-bar {
+    background: #fff;
+    border-top: 0.5px solid #ddd;
+    border-bottom: 0.5px solid #ddd;
+}
+
+.stat-num {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--amber-dark);
+}
+
+/* ── Category cards ── */
+.cat-card {
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color .2s;
+    background: #f9f9f9;
+}
+
+.cat-card:hover {
+    border-color: var(--amber-mid);
+}
+
+.cat-icon {
+    font-size: 2rem;
+}
+
+/* ── Artisan section ── */
+.artisan-section {
+    background: var(--amber-light);
+}
+
+.artisan-card {
+    border: 0.5px solid var(--amber-mid);
+    border-radius: 12px;
+    background: #fff;
+}

@@ -1,0 +1,128 @@
+/* ── Brand colours ── */
+:root {
+  --amber-dark: #854F0B;
+  --amber-mid: #EF9F27;
+  --amber-light: #FAEEDA;
+  --amber-deep: #412402;
+}
+
+/* ── Global ── */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ── Logo ── */
+.logo {
+  color: var(--amber-dark);
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+/* ── Buttons ── */
+.btn-selwa {
+  background: var(--amber-dark);
+  color: var(--amber-light);
+  border: none;
+}
+
+.btn-selwa:hover {
+  background: var(--amber-deep);
+  color: #fff;
+}
+
+.btn-selwa-outline {
+  border: 1.5px solid var(--amber-dark);
+  color: var(--amber-dark);
+  background: transparent;
+}
+
+.btn-selwa-outline:hover {
+  background: var(--amber-light);
+}
+
+/* ── Product cards (shared) ── */
+.product-card {
+  border: 0.5px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  border-color: var(--amber-mid);
+}
+
+.product-img {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.product-price {
+  color: var(--amber-dark);
+  font-weight: 600;
+}
+
+/* ── Badge pills ── */
+.badge-popular {
+  background: var(--amber-light);
+  color: var(--amber-deep);
+  font-size: .7rem;
+}
+
+.badge-new {
+  background: #EAF3DE;
+  color: #27500A;
+  font-size: .7rem;
+}
+
+/* ── Stars ── */
+.stars {
+  color: #BA7517;
+}
+
+/* ── Artisan avatar ── */
+.artisan-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--amber-mid);
+  color: var(--amber-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* ── Navbar toggler fix ── */
+.navbar-toggler {
+  border-color: var(--amber-dark);
+}
+
+.navbar-toggler-icon {
+  filter: invert(30%) sepia(80%) saturate(500%) hue-rotate(10deg);
+}
+
+/* ── Footer ── */
+footer {
+  background: var(--amber-deep);
+  color: var(--amber-light);
+}
+
+footer a {
+  color: #FAC775;
+  font-size: .875rem;
+}
+
+footer a:hover {
+  color: #fff;
+}
