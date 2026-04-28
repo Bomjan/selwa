@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — Privacy Policy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/privacy.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="shell site-header__bar">
+            <a class="site-brand" href="index.html">Selwa</a>
+            <div class="site-nav">
+                <nav class="site-nav__links">
+                    <a class="site-nav__link" href="index.html">Home</a>
+                    <a class="site-nav__link" href="products.html">Products</a>
+                    <a class="site-nav__link" href="artisans.html">Artisans</a>
+                    <a class="site-nav__link" href="about.html">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="page-hero">
+            <div class="shell">
+                <span class="eyebrow">Legal and trust</span>
+                <h1 class="legal-title">Privacy policy for the Selwa prototype experience.</h1>
+                <p class="page-lead">This document explains what the current prototype collects, what remains simulated, and how future production behavior would be handled more formally.</p>
+            </div>
+        </section>
+
+        <section class="shell legal-layout">
+            <article class="legal-panel">
+                <h2>What we collect</h2>
+                <p>At the current Part B stage, Selwa primarily uses frontend-only demo flows and limited local browser storage for small interaction states such as cart count. Product catalogue data may be loaded from fallback demo content when backend services are unavailable.</p>
+
+                <h3>Prototype data categories</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Purpose</th><th>Current handling</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Search queries</td><td>Catalogue filtering</td><td>Used in-page and via URL parameters</td></tr>
+                        <tr><td>Auth form input</td><td>Demo login/signup flow</td><td>Sent to API when available, otherwise simulated</td></tr>
+                        <tr><td>Cart count</td><td>Cross-page continuity</td><td>Stored in local browser storage</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>What this means in practice</h3>
+                <ul class="legal-list">
+                    <li>The live GitHub Pages version is presentation-oriented and may rely on fallback data.</li>
+                    <li>There is no production payment processing in the current milestone.</li>
+                    <li>Formal privacy and consent handling would be expanded in the final product phase.</li>
+                </ul>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="shell">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text">Selwa</div>
+                    <p>Legal pages are rewritten to match the same calm editorial system as the rest of the product.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Reference</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="getintouch.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Browse</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="artisans.html">Artisans</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">© 2026 Selwa. Privacy page simplified for the current milestone while remaining credible.</div>
+        </div>
+    </footer>
+
+    <script src="javascript/global.js"></script>
+</body>
+
+</html>

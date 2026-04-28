@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="shell site-header__bar">
+            <a class="site-brand" href="index.html">Selwa</a>
+            <div class="site-nav">
+                <nav class="site-nav__links">
+                    <a class="site-nav__link" href="index.html">Home</a>
+                    <a class="site-nav__link" href="products.html">Products</a>
+                    <a class="site-nav__link" href="artisans.html">Artisans</a>
+                    <a class="site-nav__link" href="about.html">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="shell auth-shell">
+            <aside class="auth-panel">
+                <div class="auth-panel__image"><img src="images/selwa.bt.jpeg" alt="Bhutanese woven patterns and heritage craft" /></div>
+                <div class="auth-panel__copy">
+                    <span class="eyebrow text-light">New membership</span>
+                    <div class="auth-panel__quote">Join a marketplace built around material, place, and maker identity.</div>
+                    <p class="mb-0">Create an account to save favourites, prepare for checkout, and follow the artisans behind the collection.</p>
+                </div>
+            </aside>
+
+            <section class="auth-card">
+                <div class="auth-card__kicker">Create account</div>
+                <h1 class="auth-title">Become part of Selwa</h1>
+                <p class="page-lead">A lightweight sign-up flow today, with more complete account features planned as the backend expands.</p>
+
+                <div class="auth-stat-row">
+                    <div class="auth-stat">
+                        <strong>01</strong>
+                        <span class="muted">account to save favourites</span>
+                    </div>
+                    <div class="auth-stat">
+                        <strong>04</strong>
+                        <span class="muted">major craft categories</span>
+                    </div>
+                    <div class="auth-stat">
+                        <strong>100%</strong>
+                        <span class="muted">frontend-first for Part B</span>
+                    </div>
+                </div>
+
+                <form id="signup-form" class="auth-form" novalidate>
+                    <div>
+                        <label class="auth-label" for="full-name">Full name</label>
+                        <input type="text" id="full-name" class="auth-input" placeholder="Your full name" autocomplete="name" required />
+                    </div>
+
+                    <div>
+                        <label class="auth-label" for="signup-email">Email address</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" id="signup-email" class="auth-input with-icon" placeholder="you@example.com" autocomplete="email" required />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="auth-label" for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" id="password" class="auth-input with-icon" placeholder="Create a strong password" autocomplete="new-password" required />
+                            <button type="button" class="password-toggle" data-target="password" aria-label="Toggle password"><i class="bi bi-eye"></i></button>
+                        </div>
+                        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                        <div class="strength-text" id="strength-text"></div>
+                    </div>
+
+                    <div>
+                        <label class="auth-label" for="confirm-password">Confirm password</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" id="confirm-password" class="auth-input with-icon" placeholder="Repeat your password" autocomplete="new-password" required />
+                            <button type="button" class="password-toggle" data-target="confirm-password" aria-label="Toggle password"><i class="bi bi-eye"></i></button>
+                        </div>
+                    </div>
+
+                    <label class="auth-check">
+                        <input type="checkbox" id="terms" class="form-check-input mt-1" />
+                        <span>I agree to Selwa’s <a href="terms.html">terms</a> and understand this is a prototype marketplace for Part B review.</span>
+                    </label>
+
+                    <button type="submit" class="button button-primary auth-submit">Create account</button>
+                </form>
+
+                <div class="auth-card__footer">Already have an account? <a href="login.html">Sign in</a></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="javascript/global.js"></script>
+    <script src="javascript/auth.js"></script>
+</body>
+
+</html>

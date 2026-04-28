@@ -1,0 +1,29 @@
+.legal-panel h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-panel h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.legal-panel p,
+.legal-panel li {
+  color: var(--muted);
+}
+
+.legal-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.legal-panel th,
+.legal-panel td {
+  padding: 0.9rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}

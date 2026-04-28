@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — Product Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/products.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="shell site-header__bar">
+            <a class="site-brand" href="index.html">Selwa</a>
+            <form class="site-search" action="products.html" method="get">
+                <input type="search" name="q" placeholder="Search the collection" aria-label="Search products" />
+                <button type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
+            </form>
+            <div class="site-nav">
+                <nav class="site-nav__links">
+                    <a class="site-nav__link" href="index.html">Home</a>
+                    <a class="site-nav__link active" href="products.html">Products</a>
+                    <a class="site-nav__link" href="artisans.html">Artisans</a>
+                    <a class="site-nav__link" href="about.html">About</a>
+                </nav>
+                <a class="button button-primary cart-link" href="cart.html"><i class="bi bi-bag"></i>Cart <span id="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="page-hero catalog-hero">
+            <div class="shell catalog-header">
+                <span class="eyebrow">Collection catalogue</span>
+                <h1 class="page-title">Objects gathered by craft, region, and atmosphere</h1>
+                <p class="page-lead">This catalogue is built for browsing with intent: fewer distractions, more context, and enough editorial texture to make every piece feel considered.</p>
+            </div>
+        </section>
+
+        <section class="shell">
+            <div class="catalog-shell">
+                <div class="catalog-summary">
+                    <div class="surface-dark">
+                        <span class="eyebrow text-light">This season’s focus</span>
+                        <h3 class="mt-3">Ceremonial textiles and carved wooden pieces are leading the current edit.</h3>
+                        <p class="mb-0">The collection page should feel merchandised, not merely listed. We’re using a catalogue structure that still carries a premium brand voice.</p>
+                    </div>
+                    <div class="collection-banner surface">
+                        <img src="images/selwa.bt.jpeg" alt="Bhutanese craft and textile collection mood" />
+                        <div class="collection-banner__copy">
+                            <span class="badge-soft">Limited release</span>
+                            <h3 class="text-white mt-3 mb-2">Handpicked pieces with strong gifting appeal</h3>
+                            <p class="mb-0 text-white-50">A softer marketplace tone, but still clearly commercial.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="catalog-layout">
+                <aside class="filter-panel">
+                    <div class="surface">
+                        <div class="filter-group">
+                            <strong>Browse by category</strong>
+                            <a class="filter-option" href="products.html?category=textiles"><span>Textiles</span><span>84</span></a>
+                            <a class="filter-option" href="products.html?category=woodcraft"><span>Woodcraft</span><span>56</span></a>
+                            <a class="filter-option" href="products.html?category=jewellery"><span>Jewellery</span><span>43</span></a>
+                            <a class="filter-option" href="products.html?category=pottery"><span>Pottery</span><span>38</span></a>
+                        </div>
+                        <div class="filter-group">
+                            <strong>Price range</strong>
+                            <div class="cluster">
+                                <input class="price-input" type="number" placeholder="Min" value="0" />
+                                <input class="price-input" type="number" placeholder="Max" value="15000" />
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <strong>Popular regions</strong>
+                            <label class="filter-option"><span>Thimphu</span><input type="checkbox" /></label>
+                            <label class="filter-option"><span>Paro</span><input type="checkbox" /></label>
+                            <label class="filter-option"><span>Bumthang</span><input type="checkbox" /></label>
+                            <label class="filter-option"><span>Punakha</span><input type="checkbox" /></label>
+                        </div>
+                        <div class="filter-group">
+                            <strong>Presentation note</strong>
+                            <p class="muted mb-0">The current milestone demonstrates catalogue structure, category filtering, sorting, and backend-ready product detail navigation.</p>
+                        </div>
+                    </div>
+                </aside>
+
+                <section>
+                    <div class="products-toolbar">
+                        <span class="muted" id="product-count">Showing products</span>
+                        <select class="form-select toolbar-sort" onchange="handleSort(this.value)">
+                            <option>Sort: Featured</option>
+                            <option>Price: Low to high</option>
+                            <option>Price: High to low</option>
+                            <option>Category: Textiles first</option>
+                        </select>
+                    </div>
+
+                    <div class="cluster mb-4" id="filter-badges"></div>
+                    <div class="product-grid" id="product-grid">
+                        <div class="surface p-4 text-center muted" id="products-loading">Loading products…</div>
+                    </div>
+
+                    <div class="pagination-shell">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="shell">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text">Selwa</div>
+                    <p>The catalogue experience is designed to show that a Bhutanese marketplace can feel both curated and practical.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="artisans.html">Artisans</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="login.html">Sign in</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="getintouch.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">© 2026 Selwa. Static-friendly frontend with backend-ready product pages.</div>
+        </div>
+    </footer>
+
+    <script src="javascript/global.js"></script>
+    <script src="javascript/products.js"></script>
+</body>
+
+</html>
