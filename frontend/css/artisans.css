@@ -1,75 +1,46 @@
-/* ── Hero banner ── */
-.artisan-hero {
-    background: var(--amber-light);
+/* ── Artisan toolbar ─────────────────────────────────── */
+.artisan-tools{padding:3rem 0 2rem;display:flex;flex-direction:column;gap:1.25rem}
+.craft-filters{display:flex;gap:.4rem;flex-wrap:wrap}
+.filter-btn{
+  font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  padding:.42rem 1rem;border-radius:100px;
+  border:1.5px solid var(--rule);color:var(--soft);background:var(--white);
+  cursor:pointer;transition:all .16s;
+}
+.filter-btn:hover{color:var(--ink);border-color:var(--ink)}
+.filter-btn.active{color:var(--amber-d);border-color:var(--amber);background:var(--amber-l)}
+
+/* ── Artisan grid ────────────────────────────────────── */
+.artisan-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;
+  padding-bottom:3rem;
+}
+.artisan-card{
+  background:var(--white);border:1px solid var(--rule);
+  border-radius:var(--rm);padding:2rem;
+  display:flex;flex-direction:column;gap:1rem;
+  transition:box-shadow .22s,transform .22s;
+}
+.artisan-card:hover{box-shadow:var(--sh-sm);transform:translateY(-2px)}
+.artisan-card-head{display:flex;justify-content:space-between;align-items:flex-start}
+.artisan-card .avatar{width:52px;height:52px;font-size:.78rem}
+.artisan-card h3{font-family:var(--serif);font-size:1.4rem;font-weight:500;color:var(--ink)}
+.artisan-card .sub{font-size:.82rem;color:var(--soft);margin-top:.1rem}
+.artisan-card p{font-size:.88rem;color:var(--soft);line-height:1.7}
+.craft-tags{display:flex;gap:.35rem;flex-wrap:wrap}
+.craft-tag{
+  font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  padding:.2rem .6rem;border-radius:100px;
+  background:var(--stone);color:var(--soft);border:1px solid var(--rule);
 }
 
-/* ── Filter buttons ── */
-.filter-btn {
-    border: 1.5px solid #ddd;
-    color: #555;
-    background: #fff;
-    border-radius: 20px;
-    font-size: .8rem;
-    padding: 4px 14px;
-    transition: all .2s;
+/* ── Join banner ─────────────────────────────────────── */
+.join-banner{
+  text-align:center;padding:4rem 2.5rem;
+  border-radius:var(--rl);
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+  margin-bottom:3rem;
 }
+.join-banner .section-title,.join-banner .lead{margin-inline:auto}
 
-.filter-btn:hover,
-.filter-btn.active {
-    background: var(--amber-dark);
-    color: #fff;
-    border-color: var(--amber-dark);
-}
-
-/* ── Artisan profile card ── */
-.artisan-profile-card {
-    border: 0.5px solid #ddd;
-    border-radius: 14px;
-    overflow: hidden;
-    transition: box-shadow .2s;
-    background: #fff;
-}
-
-.artisan-profile-card:hover {
-    box-shadow: 0 4px 18px rgba(133, 79, 11, .1);
-}
-
-.artisan-banner {
-    height: 72px;
-}
-
-.artisan-body {
-    position: relative;
-}
-
-.artisan-avatar-lg {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    background: var(--amber-mid);
-    color: var(--amber-deep);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
-    border: 3px solid #fff;
-    margin-top: -44px;
-    position: relative;
-    z-index: 1;
-}
-
-/* ── Craft tags ── */
-.craft-tag {
-    background: var(--amber-light);
-    color: var(--amber-deep);
-    border-radius: 20px;
-    font-size: .7rem;
-    padding: 3px 10px;
-    font-weight: 500;
-}
-
-/* ── Join CTA ── */
-.join-cta {
-    background: var(--amber-light);
-}
+@media(max-width:700px){.artisan-grid{grid-template-columns:1fr}}

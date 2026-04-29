@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — The Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" /><link rel="stylesheet" href="css/products.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="wrap header-wrap">
+        <a class="logo" href="index.html">Selwa</a>
+        <nav class="main-nav">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link active" href="products.html">Products</a>
+            <a class="nav-link" href="artisans.html">Artisans</a>
+            <a class="nav-link" href="about.html">About</a>
+        </nav>
+        <a class="cart-link" href="cart.html"><i class="bi bi-bag"></i> Cart <span id="cart-count">0</span></a>
+    </div>
+</header>
+<main>
+    <div class="catalog-head">
+        <div class="wrap">
+            <span class="section-label">The collection</span>
+            <h1 class="page-title">Handmade in Bhutan</h1>
+            <p class="lead">Sourced directly from artisans working in crafts, wellness, food, and pottery.</p>
+        </div>
+    </div>
+    <div class="wrap catalog-body">
+        <aside class="filter-sidebar">
+            <div>
+                <p class="filter-group-title">Category</p>
+                <nav class="filter-links">
+                    <a class="filter-link" href="products.html">All products</a>
+                    <a class="filter-link" href="products.html?category=crafts"><span>Crafts</span><i class="bi bi-chevron-right"></i></a>
+                    <a class="filter-link" href="products.html?category=wellness"><span>Wellness</span><i class="bi bi-chevron-right"></i></a>
+                    <a class="filter-link" href="products.html?category=food"><span>Food</span><i class="bi bi-chevron-right"></i></a>
+                    <a class="filter-link" href="products.html?category=pottery"><span>Pottery</span><i class="bi bi-chevron-right"></i></a>
+                </nav>
+            </div>
+            <div>
+                <p class="filter-group-title">Price range</p>
+                <div class="price-row">
+                    <input class="price-input" type="number" placeholder="Min" value="0" />
+                    <span class="price-sep">—</span>
+                    <input class="price-input" type="number" placeholder="Max" value="5000" />
+                </div>
+            </div>
+            <div>
+                <p class="filter-group-title">Region</p>
+                <nav class="filter-links">
+                    <label class="filter-link filter-check"><input type="checkbox" /><span>Thimphu</span></label>
+                    <label class="filter-link filter-check"><input type="checkbox" /><span>Paro</span></label>
+                    <label class="filter-link filter-check"><input type="checkbox" /><span>Bumthang</span></label>
+                </nav>
+            </div>
+            <p class="filter-note">New products added monthly. Stock is always limited.</p>
+        </aside>
+        <div>
+            <div class="catalog-toolbar">
+                <span class="toolbar-count" id="product-count">Showing products</span>
+                <div class="toolbar-end">
+                    <div class="filter-badges" id="filter-badges"></div>
+                    <select class="toolbar-sort" onchange="handleSort(this.value)">
+                        <option>Sort: Featured</option>
+                        <option>Price: Low to high</option>
+                        <option>Price: High to low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="product-grid" id="product-grid">
+                <div class="products-loading"><span></span><span></span><span></span></div>
+            </div>
+            <div class="catalog-pagination">
+                <button class="pager active">1</button>
+                <button class="pager">2</button>
+                <button class="pager">3</button>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="footer-inner">
+            <div class="footer-brand"><div class="wordmark">Selwa</div><p>A curated Bhutanese craft marketplace connecting artisans with people who value provenance and heritage.</p></div>
+            <div class="footer-col"><h4>Explore</h4><ul><li><a href="products.html">Products</a></li><li><a href="artisans.html">Artisans</a></li><li><a href="cart.html">Cart</a></li><li><a href="login.html">Sign in</a></li></ul></div>
+            <div class="footer-col"><h4>Info</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="getintouch.html">Contact</a></li></ul></div>
+        </div>
+        <p class="footer-copy">&copy; 2026 Selwa. Handmade in Bhutan.</p>
+    </div>
+</footer>
+<script src="javascript/global.js"></script>
+<script src="javascript/products.js"></script>
+</body>
+</html>

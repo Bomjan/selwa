@@ -3,7 +3,7 @@ package model
 import (
 	"database/sql"
 	"errors"
-	"selwa/dataStore/postgres"
+	"selwa/db"
 
 	"github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
@@ -50,7 +50,7 @@ func (u *User) Create(input CreateUserInput) error {
 		return err
 	}
 
-	err = postgres.Db.QueryRow(queryInsertUser, input.Name, input.Email, string(passwordHash)).Scan(&u.ID)
+	err = db.Db.QueryRow(queryInsertUser, input.Name, input.Email, string(passwordHash)).Scan(&u.ID)
 	if err != nil {
 		var pqErr *pq.Error
 		if errors.As(err, &pqErr) && pqErr.Code == "23505" {
@@ -68,7 +68,7 @@ func GetUserByEmail(email string) (*User, string, error) {
 	var user User
 	var passwordHash string
 
-	err := postgres.Db.QueryRow(queryGetUserByEmail, email).Scan(
+	err := db.Db.QueryRow(queryGetUserByEmail, email).Scan(
 		&user.ID,
 		&user.Name,
 		&user.Email,
