@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — Product Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" /><link rel="stylesheet" href="css/details.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="wrap header-wrap">
+        <a class="logo" href="index.html">Selwa</a>
+        <nav class="main-nav">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link active" href="products.html">Products</a>
+            <a class="nav-link" href="artisans.html">Artisans</a>
+            <a class="nav-link" href="about.html">About</a>
+        </nav>
+        <a class="cart-link" href="cart.html"><i class="bi bi-bag"></i> Cart <span id="cart-count">0</span></a>
+    </div>
+</header>
+<main>
+    <div class="wrap">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a><span>/</span>
+            <a href="products.html">Products</a><span>/</span>
+            <span id="detail-breadcrumb">Product</span>
+        </div>
+    </div>
+    <div class="wrap detail-wrap">
+        <div class="detail-media">
+            <div class="detail-main-img" id="main-img"></div>
+            <div class="thumb-row">
+                <button class="thumb active" onclick="setThumb(this)"></button>
+                <button class="thumb" onclick="setThumb(this)"></button>
+                <button class="thumb" onclick="setThumb(this)"></button>
+                <button class="thumb" onclick="setThumb(this)"></button>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-badges">
+                <span class="badge badge-stone" id="detail-category">Category</span>
+                <span class="tag">Limited edition</span>
+            </div>
+            <h1 class="detail-title" id="detail-title">Product Name</h1>
+            <div style="display:flex;align-items:center;gap:.6rem">
+                <span style="color:var(--amber);letter-spacing:-.5px">★★★★★</span>
+                <span style="font-size:.82rem;color:var(--soft)">4.9 average rating</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:.75rem">
+                <span class="pcard-price" id="detail-price">Nu. 0</span>
+                <span style="font-size:.8rem;color:var(--soft)">Small-batch release</span>
+            </div>
+            <div class="detail-row">
+                <strong>Materials</strong>
+                <span class="val" id="detail-materials">—</span>
+            </div>
+            <div class="detail-row">
+                <strong>Availability</strong>
+                <span class="val" id="detail-stock">—</span>
+            </div>
+            <div class="detail-row">
+                <strong>Quantity</strong>
+                <div class="qty-ctrl">
+                    <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                    <div class="qty-val" id="qty">1</div>
+                    <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
+            </div>
+            <div class="detail-actions">
+                <button class="btn btn-primary" onclick="addToCart(event)">Add to cart</button>
+                <button class="btn btn-outline">Save for later</button>
+            </div>
+            <div class="ship-info">
+                <div class="ship-row"><i class="bi bi-truck"></i><span>Free shipping on orders over Nu. 5,000</span></div>
+                <div class="ship-row"><i class="bi bi-box"></i><span>Careful packaging for every order</span></div>
+                <div class="ship-row"><i class="bi bi-arrow-repeat"></i><span>14-day return policy for unused items</span></div>
+            </div>
+            <div class="artisan-chip">
+                <div style="display:flex;align-items:center;gap:.85rem">
+                    <div class="avatar" id="detail-artisan-avatar">—</div>
+                    <div>
+                        <strong style="font-size:.9rem;color:var(--ink)" id="detail-artisan-name">Artisan</strong>
+                        <div style="font-size:.78rem;color:var(--soft)" id="detail-artisan-craft">Craft type</div>
+                        <div style="font-size:.78rem;color:var(--soft)" id="detail-artisan-location">Location</div>
+                    </div>
+                </div>
+                <p id="detail-description">Product description will appear here.</p>
+            </div>
+        </div>
+    </div>
+    <div class="wrap detail-story">
+        <div class="story-grid">
+            <div class="story-card">
+                <h3>Specifications</h3>
+                <div class="tab-grid">
+                    <div class="info-box"><strong>Origin</strong><span id="detail-origin">—</span></div>
+                    <div class="info-box"><strong>Materials</strong><span id="detail-spec-materials">—</span></div>
+                    <div class="info-box"><strong>Production</strong><span>Small-batch artisan</span></div>
+                    <div class="info-box"><strong>Suitable for</strong><span>Display, gifting, daily use</span></div>
+                </div>
+            </div>
+            <div class="story-card">
+                <h3>Care instructions</h3>
+                <div class="tab-grid">
+                    <div class="info-box"><strong>Cleaning</strong><span>As appropriate for material</span></div>
+                    <div class="info-box"><strong>Storage</strong><span>Cool, dry place</span></div>
+                    <div class="info-box"><strong>Handling</strong><span>Handle with care</span></div>
+                    <div class="info-box"><strong>Lifespan</strong><span>Heirloom quality</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap" style="padding-bottom:4rem">
+        <div class="sec-head" style="margin-bottom:1.5rem">
+            <div><span class="section-label">Related pieces</span><h2 class="section-title">You may also like</h2></div>
+        </div>
+        <div class="related-grid">
+            <a class="pcard" href="details.html?id=2"><div class="pcard-img"><img src="images/palang.avif" alt="Palang" /></div><div class="pcard-info"><p class="pcard-cat">Crafts</p><h3 class="pcard-name">Palang</h3><div class="pcard-foot"><span class="pcard-price">Nu. 2,200</span></div></div></a>
+            <a class="pcard" href="details.html?id=4"><div class="pcard-img"><img src="images/happiness-tea.avif" alt="Happiness Tea" /></div><div class="pcard-info"><p class="pcard-cat">Wellness</p><h3 class="pcard-name">Happiness Tea</h3><div class="pcard-foot"><span class="pcard-price">Nu. 450</span></div></div></a>
+            <a class="pcard" href="details.html?id=6"><div class="pcard-img"><img src="images/high-altitude-honey.avif" alt="High Altitude Honey" /></div><div class="pcard-info"><p class="pcard-cat">Food</p><h3 class="pcard-name">High Altitude Honey</h3><div class="pcard-foot"><span class="pcard-price">Nu. 950</span></div></div></a>
+            <a class="pcard" href="details.html?id=11"><div class="pcard-img"><img src="images/incense-stick.avif" alt="Incense Sticks" /></div><div class="pcard-info"><p class="pcard-cat">Crafts</p><h3 class="pcard-name">Incense Sticks</h3><div class="pcard-foot"><span class="pcard-price">Nu. 350</span></div></div></a>
+        </div>
+    </div>
+</main>
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="footer-inner">
+            <div class="footer-brand"><div class="wordmark">Selwa</div><p>A curated Bhutanese craft marketplace connecting artisans with people who value provenance and heritage.</p></div>
+            <div class="footer-col"><h4>Navigate</h4><ul><li><a href="products.html">Collection</a></li><li><a href="artisans.html">Artisans</a></li><li><a href="cart.html">Cart</a></li></ul></div>
+            <div class="footer-col"><h4>Support</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+        </div>
+        <p class="footer-copy">&copy; 2026 Selwa. Handmade in Bhutan.</p>
+    </div>
+</footer>
+<script src="javascript/global.js"></script>
+<script src="javascript/details.js"></script>
+</body>
+</html>
