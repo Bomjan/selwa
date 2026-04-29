@@ -1,23 +1,22 @@
+// about.js
+
+/* ── submitContact()
+   Basic form validation and success message display. ── */
 function submitContact() {
-    const inputs = document.querySelectorAll('.contact-form input, .contact-form textarea, .contact-form select');
+    const inputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
     let valid = true;
 
-    inputs.forEach((input) => {
+    inputs.forEach(input => {
         if (!input.value.trim()) {
-            input.style.borderColor = 'var(--danger)';
+            input.style.borderColor = '#dc3545';
             valid = false;
         } else {
             input.style.borderColor = '';
         }
     });
 
-    if (!valid) {
-        showToast('Please complete all fields before sending.', 'error');
-        return;
+    if (valid) {
+        document.getElementById('contact-success').classList.remove('d-none');
+        inputs.forEach(input => input.value = '');
     }
-
-    const success = document.getElementById('contact-success');
-    if (success) success.classList.remove('d-none');
-    inputs.forEach((input) => { input.value = ''; });
-    showToast('Your message has been prepared. We will follow up soon.');
 }
