@@ -1,83 +1,98 @@
-/* ── Breadcrumb ──────────────────────────────────────── */
-.breadcrumb{
-  display:flex;align-items:center;gap:.45rem;
-  padding:1rem 0;font-size:.78rem;color:var(--soft);
-}
-.breadcrumb a:hover{color:var(--amber)}
-.breadcrumb span{color:var(--rule)}
-
-/* ── Detail layout ───────────────────────────────────── */
-.detail-wrap{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:4rem;align-items:start;padding-block:2.5rem 4rem;
+/* ── Main product image ── */
+.main-img {
+    height: 300px;
+    background: var(--amber-light);
+    border-radius: 16px;
+    border: 0.5px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
 }
 
-/* ── Media ───────────────────────────────────────────── */
-.detail-media{}
-.detail-main-img{
-  position:relative;aspect-ratio:1/1;overflow:hidden;
-  background:var(--stone);border-radius:var(--rm);border:1px solid var(--rule);
-  display:flex;align-items:center;justify-content:center;font-size:5rem;
+/* ── Thumbnail images ── */
+.thumb {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    border: 0.5px solid #ddd;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: border-color .2s;
 }
-.detail-main-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.thumb-row{display:flex;gap:.55rem;margin-top:.8rem}
-.thumb{
-  width:62px;height:62px;overflow:hidden;
-  border-radius:var(--r);border:2px solid transparent;
-  cursor:pointer;background:var(--stone);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;background-size:cover;background-position:center;
-  transition:border-color .16s;
-}
-.thumb.active,.thumb:hover{border-color:var(--amber)}
 
-/* ── Info panel ──────────────────────────────────────── */
-.detail-panel{display:flex;flex-direction:column;gap:1.25rem}
-.detail-badges{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.detail-title{
-  font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.6rem);
-  font-weight:500;color:var(--ink);line-height:1.1;margin:0;
+.thumb.active {
+    border: 1.5px solid var(--amber-dark);
 }
-.detail-row{
-  display:flex;align-items:flex-start;gap:1.25rem;
-  padding:.7rem 0;border-bottom:1px solid var(--rule);
-}
-.detail-row strong{
-  min-width:88px;font-size:.68rem;font-weight:500;
-  letter-spacing:.08em;text-transform:uppercase;
-  color:var(--soft);padding-top:.2rem;
-}
-.detail-row .val{font-size:.9rem;color:var(--body)}
-.detail-actions{display:flex;gap:.65rem}
-.detail-actions .btn{flex:1;justify-content:center}
-.ship-info{
-  background:var(--stone);border-radius:var(--rm);
-  padding:1rem 1.2rem;font-size:.84rem;color:var(--soft);
-  display:flex;flex-direction:column;gap:.55rem;
-}
-.ship-row{display:flex;align-items:center;gap:.6rem}
-.artisan-chip{
-  background:var(--white);border:1px solid var(--rule);
-  border-radius:var(--rm);padding:1.2rem 1.35rem;
-}
-.artisan-chip p{font-size:.84rem;color:var(--soft);margin-top:.5rem;line-height:1.65}
 
-/* ── Tabs / story ────────────────────────────────────── */
-.detail-story{padding-block:3rem}
-.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.story-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--rm);padding:1.75rem}
-.story-card h3{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--ink);margin-bottom:.65rem}
-.story-card p{font-size:.9rem;color:var(--soft);line-height:1.75}
+.thumb:hover {
+    border-color: var(--amber-mid);
+}
 
-/* ── Related ─────────────────────────────────────────── */
-.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
-.related-grid .pcard-img{aspect-ratio:1/1}
-.related-grid .pcard-info{padding:.9rem 1rem 1rem}
-.related-grid .pcard-name{font-size:.95rem}
+/* ── Quantity controls ── */
+.qty-btn {
+    width: 36px;
+    height: 36px;
+    background: #f5f5f5;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
 
-/* ── Responsive ──────────────────────────────────────── */
-@media(max-width:900px){
-  .detail-wrap{grid-template-columns:1fr;gap:2.5rem}
-  .story-grid{grid-template-columns:1fr}
-  .related-grid{grid-template-columns:repeat(2,1fr)}
+.qty-val {
+    width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 0.5px solid #ddd;
+    border-right: 0.5px solid #ddd;
+}
+
+/* ── Shipping info box ── */
+.shipping-info {
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+/* ── Artisan chip ── */
+.artisan-chip {
+    border: 0.5px solid var(--amber-mid);
+    background: var(--amber-light);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* ── Tabs ── */
+.nav-tabs .nav-link.active {
+    color: var(--amber-dark);
+    border-bottom: 2px solid var(--amber-dark);
+    font-weight: 600;
+}
+
+.nav-tabs .nav-link {
+    color: #777;
+}
+
+/* ── Review cards ── */
+.review-card {
+    border: 0.5px solid #ddd;
+    border-radius: 12px;
+}
+
+.rev-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #E6F1FB;
+    color: #185FA5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75rem;
+    font-weight: 600;
 }

@@ -1,120 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Selwa — Bhutanese Craft, Curated with Care</title>
+    <title>Selwa — Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/home.css" />
+    <link rel="stylesheet" href="../css/hi.css">
+
 </head>
+
 <body>
-<header class="site-header">
-    <div class="wrap header-wrap">
-        <a class="logo" href="index.html">Selwa</a>
-        <nav class="main-nav">
-            <a class="nav-link active" href="index.html">Home</a>
-            <a class="nav-link" href="products.html">Products</a>
-            <a class="nav-link" href="artisans.html">Artisans</a>
-            <a class="nav-link" href="about.html">About</a>
-        </nav>
-        <a class="cart-link" href="cart.html"><i class="bi bi-bag"></i> Cart <span id="cart-count">0</span></a>
-    </div>
-</header>
-<main>
-    <section class="hero">
-        <img class="hero-img" src="images/selwa.bt.jpeg" alt="Bhutanese craft and textiles" />
-        <div class="hero-overlay">
-            <div class="hero-copy">
-                <span class="section-label">Curated Bhutanese craft</span>
-                <h1 class="hero-h1">Objects of heritage, carried into everyday life.</h1>
-                <p class="hero-sub">Handmade craft, wellness products, and traditional food sourced directly from artisans across Bhutan.</p>
-                <div class="hero-btns">
-                    <a class="btn btn-primary" href="products.html">Explore the collection</a>
-                    <a class="btn btn-ghost" href="artisans.html">Meet the artisans</a>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-md bg-white border-bottom px-4 py-2 sticky-top">
+        <a class="navbar-brand logo" href="index.html">Selwa</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <form class="d-flex mx-auto" action="products.html" method="get" style="max-width: 500px; width: 100%;">
+                <div class="input-group">
+                    <input class="form-control border-end-0" type="search" placeholder="Search products..." aria-label="Search" name="q" style="border-radius: 20px 0 0 20px; font-size: 0.9rem; padding-left: 1rem;">
+                    <button class="btn border-start-0 border" type="submit" style="border-radius: 0 20px 20px 0; border-color: #dee2e6; background: white;">
+                        <i class="bi bi-search" style="color: var(--amber-dark);"></i>
+                    </button>
                 </div>
+            </form>
+            <ul class="navbar-nav ms-auto gap-md-3 align-items-md-center">
+                <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="artisans.html">Artisans</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item" id="nav-auth-item"></li>
+                <li class="nav-item ms-md-2">
+                    <a href="cart.html" class="btn btn-selwa btn-sm px-3">
+                        <i class="bi bi-bag me-1"></i> Cart <span id="cart-count"
+                            class="badge bg-light text-dark ms-1">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero py-5 px-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+        <div style="max-width:480px" class="mx-auto mx-md-0 text-center text-md-start">
+            <span class="badge mb-3 px-3 py-2" style="background:var(--amber-mid);color:var(--amber-deep)">Authentic
+                Bhutanese crafts</span>
+            <h1 class="fw-semibold mb-3" style="color:var(--amber-deep);font-size:2rem;line-height:1.3">Discover the art
+                of Bhutan, crafted with heart</h1>
+            <p style="color:#633806;line-height:1.7" class="mb-4">Selwa connects you directly with Bhutanese artisans —
+                bringing traditional handcrafted products to the global market while preserving centuries-old
+                traditions.</p>
+            <div class="d-flex gap-3 flex-wrap justify-content-center jutstify-content-md-start">
+                <a href="products.html" class="btn btn-selwa px-4 py-2">Shop now</a>
+                <a href="artisans.html" class="btn btn-selwa-outline px-4 py-2">Meet artisans</a>
             </div>
         </div>
-    </section>
-    <div class="stats-strip">
-        <div class="stat"><strong>4</strong><span>Craft categories</span></div>
-        <div class="stat"><strong>5</strong><span>Regions represented</span></div>
-        <div class="stat"><strong>16</strong><span>Artisan products</span></div>
-        <div class="stat"><strong>100%</strong><span>Made in Bhutan</span></div>
+        <div class="hero-img-box flex-shrink-0 text-center">
+            <div>🧵</div>
+            <p class="mt-2" style="font-size:.85rem;font-weight:600;color:var(--amber-deep)">Handwoven Kishuthara</p>
+        </div>
     </div>
-    <div class="features">
-        <div class="feature"><h4>Artisan sourced</h4><p>Every product is traced back to the maker, their workshop, and the region it comes from.</p></div>
-        <div class="feature"><h4>Fair pricing</h4><p>Artisans set their own prices. No middlemen, no markdowns, no shortcuts.</p></div>
-        <div class="feature"><h4>Heritage materials</h4><p>Bamboo, hardwood, raw honey, wild herbs — worked using techniques passed through generations.</p></div>
-    </div>
-    <section style="padding:5rem 0 3rem">
-        <div class="wrap">
-            <div class="sec-head">
-                <div><span class="section-label">Editor's picks</span><h2 class="section-title">Featured this season</h2></div>
-                <a class="btn btn-outline" href="products.html">View all products</a>
-            </div>
-            <div class="home-products">
-                <a class="pcard" href="details.html?id=1">
-                    <div class="pcard-img"><img src="images/bangchung.avif" alt="Bangchung" /><span class="pcard-tag">Thimphu</span></div>
-                    <div class="pcard-info"><p class="pcard-cat">Crafts</p><h3 class="pcard-name">Bangchung</h3><p class="pcard-maker">by Karma Choden</p><div class="pcard-foot"><span class="pcard-price">Nu. 800</span><button class="pcard-add" onclick="addToCart(event)"><i class="bi bi-plus"></i></button></div></div>
-                </a>
-                <a class="pcard" href="details.html?id=6">
-                    <div class="pcard-img"><img src="images/high-altitude-honey.avif" alt="High Altitude Honey" /><span class="pcard-tag">Bumthang</span></div>
-                    <div class="pcard-info"><p class="pcard-cat">Food</p><h3 class="pcard-name">High Altitude Honey</h3><p class="pcard-maker">by Dorji Wangchuk</p><div class="pcard-foot"><span class="pcard-price">Nu. 950</span><button class="pcard-add" onclick="addToCart(event)"><i class="bi bi-plus"></i></button></div></div>
-                </a>
-                <a class="pcard" href="details.html?id=4">
-                    <div class="pcard-img"><img src="images/happiness-tea.avif" alt="Happiness Tea" /><span class="pcard-tag">Bumthang</span></div>
-                    <div class="pcard-info"><p class="pcard-cat">Wellness</p><h3 class="pcard-name">Happiness Tea</h3><p class="pcard-maker">by Dorji Wangchuk</p><div class="pcard-foot"><span class="pcard-price">Nu. 450</span><button class="pcard-add" onclick="addToCart(event)"><i class="bi bi-plus"></i></button></div></div>
-                </a>
-                <a class="pcard" href="details.html?id=3">
-                    <div class="pcard-img"><img src="images/tea-cup.avif" alt="Bhutanese Tea Cup" /><span class="pcard-tag">Thimphu</span></div>
-                    <div class="pcard-info"><p class="pcard-cat">Pottery</p><h3 class="pcard-name">Bhutanese Tea Cup</h3><p class="pcard-maker">by Karma Choden</p><div class="pcard-foot"><span class="pcard-price">Nu. 950</span><button class="pcard-add" onclick="addToCart(event)"><i class="bi bi-plus"></i></button></div></div>
-                </a>
-            </div>
-        </div>
-    </section>
-    <section style="padding:0 0 5rem">
-        <div class="wrap">
-            <div class="sec-head">
-                <div><span class="section-label">Browse by category</span><h2 class="section-title">Find what you are looking for</h2></div>
-            </div>
-            <div class="cat-strip">
-                <a class="cat-card" href="products.html?category=crafts"><div class="cat-icon"><i class="bi bi-basket2"></i></div><h3>Crafts</h3><p>Bangchung, incense, woodwork, and traditional objects.</p></a>
-                <a class="cat-card" href="products.html?category=wellness"><div class="cat-icon"><i class="bi bi-flower1"></i></div><h3>Wellness</h3><p>Herbal teas, cordyceps, botanical sprays, and remedies.</p></a>
-                <a class="cat-card" href="products.html?category=food"><div class="cat-icon"><i class="bi bi-egg-fried"></i></div><h3>Food</h3><p>Raw honey, buckwheat noodles, chili relish, and more.</p></a>
-                <a class="cat-card" href="products.html?category=pottery"><div class="cat-icon"><i class="bi bi-cup-hot"></i></div><h3>Pottery</h3><p>Handcrafted ceramic cups and vessels for everyday use.</p></a>
-                <a class="cat-card cat-dark" href="products.html"><div class="cat-icon"><i class="bi bi-arrow-up-right"></i></div><h3>View all</h3><p>Browse the complete catalogue across all categories.</p></a>
-            </div>
-        </div>
-    </section>
-    <section style="padding:0 0 5rem">
-        <div class="wrap">
-            <div class="spotlight surface">
-                <div class="spotlight-img"><img src="images/bangchung.avif" alt="Karma Choden at work" /></div>
-                <div class="spotlight-copy">
-                    <span class="section-label">Artisan spotlight</span>
-                    <p class="spotlight-quote">"Every bangchung carries the memory of the hands that wove it, and the home it was made for."</p>
-                    <p style="font-size:.88rem;color:var(--soft);line-height:1.7">Karma Choden is a traditional craft artisan based in Thimphu. She specialises in bamboo weaving, incense rolling, and curated gift production, working with techniques learned from her mother.</p>
-                    <div style="display:flex;align-items:center;gap:.85rem;margin-top:.5rem">
-                        <div class="avatar">KC</div>
-                        <div><strong style="font-size:.9rem;color:var(--ink)">Karma Choden</strong><div style="font-size:.78rem;color:var(--soft)">Craftsperson &middot; Thimphu, Bhutan</div></div>
+
+
+    <!-- CATEGORIES + FEATURED PRODUCTS -->
+    <div class="py-5 px-4">
+        <h2 class="fw-semibold mb-4" style="font-size:1.3rem">Shop by category</h2>
+        <div class="row g-3 mb-5">
+            <div class="col-6 col-md-3"><a href="products.html?category=textiles" class="text-decoration-none">
+                    <div class="cat-card text-center p-4">
+                        <div class="cat-icon">🧵</div>
+                        <div class="fw-semibold small mt-2">Textiles</div>
+                        <div class="text-muted" style="font-size:.75rem">84 products</div>
                     </div>
-                    <a class="btn btn-outline" href="artisans.html" style="align-self:flex-start;margin-top:.5rem">Meet all artisans</a>
+                </a></div>
+            <div class="col-6 col-md-3"><a href="products.html?category=woodcraft" class="text-decoration-none">
+                    <div class="cat-card text-center p-4">
+                        <div class="cat-icon">🪵</div>
+                        <div class="fw-semibold small mt-2">Woodcraft</div>
+                        <div class="text-muted" style="font-size:.75rem">56 products</div>
+                    </div>
+                </a></div>
+            <div class="col-6 col-md-3"><a href="products.html?category=jewellery" class="text-decoration-none">
+                    <div class="cat-card text-center p-4">
+                        <div class="cat-icon">📿</div>
+                        <div class="fw-semibold small mt-2">Jewellery</div>
+                        <div class="text-muted" style="font-size:.75rem">43 products</div>
+                    </div>
+                </a></div>
+            <div class="col-6 col-md-3"><a href="products.html?category=pottery" class="text-decoration-none">
+                    <div class="cat-card text-center p-4">
+                        <div class="cat-icon">🫙</div>
+                        <div class="fw-semibold small mt-2">Pottery</div>
+                        <div class="text-muted" style="font-size:.75rem">38 products</div>
+                    </div>
+                </a></div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="fw-semibold mb-0" style="font-size:1.3rem">Featured products</h2>
+            <a href="products.html" class="small" style="color:var(--amber-dark)">See all</a>
+        </div>
+        <div class="row g-3">
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="details.html" class="text-decoration-none">
+                    <div class="product-card h-100">
+                        <div class="product-img" style="background:var(--amber-light)">🧵</div>
+                        <div class="p-3">
+                            <div class="fw-semibold small mb-1">Kishuthara silk fabric</div>
+                            <div class="text-muted mb-2" style="font-size:.75rem">By Karma Wangmo, Bumthang</div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="product-price">Nu. 4,500</span>
+                                <button class="btn btn-sm btn-selwa px-3" onclick="addToCart(event)">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="details.html" class="text-decoration-none">
+                    <div class="product-card h-100">
+                        <div class="product-img" style="background:#EAF3DE">🪵</div>
+                        <div class="p-3">
+                            <div class="fw-semibold small mb-1">Hand-carved wooden bowl</div>
+                            <div class="text-muted mb-2" style="font-size:.75rem">By Tashi Dorji, Trashigang</div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="product-price">Nu. 2,800</span>
+                                <button class="btn btn-sm btn-selwa px-3" onclick="addToCart(event)">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="details.html" class="text-decoration-none">
+                    <div class="product-card h-100">
+                        <div class="product-img" style="background:#EEEDFE">📿</div>
+                        <div class="p-3">
+                            <div class="fw-semibold small mb-1">Traditional silver bracelet</div>
+                            <div class="text-muted mb-2" style="font-size:.75rem">By Pema Lhamo, Thimphu</div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="product-price">Nu. 6,200</span>
+                                <button class="btn btn-sm btn-selwa px-3" onclick="addToCart(event)">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTISAN SECTION -->
+    <div class="artisan-section py-5 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="fw-semibold mb-0" style="font-size:1.3rem;color:var(--amber-deep)">Featured artisans</h2>
+            <a href="artisans.html" class="small" style="color:var(--amber-dark)">See all</a>
+        </div>
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="artisan-card p-4 text-center">
+                    <div class="artisan-avatar mx-auto mb-3">KW</div>
+                    <div class="fw-semibold small">Karma Wangmo</div>
+                    <div class="text-muted" style="font-size:.75rem">Master weaver — Kishuthara</div>
+                    <div style="font-size:.75rem;color:var(--amber-dark)" class="mt-1">Bumthang, Bhutan</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="artisan-card p-4 text-center">
+                    <div class="artisan-avatar mx-auto mb-3">TD</div>
+                    <div class="fw-semibold small">Tashi Dorji</div>
+                    <div class="text-muted" style="font-size:.75rem">Wood carver — Zorig Chusum</div>
+                    <div style="font-size:.75rem;color:var(--amber-dark)" class="mt-1">Trashigang, Bhutan</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="artisan-card p-4 text-center">
+                    <div class="artisan-avatar mx-auto mb-3">PL</div>
+                    <div class="fw-semibold small">Pema Lhamo</div>
+                    <div class="text-muted" style="font-size:.75rem">Silversmith — Traditional jewellery</div>
+                    <div style="font-size:.75rem;color:var(--amber-dark)" class="mt-1">Thimphu, Bhutan</div>
                 </div>
             </div>
         </div>
-    </section>
-</main>
-<footer class="site-footer">
-    <div class="wrap">
-        <div class="footer-inner">
-            <div class="footer-brand"><div class="wordmark">Selwa</div><p>A curated Bhutanese craft marketplace connecting artisans with people who value provenance and heritage.</p></div>
-            <div class="footer-col"><h4>Explore</h4><ul><li><a href="products.html">Products</a></li><li><a href="artisans.html">Artisans</a></li><li><a href="about.html">About Selwa</a></li><li><a href="getintouch.html">Get in touch</a></li></ul></div>
-            <div class="footer-col"><h4>Info</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="login.html">Sign in</a></li></ul></div>
-        </div>
-        <p class="footer-copy">&copy; 2026 Selwa. Handmade in Bhutan.</p>
     </div>
-</footer>
-<script src="javascript/global.js"></script>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo-text">Selwa</div>
+                <p>Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="getintouch.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="privacy.html">Privacy policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../javascript/global.js"></script>
 </body>
+
 </html>

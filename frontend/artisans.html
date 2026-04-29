@@ -5,175 +5,304 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Selwa — Artisans</title>
-    <meta name="description" content="Meet the Bhutanese artisans behind Selwa's curated collection of handwoven textiles, carved woodcraft, silver jewellery, and traditional pottery." />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/artisans.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/artisans.css" />
+    <link rel="stylesheet" href="../css/hi.css">
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="shell site-header__bar">
-            <a class="site-brand" href="index.html">Selwa</a>
-            <form class="site-search" action="products.html" method="get">
-                <input type="search" name="q" placeholder="Search the collection" aria-label="Search products" />
-                <button type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
-            </form>
-            <div class="site-nav">
-                <nav class="site-nav__links">
-                    <a class="site-nav__link" href="index.html">Home</a>
-                    <a class="site-nav__link" href="products.html">Products</a>
-                    <a class="site-nav__link active" href="artisans.html">Artisans</a>
-                    <a class="site-nav__link" href="about.html">About</a>
-                </nav>
-                <a class="button button-primary cart-link" href="cart.html"><i class="bi bi-bag"></i>Cart <span id="cart-count">0</span></a>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-md bg-white border-bottom px-4 py-2 sticky-top">
+        <a class="navbar-brand logo" href="index.html">Selwa</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto gap-md-3 align-items-md-center">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                <li class="nav-item"><a class="nav-link active" href="artisans.html">Artisans</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item" id="nav-auth-item"></li>
+                <li class="nav-item ms-md-2">
+                    <a href="cart.html" class="btn btn-selwa btn-sm px-3">
+                        <i class="bi bi-bag me-1"></i> Cart <span id="cart-count"
+                            class="badge bg-light text-dark ms-1">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER -->
+    <div class="artisan-hero py-5 px-4 text-center">
+        <span class="badge mb-3 px-3 py-2" style="background:var(--amber-mid);color:var(--amber-deep)">The makers behind
+            the craft</span>
+        <h1 class="fw-semibold mb-3" style="color:var(--amber-deep);font-size:2rem">Meet our artisans</h1>
+        <p style="color:#633806;max-width:520px;margin:0 auto;line-height:1.7">Every product on Selwa is made by a
+            skilled Bhutanese craftsperson. Here are the talented hands behind our collection.</p>
+    </div>
+
+    <!-- SEARCH & FILTER BAR -->
+    <!-- <div
+        class="px-4 py-3 bg-white border-bottom d-flex flex-column flex-md-row gap-3 align-items-md-center justify-content-between">
+        <div class="d-flex gap-2" style="max-width:400px;width:100%">
+            <input type="text" class="form-control form-control-sm" id="artisan-search"
+                placeholder="Search artisans or craft type...">
+            <button class="btn btn-selwa btn-sm px-3" onclick="searchArtisans()">Search</button>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <button class="btn filter-btn active btn-sm" onclick="filterArtisans('all', this)">All</button>
+            <button class="btn filter-btn btn-sm" onclick="filterArtisans('textiles', this)">Textiles</button>
+            <button class="btn filter-btn btn-sm" onclick="filterArtisans('woodcraft', this)">Woodcraft</button>
+            <button class="btn filter-btn btn-sm" onclick="filterArtisans('jewellery', this)">Jewellery</button>
+            <button class="btn filter-btn btn-sm" onclick="filterArtisans('pottery', this)">Pottery</button>
+        </div>
+    </div> -->
+<div class="search-filter-bar px-4 py-3 bg-white border-bottom">
+    <div class="search-row">
+        <input type="text" class="form-control form-control-sm" id="artisan-search"
+            placeholder="Search artisans or craft type...">
+        <button class="btn btn-selwa btn-sm px-3" onclick="searchArtisans()">Search</button>
+    </div>
+
+    <div class="filter-row">
+        <button class="btn filter-btn active btn-sm" onclick="filterArtisans('all', this)">All</button>
+        <button class="btn filter-btn btn-sm" onclick="filterArtisans('textiles', this)">Textiles</button>
+        <button class="btn filter-btn btn-sm" onclick="filterArtisans('woodcraft', this)">Woodcraft</button>
+        <button class="btn filter-btn btn-sm" onclick="filterArtisans('jewellery', this)">Jewellery</button>
+        <button class="btn filter-btn btn-sm" onclick="filterArtisans('pottery', this)">Pottery</button>
+    </div>
+</div>
+    <!-- ARTISAN GRID -->
+    <div class="px-4 py-5">
+        <div class="row g-4" id="artisan-grid">
+
+            <div class="col-12 col-sm-6 col-lg-4" data-craft="textiles">
+                <div class="artisan-profile-card">
+                    <div class="artisan-banner" style="background:var(--amber-light)"></div>
+                    <div class="artisan-body p-4">
+                        <div class="artisan-avatar-lg mx-auto">KW</div>
+                        <div class="text-center mt-3">
+                            <div class="fw-semibold" style="font-size:1rem;color:var(--amber-deep)">Karma Wangmo</div>
+                            <div class="text-muted small mt-1">Master Weaver · Kishuthara</div>
+                            <div class="small mt-1" style="color:var(--amber-dark)"><i
+                                    class="bi bi-geo-alt-fill me-1"></i>Bumthang, Bhutan</div>
+                            <div class="stars mt-1" style="font-size:.8rem">★★★★★ <span class="text-muted small">(42
+                                    reviews)</span></div>
+                        </div>
+                        <p class="small text-muted mt-3 text-center lh-lg">A master of Kishuthara silk weaving with over
+                            20 years of experience. Her intricate patterns are inspired by Bhutanese mythology and the
+                            natural landscape of Bumthang.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="craft-tag">Textiles</span>
+                            <span class="craft-tag">Silk</span>
+                            <span class="craft-tag">Natural dyes</span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="products.html" class="btn btn-selwa btn-sm flex-fill">View products</a>
+                            <button class="btn btn-selwa-outline btn-sm flex-fill">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4" data-craft="woodcraft">
+                <div class="artisan-profile-card">
+                    <div class="artisan-banner" style="background:#EAF3DE"></div>
+                    <div class="artisan-body p-4">
+                        <div class="artisan-avatar-lg mx-auto" style="background:#4D8A2E;color:#fff">TD</div>
+                        <div class="text-center mt-3">
+                            <div class="fw-semibold" style="font-size:1rem;color:var(--amber-deep)">Tashi Dorji</div>
+                            <div class="text-muted small mt-1">Wood Carver · Zorig Chusum</div>
+                            <div class="small mt-1" style="color:var(--amber-dark)"><i
+                                    class="bi bi-geo-alt-fill me-1"></i>Trashigang, Bhutan</div>
+                            <div class="stars mt-1" style="font-size:.8rem">★★★★☆ <span class="text-muted small">(18
+                                    reviews)</span></div>
+                        </div>
+                        <p class="small text-muted mt-3 text-center lh-lg">Tashi specialises in traditional Zorig Chusum
+                            woodcraft, carving ceremonial bowls, masks, and decorative panels using techniques from
+                            Bhutan's rich artistic heritage.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="craft-tag">Woodcraft</span>
+                            <span class="craft-tag">Carving</span>
+                            <span class="craft-tag">Ceremonial</span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="products.html" class="btn btn-selwa btn-sm flex-fill">View products</a>
+                            <button class="btn btn-selwa-outline btn-sm flex-fill">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4" data-craft="jewellery">
+                <div class="artisan-profile-card">
+                    <div class="artisan-banner" style="background:#EEEDFE"></div>
+                    <div class="artisan-body p-4">
+                        <div class="artisan-avatar-lg mx-auto" style="background:#6B5CE7;color:#fff">PL</div>
+                        <div class="text-center mt-3">
+                            <div class="fw-semibold" style="font-size:1rem;color:var(--amber-deep)">Pema Lhamo</div>
+                            <div class="text-muted small mt-1">Silversmith · Traditional Jewellery</div>
+                            <div class="small mt-1" style="color:var(--amber-dark)"><i
+                                    class="bi bi-geo-alt-fill me-1"></i>Thimphu, Bhutan</div>
+                            <div class="stars mt-1" style="font-size:.8rem">★★★★★ <span class="text-muted small">(31
+                                    reviews)</span></div>
+                        </div>
+                        <p class="small text-muted mt-3 text-center lh-lg">Pema crafts exquisite silver jewellery using
+                            traditional Bhutanese smithing methods. Each piece is adorned with turquoise, coral, and
+                            hand-engraved spiritual motifs.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="craft-tag">Jewellery</span>
+                            <span class="craft-tag">Silver</span>
+                            <span class="craft-tag">Gemstones</span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="products.html" class="btn btn-selwa btn-sm flex-fill">View products</a>
+                            <button class="btn btn-selwa-outline btn-sm flex-fill">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4" data-craft="pottery">
+                <div class="artisan-profile-card">
+                    <div class="artisan-banner" style="background:#FBEAF0"></div>
+                    <div class="artisan-body p-4">
+                        <div class="artisan-avatar-lg mx-auto" style="background:#C2547A;color:#fff">SC</div>
+                        <div class="text-center mt-3">
+                            <div class="fw-semibold" style="font-size:1rem;color:var(--amber-deep)">Sonam Choden</div>
+                            <div class="text-muted small mt-1">Potter · Traditional Ceramics</div>
+                            <div class="small mt-1" style="color:var(--amber-dark)"><i
+                                    class="bi bi-geo-alt-fill me-1"></i>Paro, Bhutan</div>
+                            <div class="stars mt-1" style="font-size:.8rem">★★★★☆ <span class="text-muted small">(12
+                                    reviews)</span></div>
+                        </div>
+                        <p class="small text-muted mt-3 text-center lh-lg">Sonam creates hand-painted pottery using clay
+                            sourced from the Paro valley. Her distinctive style blends traditional Bhutanese motifs with
+                            a contemporary palette.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="craft-tag">Pottery</span>
+                            <span class="craft-tag">Ceramics</span>
+                            <span class="craft-tag">Hand-painted</span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="products.html" class="btn btn-selwa btn-sm flex-fill">View products</a>
+                            <button class="btn btn-selwa-outline btn-sm flex-fill">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4" data-craft="textiles">
+                <div class="artisan-profile-card">
+                    <div class="artisan-banner" style="background:var(--amber-light)"></div>
+                    <div class="artisan-body p-4">
+                        <div class="artisan-avatar-lg mx-auto" style="background:#B8690B;color:#fff">UN</div>
+                        <div class="text-center mt-3">
+                            <div class="fw-semibold" style="font-size:1rem;color:var(--amber-deep)">Ugyen Namgay</div>
+                            <div class="text-muted small mt-1">Prayer Flag Maker · Textile Arts</div>
+                            <div class="small mt-1" style="color:var(--amber-dark)"><i
+                                    class="bi bi-geo-alt-fill me-1"></i>Punakha, Bhutan</div>
+                            <div class="stars mt-1" style="font-size:.8rem">★★★★★ <span class="text-muted small">(67
+                                    reviews)</span></div>
+                        </div>
+                        <p class="small text-muted mt-3 text-center lh-lg">Ugyen is one of Bhutan's most celebrated
+                            prayer flag makers. His flags feature hand-printed mantras and are used in monasteries and
+                            homes across the country.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="craft-tag">Textiles</span>
+                            <span class="craft-tag">Prayer flags</span>
+                            <span class="craft-tag">Block print</span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="products.html" class="btn btn-selwa btn-sm flex-fill">View products</a>
+                            <button class="btn btn-selwa-outline btn-sm flex-fill">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4" data-craft="woodcraft">
+                <div class="artisan-profile-card">
+                    <div class="artisan-banner" style="background:#EAF3DE"></div>
+                    <div class="artisan-body p-4">
+                        <div class="artisan-avatar-lg mx-auto" style="background:#2E6B3E;color:#fff">RW</div>
+                        <div class="text-center mt-3">
+                            <div class="fw-semibold" style="font-size:1rem;color:var(--amber-deep)">Rinchen Wangchuk
+                            </div>
+                            <div class="text-muted small mt-1">Instrument Maker · Dungchen Horn</div>
+                            <div class="small mt-1" style="color:var(--amber-dark)"><i
+                                    class="bi bi-geo-alt-fill me-1"></i>Thimphu, Bhutan</div>
+                            <div class="stars mt-1" style="font-size:.8rem">★★★★☆ <span class="text-muted small">(9
+                                    reviews)</span></div>
+                        </div>
+                        <p class="small text-muted mt-3 text-center lh-lg">Rinchen crafts traditional Bhutanese musical
+                            instruments, particularly the Dungchen ceremonial horn. Each instrument is hand-finished and
+                            tuned using age-old methods.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <span class="craft-tag">Woodcraft</span>
+                            <span class="craft-tag">Instruments</span>
+                            <span class="craft-tag">Ceremonial</span>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="products.html" class="btn btn-selwa btn-sm flex-fill">View products</a>
+                            <button class="btn btn-selwa-outline btn-sm flex-fill">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end artisan-grid -->
+
+        <!-- No results message (hidden by default) -->
+        <div id="no-results" class="text-center py-5 d-none">
+            <div style="font-size:3rem">🔍</div>
+            <div class="fw-semibold mt-2" style="color:var(--amber-deep)">No artisans found</div>
+            <div class="text-muted small mt-1">Try a different search or filter</div>
+        </div>
+    </div>
+
+    <!-- JOIN CTA -->
+    <div class="join-cta py-5 px-4 text-center">
+        <h2 class="fw-semibold mb-2" style="color:var(--amber-deep);font-size:1.4rem">Are you a Bhutanese artisan?</h2>
+        <p class="text-muted small mb-4" style="max-width:460px;margin:0 auto">Join Selwa and bring your craft to a
+            global audience. We handle the logistics — you focus on making.</p>
+        <a href="getintouch.html" class="btn btn-selwa px-4 py-2">Apply to join</a>
+    </div>
+
+<!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo-text">Selwa</div>
+                <p>Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="artisans.html">Artisans</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="getintouch.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="privacy.html">Privacy policy</a></li>
+                </ul>
             </div>
         </div>
-    </header>
-
-    <main class="page">
-        <section class="page-hero">
-            <div class="shell artisan-toolbar">
-                <div>
-                    <span class="eyebrow">Maker directory</span>
-                    <h1 class="page-title">Meet the hands behind every piece in the collection.</h1>
-                    <p class="page-lead">Each artisan on Selwa works within a living tradition passed down through generations. Their craft reflects the materials, rhythms, and cultural identity of the regions they call home.</p>
-                </div>
-                <div class="cluster">
-                    <input id="artisan-search" class="field" type="search" placeholder="Search artisans, regions, or craft types" />
-                    <button class="button button-secondary" onclick="searchArtisans()">Search</button>
-                </div>
-                <div class="artisan-filters">
-                    <button class="filter-btn active" onclick="filterArtisans('all', this)">All</button>
-                    <button class="filter-btn" onclick="filterArtisans('crafts', this)">Crafts</button>
-                    <button class="filter-btn" onclick="filterArtisans('wellness', this)">Wellness</button>
-                    <button class="filter-btn" onclick="filterArtisans('food', this)">Food</button>
-                    <button class="filter-btn" onclick="filterArtisans('pottery', this)">Pottery</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="shell">
-            <div class="artisan-grid" id="artisan-grid">
-                <article class="artisan-card" data-craft="crafts">
-                    <div class="artisan-card__hero">
-                        <div class="artisan-avatar">KC</div>
-                        <span class="badge-soft">Featured</span>
-                    </div>
-                    <div>
-                        <h3 class="mb-1">Karma Choden</h3>
-                        <p class="muted mb-2">Craftsperson · Thimphu, Bhutan</p>
-                        <p class="muted">Karma specialises in traditional Bhutanese bamboo weaving and craft production. She learned bangchung weaving from her mother and has since expanded her practice to include incense rolling and gift curation. Her work is rooted in everyday Bhutanese craft traditions rather than ceremonial production.</p>
-                    </div>
-                    <div class="artisan-card__meta">
-                        <span class="craft-tag">Bangchung</span>
-                        <span class="craft-tag">Incense</span>
-                        <span class="craft-tag">Bamboo</span>
-                    </div>
-                    <a class="button button-secondary" href="products.html?category=crafts">View crafts</a>
-                </article>
-
-                <article class="artisan-card" data-craft="crafts">
-                    <div class="artisan-card__hero">
-                        <div class="artisan-avatar">TD</div>
-                        <span class="badge-new">Crafts</span>
-                    </div>
-                    <div>
-                        <h3 class="mb-1">Tashi Dorji</h3>
-                        <p class="muted mb-2">Wood carver · Paro, Bhutan</p>
-                        <p class="muted">Tashi trained under master carvers at the Zorig Chusum institute before returning to his family workshop in Paro. He produces carved wooden serving boards, decorative pieces, and souvenirs, finishing each with a traditional hand-rubbed lacquer technique.</p>
-                    </div>
-                    <div class="artisan-card__meta">
-                        <span class="craft-tag">Palang</span>
-                        <span class="craft-tag">Woodwork</span>
-                        <span class="craft-tag">Souvenirs</span>
-                    </div>
-                    <a class="button button-secondary" href="products.html?category=crafts">View crafts</a>
-                </article>
-
-                <article class="artisan-card" data-craft="wellness">
-                    <div class="artisan-card__hero">
-                        <div class="artisan-avatar">DW</div>
-                        <span class="badge-soft">Wellness &amp; Food</span>
-                    </div>
-                    <div>
-                        <h3 class="mb-1">Dorji Wangchuk</h3>
-                        <p class="muted mb-2">Farmer and producer · Bumthang, Bhutan</p>
-                        <p class="muted">Dorji runs a small organic farm in Bumthang, producing wildflower honey, buckwheat noodles, herbal teas, and wild-harvested cordyceps. His products are minimally processed to preserve the natural character of Bhutan's high-altitude ecosystem.</p>
-                    </div>
-                    <div class="artisan-card__meta">
-                        <span class="craft-tag">Honey</span>
-                        <span class="craft-tag">Cordyceps</span>
-                        <span class="craft-tag">Herbal tea</span>
-                    </div>
-                    <a class="button button-secondary" href="products.html?category=wellness">View wellness</a>
-                </article>
-
-                <article class="artisan-card" data-craft="wellness">
-                    <div class="artisan-card__hero">
-                        <div class="artisan-avatar">KP</div>
-                        <span class="badge-new">Wellness</span>
-                    </div>
-                    <div>
-                        <h3 class="mb-1">Kinley Pem</h3>
-                        <p class="muted mb-2">Herbalist · Thimphu, Bhutan</p>
-                        <p class="muted">Kinley draws on Sowa Rigpa, the traditional Tibetan-Bhutanese system of medicine, to create botanical wellness products. She formulates herbal creams and essential oil sprays using plants sourced from trusted mountain suppliers across Bhutan.</p>
-                    </div>
-                    <div class="artisan-card__meta">
-                        <span class="craft-tag">Herbal creams</span>
-                        <span class="craft-tag">Essential oils</span>
-                        <span class="craft-tag">Sowa Rigpa</span>
-                    </div>
-                    <a class="button button-secondary" href="products.html?category=wellness">View wellness</a>
-                </article>
-            </div>
-
-            <div id="no-results" class="empty-state d-none">
-                <h3>No artisans found</h3>
-                <p class="muted mb-0">Try another craft type or a broader search term.</p>
-            </div>
-        </section>
-
-        <section class="shell section">
-            <div class="join-banner surface">
-                <span class="eyebrow justify-content-center">Join the network</span>
-                <h2 class="section-title">Are you a Bhutanese artisan?</h2>
-                <p class="section-copy mx-auto">Selwa is always looking for skilled makers working in traditional and contemporary Bhutanese craft. If you work with textiles, wood, metal, clay, or other heritage materials, we would like to hear from you.</p>
-                <a class="button button-primary" href="getintouch.html">Apply to join</a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="shell">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo-text">Selwa</div>
-                    <p>A curated Bhutanese craft marketplace connecting artisans with collectors who value provenance, material integrity, and cultural heritage.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Browse</h4>
-                    <ul>
-                        <li><a href="products.html">Products</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Info</h4>
-                    <ul>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="getintouch.html">Contact</a></li>
-                        <li><a href="terms.html">Terms</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">&copy; 2026 Selwa. Handmade in Bhutan.</div>
-        </div>
+        <div class="footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
     </footer>
 
-    <script src="javascript/global.js"></script>
-    <script src="javascript/artisans.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../javascript/global.js"></script>
+    <script src="../javascript/artisans.js"></script>
 </body>
-
 </html>
