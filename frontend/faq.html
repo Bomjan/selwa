@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — FAQ</title>
+    <meta name="description" content="Frequently asked questions about ordering, shipping, returns, and artisan partnerships on Selwa." />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/about.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="shell site-header__bar">
+            <a class="site-brand" href="index.html">Selwa</a>
+            <form class="site-search" action="products.html" method="get">
+                <input type="search" name="q" placeholder="Search the collection" aria-label="Search products" />
+                <button type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
+            </form>
+            <div class="site-nav">
+                <nav class="site-nav__links">
+                    <a class="site-nav__link" href="index.html">Home</a>
+                    <a class="site-nav__link" href="products.html">Products</a>
+                    <a class="site-nav__link" href="artisans.html">Artisans</a>
+                    <a class="site-nav__link" href="about.html">About</a>
+                </nav>
+                <a class="button button-primary cart-link" href="cart.html"><i class="bi bi-bag"></i>Cart <span id="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="page-hero">
+            <div class="shell">
+                <span class="eyebrow">Support</span>
+                <h1 class="page-title">Frequently asked questions</h1>
+                <p class="page-lead">Everything you need to know about ordering, shipping, and working with Selwa.</p>
+            </div>
+        </section>
+
+        <section class="shell">
+            <div class="faq-card">
+                <div class="faq-list">
+                    <div class="faq-item is-open">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How are your products sourced?</span>
+                            <i class="bi bi-plus-lg faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">Every product on Selwa is sourced directly from Bhutanese artisans. We visit workshops, verify materials, and work with each maker to set fair pricing. There are no middlemen or third-party resellers.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What is your shipping policy?</span>
+                            <i class="bi bi-plus-lg faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">Orders over Nu. 5,000 ship free within Bhutan. International shipping is available at checkout. All craft pieces are carefully wrapped to protect fragile surfaces during transit. Delivery typically takes 5-10 business days.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I return or exchange an item?</span>
+                            <i class="bi bi-plus-lg faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">We accept returns within 14 days of delivery for unused items in their original packaging. Because each piece is handmade, slight variations in colour, texture, and dimensions are part of the craft and not considered defects.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Are the products authentic handmade pieces?</span>
+                            <i class="bi bi-plus-lg faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">Yes. Every item on Selwa is handmade by a named artisan using traditional Bhutanese techniques. Product pages show the maker, their region, and the materials used so you can trace each piece back to its origin.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How can I become a Selwa artisan?</span>
+                            <i class="bi bi-plus-lg faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">If you are a Bhutanese artisan working in textiles, wood, metal, clay, or other heritage materials, you can apply through our contact page. We review applications and visit workshops before onboarding new makers to the platform.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Do you offer gift wrapping?</span>
+                            <i class="bi bi-plus-lg faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">Yes. Gift wrapping is available at checkout for an additional Nu. 150. Each gift package includes a card with the artisan's name, region, and a brief note about the craft tradition behind the piece.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="shell">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text">Selwa</div>
+                    <p>A curated Bhutanese craft marketplace connecting artisans with collectors who value provenance and heritage.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="artisans.html">Artisans</a></li>
+                        <li><a href="getintouch.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Reference</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 Selwa. Handmade in Bhutan.</div>
+        </div>
+    </footer>
+
+    <script src="javascript/global.js"></script>
+    <script src="javascript/faq.js"></script>
+</body>
+
+</html>

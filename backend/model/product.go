@@ -3,7 +3,7 @@ package model
 import (
 	"database/sql"
 	"errors"
-	"selwa/dataStore/postgres"
+	"selwa/db"
 )
 
 var ErrProductNotFound = errors.New("product not found")
@@ -75,7 +75,7 @@ func (p *Product) Read() error {
 	var artisanLocation sql.NullString
 	var artisanCraftType sql.NullString
 
-	err := postgres.Db.QueryRow(queryGetProductByID, p.ID).Scan(
+	err := db.Db.QueryRow(queryGetProductByID, p.ID).Scan(
 		&p.ID,
 		&p.Name,
 		&p.Description,
@@ -108,7 +108,7 @@ func (p *Product) Read() error {
 }
 
 func GetAllProducts() ([]Product, error) {
-	rows, err := postgres.Db.Query(queryGetAllProducts)
+	rows, err := db.Db.Query(queryGetAllProducts)
 	if err != nil {
 		return nil, err
 	}

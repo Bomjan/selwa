@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — Get in Touch</title>
+    <meta name="description" content="Contact the Selwa team for product enquiries, artisan partnerships, or general questions." />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/about.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="shell site-header__bar">
+            <a class="site-brand" href="index.html">Selwa</a>
+            <form class="site-search" action="products.html" method="get">
+                <input type="search" name="q" placeholder="Search the collection" aria-label="Search products" />
+                <button type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
+            </form>
+            <div class="site-nav">
+                <nav class="site-nav__links">
+                    <a class="site-nav__link" href="index.html">Home</a>
+                    <a class="site-nav__link" href="products.html">Products</a>
+                    <a class="site-nav__link" href="artisans.html">Artisans</a>
+                    <a class="site-nav__link" href="about.html">About</a>
+                </nav>
+                <a class="button button-primary cart-link" href="cart.html"><i class="bi bi-bag"></i>Cart <span id="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="page-hero">
+            <div class="shell">
+                <span class="eyebrow">Contact</span>
+                <h1 class="page-title">Get in touch with us</h1>
+                <p class="page-lead">Questions about a product, interested in a partnership, or want to join as an artisan? We would like to hear from you.</p>
+            </div>
+        </section>
+
+        <section class="shell contact-grid">
+            <article class="story-card">
+                <h3>How we can help</h3>
+                <p>Use this form for general enquiries, artisan onboarding interest, or questions about specific products and regions.</p>
+                <ul class="editorial-list">
+                    <li>Artisan onboarding and partnership interest</li>
+                    <li>Questions about a specific product or region</li>
+                    <li>Media and press enquiries</li>
+                </ul>
+            </article>
+
+            <section class="contact-card contact-form">
+                <h3>Send us a message</h3>
+                <div class="form-grid">
+                    <div>
+                        <label class="auth-label">Name</label>
+                        <input class="field" type="text" placeholder="Your name" />
+                    </div>
+                    <div>
+                        <label class="auth-label">Email</label>
+                        <input class="field" type="email" placeholder="you@example.com" />
+                    </div>
+                    <div class="full">
+                        <label class="auth-label">Subject</label>
+                        <select class="field">
+                            <option>General enquiry</option>
+                            <option>Artisan application</option>
+                            <option>Partnership</option>
+                            <option>Media</option>
+                        </select>
+                    </div>
+                    <div class="full">
+                        <label class="auth-label">Message</label>
+                        <textarea class="field" rows="6" placeholder="Tell us a little about what you need."></textarea>
+                    </div>
+                    <div class="full">
+                        <button class="button button-primary w-100" onclick="submitContact()">Send message</button>
+                    </div>
+                </div>
+                <div id="contact-success" class="d-none mt-3 muted">Thank you. We will respond within 2 business days.</div>
+            </section>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="shell">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text">Selwa</div>
+                    <p>A curated Bhutanese craft marketplace connecting artisans with collectors who value provenance and heritage.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigate</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="artisans.html">Artisans</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Reference</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 Selwa. Handmade in Bhutan.</div>
+        </div>
+    </footer>
+
+    <script src="javascript/global.js"></script>
+    <script src="javascript/about.js"></script>
+</body>
+
+</html>

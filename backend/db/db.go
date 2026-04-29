@@ -1,4 +1,4 @@
-package postgres
+package db
 
 import (
 	"database/sql"
@@ -17,7 +17,7 @@ func Init() {
 
 	connStr := os.Getenv("DATABASE_URL")
 	if connStr == "" {
-		connStr = "postgres://postgres:postgres@localhost:5432/selwa?sslmode=disable"
+		connStr = "postgres://sundrabomjan@/selwa?host=/var/run/postgresql&sslmode=disable"
 	}
 
 	db, err := sql.Open("postgres", connStr)
