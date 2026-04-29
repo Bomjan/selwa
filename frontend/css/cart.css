@@ -3,7 +3,7 @@
   display:grid;grid-template-columns:1fr 310px;
   gap:2.5rem;padding-block:3rem;align-items:start;
 }
-
+/* i wrote all the code */
 /* ── Cart head ───────────────────────────────────────── */
 .cart-head{padding:3rem 0 0}
 .cart-head .page-title{margin-top:.3rem}
