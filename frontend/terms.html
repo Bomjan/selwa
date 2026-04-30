@@ -227,20 +227,25 @@
   <!-- NAVBAR -->
   <nav class="s-nav">
     <a class="s-logo" href="index.html">Selwa</a>
-    <form class="s-nav-search" action="products.html" method="get">
-      <input type="text" placeholder="Search products…" name="q" />
-      <button type="submit"><i class="bi bi-search"></i></button>
-    </form>
-    <div class="nav-links">
+    <div class="nav-links" id="nav-links">
       <a class="nav-link" href="index.html">Home</a>
       <a class="nav-link" href="products.html">Products</a>
       <a class="nav-link" href="artisans.html">Artisans</a>
       <a class="nav-link" href="about.html">About</a>
-      <span id="nav-auth-item"></span>
     </div>
-    <a href="cart.html" class="s-cart-btn">
-      <i class="bi bi-bag"></i> Cart <span id="cart-count">0</span>
-    </a>
+    <div class="nav-utils">
+      <form class="s-nav-search" action="products.html" method="get">
+        <button type="submit"><i class="bi bi-search"></i></button>
+        <input type="text" placeholder="Search products…" name="q" />
+      </form>
+      <span id="nav-auth-item"></span>
+      <a href="cart.html" class="s-cart-btn">
+        <i class="bi bi-bag"></i><span class="s-cart-label"> Cart</span> <span id="cart-count">0</span>
+      </a>
+    </div>
+    <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('mobile-open')" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
   </nav>
 
     <div class="app-container">

@@ -16,7 +16,8 @@ function submitContact() {
     });
 
     if (valid) {
-        document.getElementById('contact-success').classList.remove('d-none');
+        var successEl = document.getElementById('contact-success');
+        if (successEl) successEl.style.display = 'block';
         inputs.forEach(input => input.value = '');
     }
 }
