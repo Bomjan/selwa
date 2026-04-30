@@ -1,7 +1,11 @@
 package main
 
-import "selwa/routes"
+import (
+	"selwa/db"
+	"selwa/routes"
+)
 
 func main() {
+	db.Init()
 	routes.InitializeRoutes()
 }

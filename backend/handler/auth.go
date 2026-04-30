@@ -30,7 +30,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	user := &model.User{}
 	if err := user.Create(input); err != nil {
 		if errors.Is(err, model.ErrDuplicateEmail) {
-			utils.ResponseWithError(w, http.StatusBadRequest, "Email already exists")
+			utils.ResponseWithError(w, http.StatusConflict, "Email already exists")
 			return
 		}
 
