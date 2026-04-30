@@ -1,72 +1,408 @@
+/* ═══════════════════════════════════════════════
+   ABOUT PAGE
+   Design System v2
+═══════════════════════════════════════════════ */
+
 /* ── Hero ── */
 .about-hero {
-    background: var(--amber-light);
+  background: var(--ink-2);
+  position: relative;
+  overflow: hidden;
+  padding: var(--sec) 0;
+  text-align: center;
 }
 
-/* ── Story image boxes ── */
-.about-img-box {
-    border-radius: 16px;
-    height: 260px;
-    border: 0.5px solid #ddd;
+.about-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,112,26,.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 50%, rgba(92,58,16,.4) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.about-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.about-hero__eyebrow {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-pale);
+  opacity: .8;
+  margin-bottom: 18px;
+}
+
+.about-hero__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 500;
+  font-style: italic;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  margin-bottom: 20px;
+}
+
+.about-hero__sub {
+  font-size: .95rem;
+  color: var(--on-dark-2);
+  line-height: 1.8;
+  max-width: 560px;
+  margin: 0 auto 32px;
+  font-weight: 300;
+}
+
+/* ── Mission sections ── */
+.about-mission {
+  padding: var(--sec) 0;
+}
+
+.about-mission__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.about-mission__grid:last-child {
+  margin-bottom: 0;
+}
+
+.about-mission__grid--reverse {
+  direction: rtl;
+}
+
+.about-mission__grid--reverse > * {
+  direction: ltr;
+}
+
+@media (max-width: 768px) {
+  .about-mission__grid,
+  .about-mission__grid--reverse {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+}
+
+.about-mission__img {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: var(--cream-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.about-mission__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-mission__eyebrow {
+  margin-bottom: 10px;
+}
+
+.about-mission__heading {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  margin-bottom: 16px;
+}
+
+.about-mission__text {
+  font-size: .95rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 12px;
+}
+
+.about-mission__text:last-child {
+  margin-bottom: 0;
 }
 
 /* ── Values section ── */
-.values-section {
-    background: var(--amber-light);
+.about-values {
+  padding: var(--sec) 0;
+  background: var(--cream-2);
+}
+
+.about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .about-values__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .about-values__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .value-card {
-    border: 0.5px solid var(--amber-mid);
-    border-radius: 14px;
-    background: #fff;
-    transition: box-shadow .2s;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 20px;
+  text-align: center;
+  transition: box-shadow .25s var(--ease), transform .25s var(--ease);
 }
 
 .value-card:hover {
-    box-shadow: 0 4px 16px rgba(133, 79, 11, .1);
+  box-shadow: var(--sh-md);
+  transform: translateY(-3px);
 }
 
-.value-icon {
-    font-size: 2.2rem;
+.value-card__icon {
+  font-size: 2.2rem;
+  margin-bottom: 14px;
+  line-height: 1;
 }
 
-/* ── Team cards ── */
+.value-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+
+.value-card__desc {
+  font-size: .82rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* ── Impact stats (dark) ── */
+.about-impact {
+  background: var(--ink);
+  padding: var(--sec) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-impact::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 350px;
+  background: radial-gradient(ellipse, rgba(184,112,26,.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.about-impact > * {
+  position: relative;
+  z-index: 1;
+}
+
+.about-impact__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .about-impact__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.impact-stat__num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--gold-pale);
+  line-height: 1;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.impact-stat__label {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--on-dark-3);
+  margin-bottom: 4px;
+}
+
+.impact-stat__desc {
+  font-size: .78rem;
+  color: var(--on-dark-3);
+  opacity: .7;
+  line-height: 1.5;
+}
+
+/* ── Team section ── */
+.about-team {
+  padding: var(--sec) 0;
+}
+
+.about-team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+@media (max-width: 768px) {
+  .about-team__grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+}
+
 .team-card {
-    border: 0.5px solid #ddd;
-    border-radius: 14px;
-    background: #fff;
-    transition: box-shadow .2s;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 20px;
+  text-align: center;
+  width: 100%;
+  transition: box-shadow .25s var(--ease), transform .25s var(--ease);
 }
 
 .team-card:hover {
-    box-shadow: 0 4px 16px rgba(133, 79, 11, .1);
+  box-shadow: var(--sh-md);
+  transform: translateY(-3px);
 }
 
-.team-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.1rem;
+.team-card__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  border: 3px solid var(--cream-3);
 }
 
-/* ── Contact form ── */
-.contact-section {
-    background: #f9f9f9;
+.team-card__name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+}
+
+.team-card__role {
+  font-size: .78rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.team-card__loc {
+  font-size: .72rem;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ── Contact section ── */
+.about-contact {
+  padding: var(--sec) 0;
+  background: var(--cream-2);
+}
+
+.contact-form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 40px;
+  max-width: 640px;
+  margin: 0 auto;
+  box-shadow: var(--sh-md);
 }
 
 .contact-form {
-    background: #fff;
-    border: 0.5px solid #ddd;
-    border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--amber-mid);
-    box-shadow: 0 0 0 3px rgba(239, 159, 39, .15);
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .contact-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-card {
+    padding: 24px 20px;
+  }
+}
+
+.contact-label {
+  display: block;
+  font-size: .76rem;
+  font-weight: 600;
+  color: var(--bark-mid);
+  margin-bottom: 5px;
+}
+
+.contact-input,
+.contact-select,
+.contact-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  font-size: .9rem;
+  background: var(--cream-2);
+  color: var(--text-body);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.contact-input:focus,
+.contact-select:focus,
+.contact-textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,112,26,.1);
+  background: var(--surface);
+}
+
+.contact-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.contact-success {
+  display: none;
+  margin-top: 12px;
+  text-align: center;
+  font-size: .875rem;
+  color: #27ae60;
+  font-weight: 500;
 }
