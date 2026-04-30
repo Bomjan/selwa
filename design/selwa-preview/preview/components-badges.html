@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #FAF7F2; padding: 20px; font-family: 'DM Sans', sans-serif; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  .label { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #B8A080; margin-bottom: 8px; }
+  /* badges */
+  .badge { display:inline-block; border-radius:9999px; font-size:.65rem; font-weight:700; letter-spacing:.05em; padding:3px 10px; text-transform:uppercase; }
+  .badge-gold { background:#FAF1E2; color:#9A5C12; border:1px solid #EDD09A; }
+  .badge-dark { background:rgba(15,10,5,.72); color:#EDD09A; backdrop-filter:blur(4px); }
+  .badge-green { background:#EAF3DE; color:#27500A; }
+  /* filter pills */
+  .pill { display:inline-flex; align-items:center; gap:4px; background:#FAF1E2; color:#9A5C12; border:1px solid #EDD09A; border-radius:9999px; font-size:.72rem; font-weight:600; padding:4px 12px; }
+  /* category pill */
+  .cat-pill { display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border:1.5px solid #E2D8C8; border-radius:9999px; font-size:.82rem; font-weight:500; color:#5C3A10; background:#fff; }
+  /* tag */
+  .a-tag { display:inline-block; background:#FAF1E2; color:#9A5C12; border:1px solid #EDD09A; border-radius:9999px; font-size:.65rem; font-weight:700; letter-spacing:.05em; padding:3px 10px; text-transform:uppercase; }
+  /* active filter */
+  .filter-btn-active { padding:7px 16px; background:#B8701A; color:#fff; border:1.5px solid #B8701A; border-radius:9999px; font-size:.8rem; font-weight:600; }
+  .filter-btn { padding:7px 16px; background:#fff; color:#5C3A10; border:1.5px solid #E2D8C8; border-radius:9999px; font-size:.8rem; font-weight:600; }
+</style>
+</head>
+<body>
+  <div class="label">Product Badges</div>
+  <div class="row">
+    <span class="badge badge-gold">Authentic Bhutanese crafts</span>
+    <span class="badge badge-green">New arrival</span>
+    <span class="badge badge-dark">Textiles</span>
+  </div>
+  <div class="label">Artisan Tags</div>
+  <div class="row">
+    <span class="a-tag">Weaving</span>
+    <span class="a-tag">Kishuthara</span>
+    <span class="a-tag">Natural dye</span>
+  </div>
+  <div class="label">Filter Pills</div>
+  <div class="row">
+    <span class="filter-btn-active">All</span>
+    <span class="filter-btn">Textiles</span>
+    <span class="filter-btn">Woodcraft</span>
+    <span class="filter-btn">Jewellery</span>
+  </div>
+  <div class="label">Active Filter Pill (removable)</div>
+  <div class="row">
+    <span class="pill">Textiles ×</span>
+    <span class="pill">Under Nu. 5,000 ×</span>
+    <span class="pill">Bumthang ×</span>
+  </div>
+  <div class="label">Category Pills</div>
+  <div class="row">
+    <span class="cat-pill">Textiles</span>
+    <span class="cat-pill">Woodcraft</span>
+    <span class="cat-pill">Pottery</span>
+  </div>
+</body>
+</html>

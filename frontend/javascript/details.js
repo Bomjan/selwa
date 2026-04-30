@@ -5,10 +5,10 @@ function changeQty(delta) {
     el.textContent = Math.max(1, parseInt(el.textContent) + delta);
 }
 
-function setThumb(el, emoji) {
+function setThumb(el, src) {
     document.querySelectorAll('.thumb').forEach(function (t) { t.classList.remove('active'); });
     el.classList.add('active');
-    document.getElementById('main-img').textContent = emoji;
+    document.getElementById('current-img').src = src;
 }
 
 function saveWishlist(e) {

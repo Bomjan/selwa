@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #FAF7F2; padding: 20px; font-family: 'DM Sans', sans-serif; }
+  .label { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #B8A080; margin: 14px 0 8px; }
+  .label:first-child { margin-top: 0; }
+  .radii-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+  .r-box { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .r-demo { width: 40px; height: 40px; background: #B8701A; }
+  .r-name { font-size: .62rem; font-weight: 600; color: #5C3A10; }
+  .r-val  { font-size: .58rem; color: #B8A080; }
+  .shadows-col { display: flex; flex-direction: column; gap: 10px; }
+  .sh-demo { background: #fff; border-radius: 10px; padding: 10px 16px; font-size: .72rem; font-weight: 600; color: #5C3A10; }
+</style>
+</head>
+<body>
+  <div class="label">Border Radius</div>
+  <div class="radii-row">
+    <div class="r-box"><div class="r-demo" style="border-radius:5px"></div><div class="r-name">r-sm</div><div class="r-val">5px</div></div>
+    <div class="r-box"><div class="r-demo" style="border-radius:10px"></div><div class="r-name">r</div><div class="r-val">10px</div></div>
+    <div class="r-box"><div class="r-demo" style="border-radius:14px"></div><div class="r-name">r-md</div><div class="r-val">14px</div></div>
+    <div class="r-box"><div class="r-demo" style="border-radius:20px"></div><div class="r-name">r-lg</div><div class="r-val">20px</div></div>
+    <div class="r-box"><div class="r-demo" style="border-radius:28px"></div><div class="r-name">r-xl</div><div class="r-val">28px</div></div>
+    <div class="r-box"><div class="r-demo" style="border-radius:9999px; width:60px; height:36px;"></div><div class="r-name">r-pill</div><div class="r-val">9999px</div></div>
+  </div>
+  <div class="label">Shadow Scale</div>
+  <div class="shadows-col">
+    <div class="sh-demo" style="box-shadow:0 1px 3px rgba(44,26,6,.06),0 1px 8px rgba(44,26,6,.03)">sh-sm — card at rest</div>
+    <div class="sh-demo" style="box-shadow:0 4px 20px rgba(44,26,6,.10),0 1px 5px rgba(44,26,6,.06)">sh-md — hover card</div>
+    <div class="sh-demo" style="box-shadow:0 8px 36px rgba(44,26,6,.14),0 2px 10px rgba(44,26,6,.08)">sh-lg — elevated hover</div>
+    <div class="sh-demo" style="box-shadow:0 16px 56px rgba(44,26,6,.20),0 4px 16px rgba(44,26,6,.10)">sh-xl — modal / toast</div>
+  </div>
+</body>
+</html>

@@ -7,35 +7,31 @@
     <title>Selwa — About Us</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/global.css" />
-    <link rel="stylesheet" href="../css/about.css" />
-    <link rel="stylesheet" href="../css/hi.css">
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <link rel="stylesheet" href="css/hi.css">
 </head>
 
 <body>
 
-    <!-- NAV-BAR -->
-    <nav class="navbar navbar-expand-md bg-white border-bottom px-4 py-2 sticky-top">
-        <a class="navbar-brand logo" href="index.html">Selwa</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto gap-md-3 align-items-md-center">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="artisans.html">Artisans</a></li>
-                <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
-                <li class="nav-item" id="nav-auth-item"></li>
-                <li class="nav-item ms-md-2">
-                    <a href="cart.html" class="btn btn-selwa btn-sm px-3">
-                        <i class="bi bi-bag me-1"></i> Cart <span id="cart-count"
-                            class="badge bg-light text-dark ms-1">0</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <!-- NAVBAR -->
+  <nav class="s-nav">
+    <a class="s-logo" href="index.html">Selwa</a>
+    <form class="s-nav-search" action="products.html" method="get">
+      <input type="text" placeholder="Search products…" name="q" />
+      <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="products.html">Products</a>
+      <a class="nav-link" href="artisans.html">Artisans</a>
+      <a class="nav-link active" href="about.html">About</a>
+      <span id="nav-auth-item"></span>
+    </div>
+    <a href="cart.html" class="s-cart-btn">
+      <i class="bi bi-bag"></i> Cart <span id="cart-count">0</span>
+    </a>
+  </nav>
 
     <!-- HERO -->
     <div class="about-hero py-5 px-4 text-center">
@@ -153,36 +149,36 @@
         </div>
     </div>
 
-   <!-- FOOTER -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="logo-text">Selwa</div>
-                <p>Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="artisans.html">Artisans</a></li>
-                    <li><a href="about.html">About us</a></li>
-                    <li><a href="getintouch.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="privacy.html">Privacy policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
-    </footer>
+  <footer class="s-footer">
+    <div class="s-footer-inner">
+      <div>
+        <span class="s-footer__logo">Selwa</span>
+        <p class="s-footer__desc">Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
+      </div>
+      <div class="s-footer__col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="artisans.html">Artisans</a></li>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="getintouch.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="s-footer__col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="s-footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
+  </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../javascript/global.js"></script>
-    <script src="../javascript/about.js"></script>
+    <script src="javascript/global.js"></script>
+    <script src="javascript/about.js"></script>
 </body>
 
 </html>

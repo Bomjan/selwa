@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #FAF7F2; font-family: 'DM Sans', sans-serif; padding: 20px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch { flex: 1; min-width: 80px; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(44,26,6,.1); }
+  .swatch__color { height: 60px; }
+  .swatch__label { padding: 8px 10px; background: #fff; }
+  .swatch__name { font-size: .68rem; font-weight: 600; color: #2C1A06; display: block; }
+  .swatch__hex  { font-size: .62rem; color: #8B6040; }
+  .group-label { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #B8A080; margin: 14px 0 6px; }
+</style>
+</head>
+<body>
+  <div class="group-label">Text Hierarchy</div>
+  <div class="row">
+    <div class="swatch"><div class="swatch__color" style="background:#2C1A06"></div><div class="swatch__label"><span class="swatch__name">text-body</span><span class="swatch__hex">#2C1A06</span></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#5C3A10"></div><div class="swatch__label"><span class="swatch__name">text-mid</span><span class="swatch__hex">#5C3A10</span></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#8B6040"></div><div class="swatch__label"><span class="swatch__name">text-muted</span><span class="swatch__hex">#8B6040</span></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#B8A080"></div><div class="swatch__label"><span class="swatch__name">text-faint</span><span class="swatch__hex">#B8A080</span></div></div>
+  </div>
+  <div class="group-label">Borders & Surfaces</div>
+  <div class="row">
+    <div class="swatch"><div class="swatch__color" style="background:#FFFFFF; border:1px solid #ddd"></div><div class="swatch__label"><span class="swatch__name">surface</span><span class="swatch__hex">#FFFFFF</span></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#E2D8C8"></div><div class="swatch__label"><span class="swatch__name">border</span><span class="swatch__hex">#E2D8C8</span></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#D2C4A8"></div><div class="swatch__label"><span class="swatch__name">border-2</span><span class="swatch__hex">#D2C4A8</span></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#2A1A08"></div><div class="swatch__label"><span class="swatch__name">border-dark</span><span class="swatch__hex">#2A1A08</span></div></div>
+  </div>
+</body>
+</html>

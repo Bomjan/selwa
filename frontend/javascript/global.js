@@ -112,12 +112,12 @@ function updateNavAuthState() {
     var user = getCurrentUser();
     var first = (user && user.name) ? user.name.split(' ')[0] : 'Account';
     el.innerHTML =
-      '<div class="d-flex align-items-center gap-2">' +
-      '  <span class="nav-user-chip"><i class="bi bi-person-circle me-1"></i>' + first + '</span>' +
-      '  <button class="btn btn-sm btn-selwa-outline px-2" onclick="logout()">Sign out</button>' +
-      '</div>';
+      '<span style="display:inline-flex;align-items:center;gap:8px">' +
+      '  <span class="nav-link" style="cursor:default;color:var(--text-mid)"><i class="bi bi-person-circle" style="margin-right:4px"></i>' + first + '</span>' +
+      '  <button class="s-btn s-btn--outline-dark s-btn--sm" onclick="logout()">Sign out</button>' +
+      '</span>';
   } else {
-    el.innerHTML = '<a class="btn btn-sm btn-selwa-outline px-3" href="login.html">Sign in</a>';
+    el.innerHTML = '<a class="s-btn s-btn--outline-dark s-btn--sm" href="login.html">Sign in</a>';
   }
 }
 

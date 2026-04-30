@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+  body { margin: 0; background: #FAF7F2; padding: 20px; font-family: 'DM Sans', sans-serif; }
+  .label { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #B8A080; margin: 14px 0 8px; }
+  .label:first-child { margin-top: 0; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 6px; }
+
+  /* Search */
+  .s-search { display:flex; align-items:center; background:#F4EDE0; border:1.5px solid #E2D8C8; border-radius:9999px; overflow:hidden; width:260px; }
+  .s-search input { flex:1; border:none; background:none; padding:7px 12px; font-size:.85rem; color:#2C1A06; outline:none; font-family:'DM Sans',sans-serif; }
+  .s-search input::placeholder { color:#B8A080; }
+  .s-search button { background:none; border:none; color:#8B6040; padding:7px 12px; display:flex; align-items:center; cursor:pointer; }
+
+  /* Text input */
+  .s-input { width:220px; padding:10px 14px; border:1.5px solid #E2D8C8; border-radius:10px; font-size:.875rem; background:#fff; color:#2C1A06; outline:none; font-family:'DM Sans',sans-serif; }
+  .s-input:focus { border-color:#B8701A; box-shadow:0 0 0 3px rgba(184,112,26,.1); }
+  .s-input.with-icon { padding-left:36px; }
+  .input-wrap { position:relative; display:inline-flex; align-items:center; }
+  .input-icon { position:absolute; left:12px; color:#B8A080; font-size:.9rem; pointer-events:none; }
+
+  /* Select */
+  .s-select { padding:8px 12px; border:1.5px solid #E2D8C8; border-radius:10px; font-size:.85rem; color:#2C1A06; background:#fff; outline:none; font-family:'DM Sans',sans-serif; cursor:pointer; }
+
+  /* Textarea */
+  .s-textarea { width:300px; padding:10px 14px; border:1.5px solid #E2D8C8; border-radius:10px; font-size:.875rem; background:#fff; color:#2C1A06; outline:none; font-family:'DM Sans',sans-serif; resize:vertical; min-height:72px; }
+
+  /* Label */
+  .field-label { display:block; font-size:.75rem; font-weight:600; color:#5C3A10; margin-bottom:5px; letter-spacing:.02em; }
+</style>
+</head>
+<body>
+  <div class="label">Search Bar</div>
+  <div class="row">
+    <div class="s-search">
+      <input type="text" placeholder="Search products…">
+      <button><i class="bi bi-search"></i></button>
+    </div>
+  </div>
+
+  <div class="label">Text Inputs</div>
+  <div class="row">
+    <div>
+      <label class="field-label">Email</label>
+      <div class="input-wrap">
+        <i class="bi bi-envelope input-icon"></i>
+        <input class="s-input with-icon" type="email" placeholder="name@example.com">
+      </div>
+    </div>
+    <div>
+      <label class="field-label">Full name</label>
+      <input class="s-input" type="text" placeholder="Karma Wangmo">
+    </div>
+  </div>
+
+  <div class="label">Select</div>
+  <div class="row">
+    <select class="s-select">
+      <option>Sort by: Featured</option>
+      <option>Price: Low to High</option>
+      <option>Price: High to Low</option>
+      <option>Newest</option>
+    </select>
+  </div>
+
+  <div class="label">Textarea</div>
+  <div class="row">
+    <textarea class="s-textarea" placeholder="Tell us about your craft..."></textarea>
+  </div>
+</body>
+</html>
