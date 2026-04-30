@@ -1,216 +1,383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selwa — Cart</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="css/global.css" />
-  <link rel="stylesheet" href="css/cart.css" />
-</head>
-<body>
-
-  <!-- NAVBAR -->
-  <nav class="s-nav">
-    <a class="s-logo" href="index.html">Selwa</a>
-    <div class="nav-links" id="nav-links">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="products.html">Products</a>
-      <a class="nav-link" href="artisans.html">Artisans</a>
-      <a class="nav-link" href="about.html">About</a>
-    </div>
-    <div class="nav-utils">
-      <form class="s-nav-search" action="products.html" method="get">
-        <button type="submit"><i class="bi bi-search"></i></button>
-        <input type="text" placeholder="Search products…" name="q" />
-      </form>
-      <span id="nav-auth-item"></span>
-      <a href="cart.html" class="s-cart-btn">
-        <i class="bi bi-bag"></i><span class="s-cart-label"> Cart</span> <span id="cart-count">0</span>
-      </a>
-    </div>
-    <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('mobile-open')" aria-label="Menu">
-      <i class="bi bi-list"></i>
-    </button>
-  </nav>
-
-  <div class="s-wrap">
-    <div style="padding-top:32px;padding-bottom:12px">
-      <h1 style="font-size:clamp(1.4rem,3vw,1.8rem)">Your cart</h1>
-      <p style="color:var(--text-muted);font-size:.875rem"><span id="item-count">3</span> items</p>
-    </div>
-
-    <div id="cart-main" class="cart-layout">
-
-      <!-- CART ITEMS -->
-      <div>
-        <div id="cart-items" class="cart-items">
-
-          <div class="cart-item cart-item-card" data-id="1" data-price="850">
-            <div class="cart-item__img"><img src="images/bangchung.avif" alt="Handwoven Bangchung"></div>
-            <div class="cart-item__body">
-              <div class="cart-item__name">Handwoven Bangchung</div>
-              <div class="cart-item__by">By Karma Wangmo · Bumthang</div>
-              <div class="cart-item__qty">
-                <button class="cart-qty-btn" onclick="changeItemQty(this, -1)">−</button>
-                <span class="cart-qty-val qty-val">1</span>
-                <button class="cart-qty-btn" onclick="changeItemQty(this, 1)">+</button>
-              </div>
-            </div>
-            <div class="cart-item__price">
-              <div class="cart-item__price-val item-total">Nu. 850</div>
-              <button class="cart-item__remove" onclick="removeItem(this)">Remove</button>
-            </div>
-          </div>
-
-          <div class="cart-item cart-item-card" data-id="2" data-price="2800">
-            <div class="cart-item__img"><img src="images/palang.avif" alt="Traditional Wooden Palang"></div>
-            <div class="cart-item__body">
-              <div class="cart-item__name">Traditional Wooden Palang</div>
-              <div class="cart-item__by">By Tashi Dorji · Trashigang</div>
-              <div class="cart-item__qty">
-                <button class="cart-qty-btn" onclick="changeItemQty(this, -1)">−</button>
-                <span class="cart-qty-val qty-val">1</span>
-                <button class="cart-qty-btn" onclick="changeItemQty(this, 1)">+</button>
-              </div>
-            </div>
-            <div class="cart-item__price">
-              <div class="cart-item__price-val item-total">Nu. 2,800</div>
-              <button class="cart-item__remove" onclick="removeItem(this)">Remove</button>
-            </div>
-          </div>
-
-          <div class="cart-item cart-item-card" data-id="3" data-price="450">
-            <div class="cart-item__img"><img src="images/tsholam-keychain.avif" alt="Tsholam Keychain"></div>
-            <div class="cart-item__body">
-              <div class="cart-item__name">Tsholam Keychain</div>
-              <div class="cart-item__by">By Pema Lhamo · Thimphu</div>
-              <div class="cart-item__qty">
-                <button class="cart-qty-btn" onclick="changeItemQty(this, -1)">−</button>
-                <span class="cart-qty-val qty-val">1</span>
-                <button class="cart-qty-btn" onclick="changeItemQty(this, 1)">+</button>
-              </div>
-            </div>
-            <div class="cart-item__price">
-              <div class="cart-item__price-val item-total">Nu. 450</div>
-              <button class="cart-item__remove" onclick="removeItem(this)">Remove</button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Empty cart state -->
-        <div id="empty-cart" class="cart-empty" style="display:none">
-          <i class="bi bi-bag cart-empty__icon"></i>
-          <h3 class="cart-empty__heading">Your cart is empty</h3>
-          <p class="cart-empty__sub">Looks like you haven't added anything yet.</p>
-          <a href="products.html" class="s-btn s-btn--gold" style="margin-top:8px">Browse products</a>
-        </div>
-
-        <!-- Continue + Coupon -->
-        <div class="cart-continue">
-          <a href="products.html" class="s-btn s-btn--outline-dark s-btn--sm"><i class="bi bi-arrow-left"></i> Continue shopping</a>
-        </div>
-        <div class="coupon-box" style="margin-top:16px">
-          <input type="text" class="coupon-input" id="coupon-input" placeholder="Enter coupon code">
-          <button class="s-btn s-btn--dark s-btn--sm" onclick="applyCoupon()">Apply</button>
-        </div>
-        <div id="coupon-msg" style="font-size:.84rem;margin-top:8px"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selwa — Cart</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/cart.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="s-nav">
+      <a class="s-logo" href="index.html">Selwa</a>
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="products.html">Products</a>
+        <a class="nav-link" href="artisans.html">Artisans</a>
+        <a class="nav-link" href="about.html">About</a>
       </div>
-
-      <!-- ORDER SUMMARY -->
-      <div class="summary-card">
-        <h2>Order summary</h2>
-        <div class="summary-row">
-          <span class="summary-row__label">Subtotal (<span id="summary-count">3</span> items)</span>
-          <span class="summary-row__val" id="subtotal">Nu. 4,100</span>
-        </div>
-        <div class="summary-row">
-          <span class="summary-row__label">Shipping</span>
-          <span class="summary-row__val summary-row__free" id="shipping-label">Free</span>
-        </div>
-        <div class="summary-row" id="discount-row" style="display:none">
-          <span class="summary-row__label">Discount</span>
-          <span class="summary-row__val" style="color:#27ae60" id="discount-label">−Nu. 0</span>
-        </div>
-        <div class="summary-total">
-          <span>Total</span>
-          <span class="summary-total__price" id="total">Nu. 4,100</span>
-        </div>
-        <button class="s-btn s-btn--gold" style="width:100%;margin-bottom:10px" onclick="checkout()">Proceed to checkout</button>
-        <a href="products.html" class="s-btn s-btn--outline-dark" style="width:100%">Continue shopping</a>
-        <div style="display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)">
-          <div style="font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:8px"><i class="bi bi-shield-check"></i>Secure checkout · SSL encrypted</div>
-          <div style="font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:8px"><i class="bi bi-arrow-repeat"></i>30-day hassle-free returns</div>
-          <div style="font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:8px"><i class="bi bi-truck"></i>Free shipping on orders over Nu. 5,000</div>
-        </div>
-      </div>
-
-    </div><!-- /cart-layout -->
-
-    <!-- YOU MAY ALSO LIKE -->
-    <div style="padding-bottom:64px;border-top:1px solid var(--border);margin-top:32px;padding-top:32px">
-      <div class="s-hd-row">
-        <h2>You may also like</h2>
-      </div>
-      <div class="p-grid">
-        <a href="details.html" class="p-card">
-          <div class="p-card__img"><img src="images/taktshang-souvenir.avif" alt="Taktshang Souvenir"><span class="p-card__cat">Souvenir</span></div>
-          <div class="p-card__body">
-            <div class="p-card__name">Taktshang Souvenir</div>
-            <div class="p-card__foot"><span class="p-card__price">Nu. 1,200</span><button class="s-btn--add" onclick="addToCart(event)">Add</button></div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card">
-          <div class="p-card__img"><img src="images/tea-cup.avif" alt="Artisan Tea Cup"><span class="p-card__cat">Pottery</span></div>
-          <div class="p-card__body">
-            <div class="p-card__name">Artisan Tea Cup</div>
-            <div class="p-card__foot"><span class="p-card__price">Nu. 650</span><button class="s-btn--add" onclick="addToCart(event)">Add</button></div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card">
-          <div class="p-card__img"><img src="images/menjong-sorig.avif" alt="Menjong Sorig Incense"><span class="p-card__cat">Wellness</span></div>
-          <div class="p-card__body">
-            <div class="p-card__name">Menjong Sorig Incense</div>
-            <div class="p-card__foot"><span class="p-card__price">Nu. 350</span><button class="s-btn--add" onclick="addToCart(event)">Add</button></div>
-          </div>
+      <div class="nav-utils">
+        <form class="s-nav-search" action="products.html" method="get">
+          <button type="submit"><i class="bi bi-search"></i></button>
+          <input type="text" placeholder="Search products…" name="q" />
+        </form>
+        <span id="nav-auth-item"></span>
+        <a href="cart.html" class="s-cart-btn">
+          <i class="bi bi-bag"></i><span class="s-cart-label"> Cart</span>
+          <span id="cart-count">0</span>
         </a>
       </div>
+      <button
+        class="nav-toggle"
+        onclick="
+          document.getElementById('nav-links').classList.toggle('mobile-open')
+        "
+        aria-label="Menu"
+      >
+        <i class="bi bi-list"></i>
+      </button>
+    </nav>
+
+    <div class="s-wrap">
+      <div style="padding-top: 32px; padding-bottom: 12px">
+        <h1 style="font-size: clamp(1.4rem, 3vw, 1.8rem)">Your cart</h1>
+        <p style="color: var(--text-muted); font-size: 0.875rem">
+          <span id="item-count">3</span> items
+        </p>
+      </div>
+
+      <div id="cart-main" class="cart-layout">
+        <!-- CART ITEMS -->
+        <div>
+          <div id="cart-items" class="cart-items">
+            <div class="cart-item cart-item-card" data-id="1" data-price="850">
+              <div class="cart-item__img">
+                <img src="images/bangchung.avif" alt="Handwoven Bangchung" />
+              </div>
+              <div class="cart-item__body">
+                <div class="cart-item__name">Handwoven Bangchung</div>
+                <div class="cart-item__by">By Karma Wangmo · Bumthang</div>
+                <div class="cart-item__qty">
+                  <button
+                    class="cart-qty-btn"
+                    onclick="changeItemQty(this, -1)"
+                  >
+                    −
+                  </button>
+                  <span class="cart-qty-val qty-val">1</span>
+                  <button class="cart-qty-btn" onclick="changeItemQty(this, 1)">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="cart-item__price">
+                <div class="cart-item__price-val item-total">Nu. 850</div>
+                <button class="cart-item__remove" onclick="removeItem(this)">
+                  Remove
+                </button>
+              </div>
+            </div>
+
+            <div class="cart-item cart-item-card" data-id="2" data-price="2800">
+              <div class="cart-item__img">
+                <img src="images/palang.avif" alt="Traditional Wooden Palang" />
+              </div>
+              <div class="cart-item__body">
+                <div class="cart-item__name">Traditional Wooden Palang</div>
+                <div class="cart-item__by">By Tashi Dorji · Trashigang</div>
+                <div class="cart-item__qty">
+                  <button
+                    class="cart-qty-btn"
+                    onclick="changeItemQty(this, -1)"
+                  >
+                    −
+                  </button>
+                  <span class="cart-qty-val qty-val">1</span>
+                  <button class="cart-qty-btn" onclick="changeItemQty(this, 1)">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="cart-item__price">
+                <div class="cart-item__price-val item-total">Nu. 2,800</div>
+                <button class="cart-item__remove" onclick="removeItem(this)">
+                  Remove
+                </button>
+              </div>
+            </div>
+
+            <div class="cart-item cart-item-card" data-id="3" data-price="450">
+              <div class="cart-item__img">
+                <img
+                  src="images/tsholam-keychain.avif"
+                  alt="Tsholam Keychain"
+                />
+              </div>
+              <div class="cart-item__body">
+                <div class="cart-item__name">Tsholam Keychain</div>
+                <div class="cart-item__by">By Pema Lhamo · Thimphu</div>
+                <div class="cart-item__qty">
+                  <button
+                    class="cart-qty-btn"
+                    onclick="changeItemQty(this, -1)"
+                  >
+                    −
+                  </button>
+                  <span class="cart-qty-val qty-val">1</span>
+                  <button class="cart-qty-btn" onclick="changeItemQty(this, 1)">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="cart-item__price">
+                <div class="cart-item__price-val item-total">Nu. 450</div>
+                <button class="cart-item__remove" onclick="removeItem(this)">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty cart state -->
+          <div id="empty-cart" class="cart-empty" style="display: none">
+            <i class="bi bi-bag cart-empty__icon"></i>
+            <h3 class="cart-empty__heading">Your cart is empty</h3>
+            <p class="cart-empty__sub">
+              Looks like you haven't added anything yet.
+            </p>
+            <a
+              href="products.html"
+              class="s-btn s-btn--gold"
+              style="margin-top: 8px"
+              >Browse products</a
+            >
+          </div>
+
+          <!-- Continue + Coupon -->
+          <div class="cart-continue">
+            <a href="products.html" class="s-btn s-btn--outline-dark s-btn--sm"
+              ><i class="bi bi-arrow-left"></i> Continue shopping</a
+            >
+          </div>
+          <div class="coupon-box" style="margin-top: 16px">
+            <input
+              type="text"
+              class="coupon-input"
+              id="coupon-input"
+              placeholder="Enter coupon code"
+            />
+            <button class="s-btn s-btn--dark s-btn--sm" onclick="applyCoupon()">
+              Apply
+            </button>
+          </div>
+          <div
+            id="coupon-msg"
+            style="font-size: 0.84rem; margin-top: 8px"
+          ></div>
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="summary-card">
+          <h2>Order summary</h2>
+          <div class="summary-row">
+            <span class="summary-row__label"
+              >Subtotal (<span id="summary-count">3</span> items)</span
+            >
+            <span class="summary-row__val" id="subtotal">Nu. 4,100</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row__label">Shipping</span>
+            <span class="summary-row__val summary-row__free" id="shipping-label"
+              >Free</span
+            >
+          </div>
+          <div class="summary-row" id="discount-row" style="display: none">
+            <span class="summary-row__label">Discount</span>
+            <span
+              class="summary-row__val"
+              style="color: #27ae60"
+              id="discount-label"
+              >−Nu. 0</span
+            >
+          </div>
+          <div class="summary-total">
+            <span>Total</span>
+            <span class="summary-total__price" id="total">Nu. 4,100</span>
+          </div>
+          <button
+            class="s-btn s-btn--gold"
+            style="width: 100%; margin-bottom: 10px"
+            onclick="checkout()"
+          >
+            Proceed to checkout
+          </button>
+          <a
+            href="products.html"
+            class="s-btn s-btn--outline-dark"
+            style="width: 100%"
+            >Continue shopping</a
+          >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 6px;
+              margin-top: 18px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border);
+            "
+          >
+            <div
+              style="
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              "
+            >
+              <i class="bi bi-shield-check"></i>Secure checkout · SSL encrypted
+            </div>
+            <div
+              style="
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              "
+            >
+              <i class="bi bi-arrow-repeat"></i>30-day hassle-free returns
+            </div>
+            <div
+              style="
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              "
+            >
+              <i class="bi bi-truck"></i>Free shipping on orders over Nu. 5,000
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /cart-layout -->
+
+      <!-- YOU MAY ALSO LIKE -->
+      <div
+        style="
+          padding-bottom: 64px;
+          border-top: 1px solid var(--border);
+          margin-top: 32px;
+          padding-top: 32px;
+        "
+      >
+        <div class="s-hd-row">
+          <h2>You may also like</h2>
+        </div>
+        <div class="p-grid">
+          <a href="details.html" class="p-card">
+            <div class="p-card__img">
+              <img
+                src="images/taktshang-souvenir.avif"
+                alt="Taktshang Souvenir"
+              /><span class="p-card__cat">Souvenir</span>
+            </div>
+            <div class="p-card__body">
+              <div class="p-card__name">Taktshang Souvenir</div>
+              <div class="p-card__foot">
+                <span class="p-card__price">Nu. 1,200</span
+                ><button class="s-btn--add" onclick="addToCart(event)">
+                  Add
+                </button>
+              </div>
+            </div>
+          </a>
+          <a href="details.html" class="p-card">
+            <div class="p-card__img">
+              <img src="images/tea-cup.avif" alt="Artisan Tea Cup" /><span
+                class="p-card__cat"
+                >Pottery</span
+              >
+            </div>
+            <div class="p-card__body">
+              <div class="p-card__name">Artisan Tea Cup</div>
+              <div class="p-card__foot">
+                <span class="p-card__price">Nu. 650</span
+                ><button class="s-btn--add" onclick="addToCart(event)">
+                  Add
+                </button>
+              </div>
+            </div>
+          </a>
+          <a href="details.html" class="p-card">
+            <div class="p-card__img">
+              <img
+                src="images/menjong-sorig.avif"
+                alt="Menjong Sorig Incense"
+              /><span class="p-card__cat">Wellness</span>
+            </div>
+            <div class="p-card__body">
+              <div class="p-card__name">Menjong Sorig Incense</div>
+              <div class="p-card__foot">
+                <span class="p-card__price">Nu. 350</span
+                ><button class="s-btn--add" onclick="addToCart(event)">
+                  Add
+                </button>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
+    <!-- /s-wrap -->
 
-  </div><!-- /s-wrap -->
+    <!-- FOOTER -->
+    <footer class="s-footer">
+      <div class="s-footer-inner">
+        <div>
+          <span class="s-footer__logo">Selwa</span>
+          <p class="s-footer__desc">
+            Connecting Bhutanese artisans with the world. Every purchase
+            supports a local craftsperson.
+          </p>
+        </div>
+        <div class="s-footer__col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="artisans.html">Artisans</a></li>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="getintouch.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="s-footer__col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="privacy.html">Privacy policy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="s-footer-bottom">
+        © 2026 Selwa. Proudly promoting Bhutanese heritage.
+      </div>
+    </footer>
 
-  <!-- FOOTER -->
-  <footer class="s-footer">
-    <div class="s-footer-inner">
-      <div>
-        <span class="s-footer__logo">Selwa</span>
-        <p class="s-footer__desc">Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
-      </div>
-      <div class="s-footer__col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="products.html">Products</a></li>
-          <li><a href="artisans.html">Artisans</a></li>
-          <li><a href="about.html">About us</a></li>
-          <li><a href="getintouch.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="s-footer__col">
-        <h4>Support</h4>
-        <ul>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="privacy.html">Privacy policy</a></li>
-          <li><a href="terms.html">Terms</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="s-footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="javascript/global.js"></script>
-  <script src="javascript/cart.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="javascript/global.js"></script>
+    <script src="javascript/cart.js"></script>
+  </body>
 </html>
