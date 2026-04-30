@@ -1,307 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Selwa — Kishuthara Silk Fabric</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/global.css" />
-    <link rel="stylesheet" href="../css/details.css" />
-    <link rel="stylesheet" href="../css/hi.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selwa — Handwoven Bangchung</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/details.css" />
 </head>
-
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-md bg-white border-bottom px-4 py-2 sticky-top">
-        <a class="navbar-brand logo" href="index.html">Selwa</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto gap-md-3 align-items-md-center">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="artisans.html">Artisans</a></li>
-                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                <li class="nav-item" id="nav-auth-item"></li>
-                <li class="nav-item ms-md-2">
-                    <a href="cart.html" class="btn btn-selwa btn-sm px-3">
-                        <i class="bi bi-bag me-1"></i> Cart <span id="cart-count"
-                            class="badge bg-light text-dark ms-1">0</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <!-- NAVBAR -->
+  <nav class="s-nav">
+    <a class="s-logo" href="index.html">Selwa</a>
+    <form class="s-nav-search" action="products.html" method="get">
+      <input type="text" placeholder="Search products…" name="q" />
+      <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link active" href="products.html">Products</a>
+      <a class="nav-link" href="artisans.html">Artisans</a>
+      <a class="nav-link" href="about.html">About</a>
+      <span id="nav-auth-item"></span>
+    </div>
+    <a href="cart.html" class="s-cart-btn">
+      <i class="bi bi-bag"></i> Cart <span id="cart-count">0</span>
+    </a>
+  </nav>
 
+  <div class="s-wrap">
     <!-- BREADCRUMB -->
-    <div class="px-4 pt-3 pb-1 text-muted small">
-        <a href="index.html" style="color:var(--amber-dark)">Home</a> /
-        <a href="products.html" style="color:var(--amber-dark)">Products</a> /
-        Textiles / Kishuthara silk fabric
+    <div class="pd-breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="bi bi-chevron-right"></i>
+      <a href="products.html">Products</a>
+      <i class="bi bi-chevron-right"></i>
+      <span>Handwoven Bangchung</span>
     </div>
 
     <!-- PRODUCT LAYOUT -->
-    <div class="row g-4 px-4 py-3">
+    <div class="pd-layout">
 
-        <!-- Left: images -->
-        <div class="col-12 col-md-6">
-            <div class="main-img mb-3" id="main-img">🧵</div>
-            <div class="d-flex gap-2">
-                <div class="thumb active" onclick="setThumb(this, '🧵')">🧵</div>
-                <div class="thumb" onclick="setThumb(this, '🧶')">🧶</div>
-                <div class="thumb" onclick="setThumb(this, '🪡')">🪡</div>
-                <div class="thumb" onclick="setThumb(this, '📦')">📦</div>
-            </div>
+      <!-- LEFT: IMAGE GALLERY -->
+      <div class="pd-gallery">
+        <div class="pd-main-img">
+          <img src="images/bangchung.avif" alt="Handwoven Bangchung" id="current-img">
         </div>
+        <div class="pd-thumbnails">
+          <div class="pd-thumb active thumb" onclick="setThumb(this, 'images/bangchung.avif')">
+            <img src="images/bangchung.avif" alt="">
+          </div>
+          <div class="pd-thumb thumb" onclick="setThumb(this, 'images/selwa.bt.jpeg')">
+            <img src="images/selwa.bt.jpeg" alt="">
+          </div>
+          <div class="pd-thumb thumb" onclick="setThumb(this, 'images/palang.avif')">
+            <img src="images/palang.avif" alt="">
+          </div>
+        </div>
+      </div>
 
-        <!-- Right: product info -->
-        <div class="col-12 col-md-6 d-flex flex-column gap-3">
-            <span class="badge px-2 py-1 align-self-start"
-                style="background:#EAF3DE;color:#27500A;font-size:.75rem">Textiles · Handwoven</span>
-            <h1 class="fw-semibold mb-0" style="font-size:1.5rem">Kishuthara silk fabric</h1>
-            <div class="d-flex align-items-center gap-2">
-                <span class="stars">★★★★★</span>
-                <span class="fw-semibold small">4.9</span>
-                <span class="text-muted small">(42 reviews)</span>
-            </div>
-            <div class="d-flex align-items-baseline gap-2">
-                <span style="font-size:1.7rem;font-weight:600;color:var(--amber-dark)">Nu. 4,500</span>
-                <span class="text-muted small">≈ USD 33</span>
-            </div>
-            <hr class="my-0">
-            <div>
-                <div class="text-muted small mb-1">Material</div>
-                <div class="small">100% natural silk, hand-dyed with traditional patterns</div>
-            </div>
-            <div>
-                <div class="text-muted small mb-1">Dimensions</div>
-                <div class="small">1.5m × 0.6m per panel</div>
-            </div>
-            <!-- Quantity -->
-            <div>
-                <div class="text-muted small mb-1">Quantity</div>
-                <div class="d-flex align-items-center gap-3">
-                    <div class="d-flex border rounded overflow-hidden">
-                        <button class="qty-btn" onclick="changeQty(-1)">−</button>
-                        <div class="qty-val fw-semibold small" id="qty">1</div>
-                        <button class="qty-btn" onclick="changeQty(1)">+</button>
-                    </div>
-                    <span class="text-muted small">12 in stock</span>
-                </div>
-            </div>
-            <!-- Actions -->
-            <div class="d-flex flex-column gap-2">
-                <button class="btn btn-selwa py-2" onclick="addToCart(event)">Add to cart</button>
-                <button class="btn btn-selwa-outline py-2" onclick="saveWishlist(event)">Save to wishlist</button>
-            </div>
-            <!-- Shipping info -->
-            <div class="shipping-info p-3 d-flex flex-column gap-2">
-                <div class="small text-muted"><i class="bi bi-truck me-2"></i>Free shipping on orders over Nu. 5,000
-                </div>
-                <div class="small text-muted"><i class="bi bi-box me-2"></i>Estimated delivery: 7–14 business days</div>
-                <div class="small text-muted"><i class="bi bi-arrow-repeat me-2"></i>Easy returns within 30 days</div>
-            </div>
-            <hr class="my-0">
-            <!-- Artisan chip -->
-            <div class="artisan-chip d-flex align-items-center gap-3 p-3">
-                <div class="artisan-avatar flex-shrink-0">KW</div>
-                <div>
-                    <div class="fw-semibold small" style="color:var(--amber-deep)">Karma Wangmo</div>
-                    <div style="font-size:.72rem;color:#633806">Master weaver — 20 years experience</div>
-                    <div style="font-size:.72rem;color:var(--amber-dark)">Bumthang, Bhutan · View profile</div>
-                </div>
-            </div>
+      <!-- RIGHT: PRODUCT INFO -->
+      <div class="pd-info">
+        <span class="pd-badge">Handicraft · Woven</span>
+        <h1 class="pd-title">Handwoven Bangchung</h1>
+        <div class="pd-rating">
+          <span class="pd-rating__stars">★★★★★</span>
+          <span class="pd-rating__score">4.9</span>
+          <span class="pd-rating__count">(42 reviews)</span>
         </div>
-    </div>
+        <div class="pd-price-row">
+          <span class="pd-price">Nu. 850</span>
+          <span class="pd-price-usd">≈ USD 10</span>
+        </div>
+        <hr class="pd-divider">
+        <div class="pd-option">
+          <div class="pd-option__label">Material</div>
+          <div class="pd-option__value">100% natural silk, hand-dyed with traditional patterns</div>
+        </div>
+        <div class="pd-option">
+          <div class="pd-option__label">Dimensions</div>
+          <div class="pd-option__value">1.5m × 0.6m per panel</div>
+        </div>
+        <hr class="pd-divider">
+        <div style="margin-bottom:14px">
+          <div class="pd-option__label" style="margin-bottom:8px">Quantity</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="pd-qty">
+              <button class="pd-qty__btn" onclick="changeQty(-1)">−</button>
+              <span class="pd-qty__val" id="qty">1</span>
+              <button class="pd-qty__btn" onclick="changeQty(1)">+</button>
+            </div>
+            <span class="pd-stock">12 in stock</span>
+          </div>
+        </div>
+        <div class="pd-actions">
+          <button class="s-btn s-btn--gold" onclick="addToCart(event)"><i class="bi bi-bag"></i> Add to cart</button>
+          <button class="s-btn s-btn--outline-dark" onclick="saveWishlist(event)">Save to wishlist</button>
+        </div>
+        <div class="pd-info-box">
+          <div class="pd-info-row"><i class="bi bi-truck"></i> Free shipping on orders over Nu. 5,000</div>
+          <div class="pd-info-row"><i class="bi bi-box"></i> Estimated delivery: 7–14 business days</div>
+          <div class="pd-info-row"><i class="bi bi-arrow-repeat"></i> Easy returns within 30 days</div>
+          <div class="pd-info-row"><i class="bi bi-shield-check"></i> Authentic artisan product, verified by Selwa</div>
+        </div>
+        <a href="artisans.html" class="pd-artisan-chip">
+          <div class="pd-artisan-avatar">KW</div>
+          <div>
+            <div class="pd-artisan-info__label">Made by</div>
+            <div class="pd-artisan-info__name">Karma Wangmo</div>
+            <div class="pd-artisan-info__craft">Master weaver — Bumthang</div>
+          </div>
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </div>
+
+    </div><!-- /pd-layout -->
 
     <!-- TABS -->
-    <div class="px-4 pb-5">
-        <ul class="nav nav-tabs mb-3" id="detailTabs">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
-                    data-bs-target="#desc">Description</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#spec">Specifications</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#rev">Reviews
-                    (42)</button></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="desc">
-                <p class="small text-muted lh-lg">The Kishuthara is one of Bhutan's most celebrated traditional silk
-                    fabrics, woven by skilled artisans in the eastern districts. Each piece is hand-loomed using
-                    techniques passed down through generations, featuring intricate geometric patterns that carry deep
-                    cultural significance.</p>
-                <p class="small text-muted lh-lg">This fabric by Karma Wangmo uses naturally dyed silk threads in rich
-                    earth tones — saffron, crimson and indigo — creating a vibrant yet harmonious pattern. No two pieces
-                    are identical.</p>
-                <p class="small text-muted lh-lg">Suitable for traditional Bhutanese garments, home décor, or as a
-                    collector's piece. Hand wash recommended in cold water.</p>
-            </div>
-            <div class="tab-pane fade" id="spec">
-                <div class="row g-2">
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Material</div>
-                            <div class="fw-semibold small">100% natural silk</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Origin</div>
-                            <div class="fw-semibold small">Bumthang, Bhutan</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Dimensions</div>
-                            <div class="fw-semibold small">1.5m × 0.6m</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Weight</div>
-                            <div class="fw-semibold small">180 GSM</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Dye type</div>
-                            <div class="fw-semibold small">Natural plant dyes</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Weave time</div>
-                            <div class="fw-semibold small">Approx. 3 weeks</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Care</div>
-                            <div class="fw-semibold small">Hand wash, cold</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="p-3 rounded" style="background:#f5f5f5">
-                            <div class="text-muted" style="font-size:.72rem">Pattern</div>
-                            <div class="fw-semibold small">Traditional Kishuthara</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="rev">
-                <div class="d-flex flex-column gap-3">
-                    <div class="review-card p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="rev-avatar">SL</div>
-                                <div>
-                                    <div class="fw-semibold small">Sarah L.</div>
-                                    <div class="stars" style="font-size:.75rem">★★★★★</div>
-                                </div>
-                            </div>
-                            <span class="text-muted" style="font-size:.72rem">March 2026</span>
-                        </div>
-                        <p class="small text-muted mb-0 lh-lg">Absolutely stunning fabric. The colours are even more
-                            vibrant in person. Karma's craftsmanship is exceptional — I've ordered twice and will
-                            definitely order again.</p>
-                    </div>
-                    <div class="review-card p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="rev-avatar">RK</div>
-                                <div>
-                                    <div class="fw-semibold small">Ravi K.</div>
-                                    <div class="stars" style="font-size:.75rem">★★★★★</div>
-                                </div>
-                            </div>
-                            <span class="text-muted" style="font-size:.72rem">February 2026</span>
-                        </div>
-                        <p class="small text-muted mb-0 lh-lg">A beautiful piece of Bhutanese heritage. Arrived well
-                            packaged with a handwritten note from the artisan. This is what ethical shopping should look
-                            like.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="pd-tabs">
+      <div class="pd-tabs__list">
+        <span class="pd-tabs__tab active" onclick="switchTab(this,'desc')">Description</span>
+        <span class="pd-tabs__tab" onclick="switchTab(this,'spec')">Specifications</span>
+        <span class="pd-tabs__tab" onclick="switchTab(this,'rev')">Reviews (42)</span>
+      </div>
 
-        <!-- RELATED PRODUCTS -->
-        <h2 class="fw-semibold mt-5 mb-3" style="font-size:1.1rem">You may also like</h2>
-        <div class="row g-3">
-            <div class="col-6 col-md-3"><a href="details.html" class="text-decoration-none">
-                    <div class="product-card">
-                        <div class="product-img" style="background:#EEEDFE;height:90px;font-size:2rem">📿</div>
-                        <div class="p-2">
-                            <div class="small fw-semibold">Silver bracelet</div>
-                            <div class="product-price" style="font-size:.85rem">Nu. 6,200</div>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-6 col-md-3"><a href="details.html" class="text-decoration-none">
-                    <div class="product-card">
-                        <div class="product-img" style="background:#EAF3DE;height:90px;font-size:2rem">🪵</div>
-                        <div class="p-2">
-                            <div class="small fw-semibold">Carved wooden bowl</div>
-                            <div class="product-price" style="font-size:.85rem">Nu. 2,800</div>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-6 col-md-3"><a href="details.html" class="text-decoration-none">
-                    <div class="product-card">
-                        <div class="product-img" style="background:#FBEAF0;height:90px;font-size:2rem">🫙</div>
-                        <div class="p-2">
-                            <div class="small fw-semibold">Pottery vase</div>
-                            <div class="product-price" style="font-size:.85rem">Nu. 3,100</div>
-                        </div>
-                    </div>
-                </a></div>
-            <div class="col-6 col-md-3"><a href="details.html" class="text-decoration-none">
-                    <div class="product-card">
-                        <div class="product-img" style="background:var(--amber-light);height:90px;font-size:2rem">🪔
-                        </div>
-                        <div class="p-2">
-                            <div class="small fw-semibold">Prayer flag set</div>
-                            <div class="product-price" style="font-size:.85rem">Nu. 1,200</div>
-                        </div>
-                    </div>
-                </a></div>
+      <div id="tab-desc" class="pd-tabs__content">
+        <p>The Kishuthara is one of Bhutan's most celebrated traditional silk fabrics, woven by skilled artisans in the eastern districts. Each piece is hand-loomed using techniques passed down through generations, featuring intricate geometric patterns that carry deep cultural significance.</p>
+        <p style="margin-top:14px">This fabric by Karma Wangmo uses naturally dyed silk threads in rich earth tones — saffron, crimson and indigo — creating a vibrant yet harmonious pattern. No two pieces are identical.</p>
+        <p style="margin-top:14px">Suitable for traditional Bhutanese garments, home décor, or as a collector's piece. Hand wash recommended in cold water.</p>
+      </div>
+
+      <div id="tab-spec" class="pd-tabs__content" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Material</div>
+            <div style="font-weight:600;font-size:.875rem">100% natural silk</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Origin</div>
+            <div style="font-weight:600;font-size:.875rem">Bumthang, Bhutan</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Dimensions</div>
+            <div style="font-weight:600;font-size:.875rem">1.5m × 0.6m</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Weight</div>
+            <div style="font-weight:600;font-size:.875rem">180 GSM</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Dye type</div>
+            <div style="font-weight:600;font-size:.875rem">Natural plant dyes</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Weave time</div>
+            <div style="font-weight:600;font-size:.875rem">Approx. 3 weeks</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Care</div>
+            <div style="font-weight:600;font-size:.875rem">Hand wash, cold</div>
+          </div>
+          <div style="background:var(--cream-2);border-radius:var(--r);padding:14px">
+            <div style="font-size:.72rem;color:var(--text-muted)">Pattern</div>
+            <div style="font-weight:600;font-size:.875rem">Traditional Kishuthara</div>
+          </div>
         </div>
+      </div>
+
+      <div id="tab-rev" class="pd-tabs__content pd-reviews" style="display:none">
+        <div class="pd-review">
+          <div class="pd-review__header">
+            <div class="pd-review__avatar">SL</div>
+            <div class="pd-review__meta">
+              <div class="pd-review__name">Sarah L.</div>
+              <div class="pd-review__stars">★★★★★</div>
+            </div>
+            <span class="pd-review__date">March 2026</span>
+          </div>
+          <p class="pd-review__text">Absolutely stunning fabric. The colours are even more vibrant in person. Karma's craftsmanship is exceptional — I've ordered twice and will definitely order again.</p>
+        </div>
+        <div class="pd-review">
+          <div class="pd-review__header">
+            <div class="pd-review__avatar">RK</div>
+            <div class="pd-review__meta">
+              <div class="pd-review__name">Ravi K.</div>
+              <div class="pd-review__stars">★★★★★</div>
+            </div>
+            <span class="pd-review__date">February 2026</span>
+          </div>
+          <p class="pd-review__text">A beautiful piece of Bhutanese heritage. Arrived well packaged with a handwritten note from the artisan. This is what ethical shopping should look like.</p>
+        </div>
+      </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="logo-text">Selwa</div>
-                <p>Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="products.html">Products</a></li>
-                    <li><a href="artisans.html">Artisans</a></li>
-                    <li><a href="about.html">About us</a></li>
-                    <li><a href="getintouch.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="privacy.html">Privacy policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
-    </footer>
+    <!-- RELATED PRODUCTS -->
+    <div style="margin-top:48px;padding-bottom:72px">
+      <div class="s-hd-row">
+        <h2>You may also like</h2>
+      </div>
+      <div class="p-grid">
+        <a href="details.html" class="p-card">
+          <div class="p-card__img"><img src="images/tsholam-keychain.avif" alt="Tsholam Keychain"><span class="p-card__cat">Souvenir</span></div>
+          <div class="p-card__body">
+            <div class="p-card__name">Tsholam Keychain</div>
+            <div class="p-card__by">Pema Lhamo · Thimphu</div>
+            <div class="p-card__foot"><span class="p-card__price">Nu. 450</span><button class="s-btn--add" onclick="addToCart(event)">Add</button></div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card">
+          <div class="p-card__img"><img src="images/palang.avif" alt="Wooden Palang"><span class="p-card__cat">Woodcraft</span></div>
+          <div class="p-card__body">
+            <div class="p-card__name">Traditional Wooden Palang</div>
+            <div class="p-card__by">Tashi Dorji · Trashigang</div>
+            <div class="p-card__foot"><span class="p-card__price">Nu. 2,800</span><button class="s-btn--add" onclick="addToCart(event)">Add</button></div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card">
+          <div class="p-card__img"><img src="images/tea-cup.avif" alt="Artisan Tea Cup"><span class="p-card__cat">Pottery</span></div>
+          <div class="p-card__body">
+            <div class="p-card__name">Artisan Tea Cup</div>
+            <div class="p-card__by">Sonam Choden · Paro</div>
+            <div class="p-card__foot"><span class="p-card__price">Nu. 650</span><button class="s-btn--add" onclick="addToCart(event)">Add</button></div>
+          </div>
+        </a>
+      </div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../javascript/global.js"></script>
-    <script src="../javascript/details.js"></script>
+  </div><!-- /s-wrap -->
+
+  <!-- FOOTER -->
+  <footer class="s-footer">
+    <div class="s-footer-inner">
+      <div>
+        <span class="s-footer__logo">Selwa</span>
+        <p class="s-footer__desc">Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
+      </div>
+      <div class="s-footer__col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="artisans.html">Artisans</a></li>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="getintouch.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="s-footer__col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="s-footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="javascript/global.js"></script>
+  <script src="javascript/details.js"></script>
+  <script>
+    function switchTab(el, id) {
+      document.querySelectorAll('.pd-tabs__tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      ['desc','spec','rev'].forEach(function(tid) {
+        document.getElementById('tab-' + tid).style.display = (tid === id) ? '' : 'none';
+      });
+    }
+  </script>
 </body>
-
 </html>

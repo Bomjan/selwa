@@ -1,98 +1,400 @@
-/* ── Main product image ── */
-.main-img {
-    height: 300px;
-    background: var(--amber-light);
-    border-radius: 16px;
-    border: 0.5px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 6rem;
+/* ═══════════════════════════════════════════════
+   PRODUCT DETAIL PAGE
+   Design System v2
+═══════════════════════════════════════════════ */
+
+/* ── Breadcrumb ── */
+.pd-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .78rem;
+  color: var(--text-faint);
+  padding-bottom: 24px;
 }
 
-/* ── Thumbnail images ── */
-.thumb {
-    width: 70px;
-    height: 70px;
-    border-radius: 8px;
-    border: 0.5px solid #ddd;
-    background: #f5f5f5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    cursor: pointer;
-    transition: border-color .2s;
+.pd-breadcrumb a {
+  color: var(--gold);
+  cursor: pointer;
 }
 
-.thumb.active {
-    border: 1.5px solid var(--amber-dark);
+.pd-breadcrumb i {
+  font-size: .65rem;
 }
 
-.thumb:hover {
-    border-color: var(--amber-mid);
+/* ── Product Detail Layout ── */
+.pd-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  padding-top: 24px;
+  padding-bottom: 72px;
 }
 
-/* ── Quantity controls ── */
-.qty-btn {
-    width: 36px;
-    height: 36px;
-    background: #f5f5f5;
-    border: none;
-    font-size: 1.1rem;
-    cursor: pointer;
+@media (max-width: 768px) {
+  .pd-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
 
-.qty-val {
-    width: 40px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-left: 0.5px solid #ddd;
-    border-right: 0.5px solid #ddd;
+/* ── Image Gallery ── */
+.pd-gallery {
+  position: sticky;
+  top: 80px;
 }
 
-/* ── Shipping info box ── */
-.shipping-info {
-    background: #f9f9f9;
-    border-radius: 8px;
+.pd-main-img {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--cream-2);
+  aspect-ratio: 1/1;
 }
 
-/* ── Artisan chip ── */
-.artisan-chip {
-    border: 0.5px solid var(--amber-mid);
-    background: var(--amber-light);
-    border-radius: 12px;
-    cursor: pointer;
+.pd-main-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* ── Tabs ── */
-.nav-tabs .nav-link.active {
-    color: var(--amber-dark);
-    border-bottom: 2px solid var(--amber-dark);
-    font-weight: 600;
+.pd-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
 }
 
-.nav-tabs .nav-link {
-    color: #777;
+.pd-thumb {
+  width: 68px;
+  height: 68px;
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color .2s;
 }
 
-/* ── Review cards ── */
-.review-card {
-    border: 0.5px solid #ddd;
-    border-radius: 12px;
+.pd-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.rev-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #E6F1FB;
-    color: #185FA5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .75rem;
-    font-weight: 600;
+.pd-thumb:hover,
+.pd-thumb.active {
+  border-color: var(--gold);
+}
+
+/* ── Product Info ── */
+.pd-info {
+  padding-top: 8px;
+}
+
+.pd-badge {
+  display: inline-block;
+  background: var(--gold-mist);
+  color: var(--gold);
+  border: 1px solid var(--gold-pale);
+  border-radius: var(--r-pill);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  margin-bottom: 14px;
+}
+
+.pd-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 10px;
+}
+
+.pd-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: .85rem;
+}
+
+.pd-rating__stars {
+  color: var(--gold-warm);
+}
+
+.pd-rating__score {
+  font-weight: 700;
+}
+
+.pd-rating__count {
+  color: var(--text-faint);
+  font-size: .78rem;
+}
+
+.pd-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.pd-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--bark-mid);
+}
+
+.pd-price-usd {
+  font-size: .85rem;
+  color: var(--text-faint);
+}
+
+.pd-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 14px 0;
+}
+
+/* ── Product Options ── */
+.pd-option {
+  margin-bottom: 10px;
+}
+
+.pd-option__label {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.pd-option__value {
+  font-size: .9rem;
+}
+
+/* ── Quantity Selector ── */
+.pd-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.pd-qty__btn {
+  width: 34px;
+  height: 32px;
+  background: var(--cream-2);
+  border: none;
+  font-size: 1rem;
+  color: var(--text-mid);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+
+.pd-qty__btn:hover {
+  background: var(--gold-mist);
+}
+
+.pd-qty__val {
+  width: 44px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: .9rem;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.pd-stock {
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-left: 10px;
+}
+
+/* ── Actions ── */
+.pd-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 14px;
+}
+
+.pd-actions .s-btn {
+  width: 100%;
+}
+
+/* ── Info Box ── */
+.pd-info-box {
+  background: var(--cream-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.pd-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+
+.pd-info-row i {
+  color: var(--gold);
+}
+
+/* ── Artisan Chip ── */
+.pd-artisan-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px solid var(--cream-3);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color .2s;
+}
+
+.pd-artisan-chip:hover {
+  border-color: var(--gold-pale);
+}
+
+.pd-artisan-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pd-artisan-info__label {
+  font-size: .82rem;
+  color: var(--text-faint);
+  margin-bottom: 1px;
+}
+
+.pd-artisan-info__name {
+  font-family: 'Playfair Display', serif;
+  font-size: .98rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.pd-artisan-info__craft {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+
+.pd-artisan-chip i {
+  margin-left: auto;
+  color: var(--text-faint);
+}
+
+/* ── Tabs (Description/Reviews) ── */
+.pd-tabs {
+  margin-top: 48px;
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+}
+
+.pd-tabs__list {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.pd-tabs__tab {
+  padding-bottom: 12px;
+  font-size: .875rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+
+.pd-tabs__tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  font-weight: 600;
+}
+
+.pd-tabs__content {
+  font-size: .95rem;
+  line-height: 1.8;
+}
+
+/* ── Reviews ── */
+.pd-reviews {
+  padding: 24px 0;
+}
+
+.pd-review {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pd-review__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.pd-review__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gold-mist);
+  color: var(--gold-deep);
+  font-weight: 600;
+  font-size: .85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-review__meta {
+  flex: 1;
+}
+
+.pd-review__name {
+  font-weight: 600;
+  font-size: .9rem;
+  margin-bottom: 2px;
+}
+
+.pd-review__date {
+  font-size: .75rem;
+  color: var(--text-faint);
+}
+
+.pd-review__stars {
+  color: var(--gold-warm);
+  font-size: .85rem;
+}
+
+.pd-review__text {
+  font-size: .9rem;
+  line-height: 1.7;
+  color: var(--text-body);
 }

@@ -6,24 +6,20 @@ let discountPct = 0;
 /* ── Auth gate: if not logged in, replace cart content with a sign-in prompt ── */
 function checkCartAuth() {
     if (isLoggedIn()) return;
-    var wrap = document.querySelector('.px-4.pb-5 .row');
+    var wrap = document.getElementById('cart-main');
     if (!wrap) return;
     wrap.innerHTML = [
-        '<div class="col-12 text-center py-5 my-3">',
-        '  <div style="font-size:3.5rem;line-height:1">🔐</div>',
-        '  <h4 class="mt-4 mb-2 fw-semibold" style="color:var(--amber-deep)">Sign in to view your cart</h4>',
-        '  <p class="text-muted small mb-4">Your saved items and orders are waiting for you.</p>',
-        '  <div class="d-flex gap-3 justify-content-center flex-wrap">',
-        '    <a href="login.html?return=cart.html" class="btn btn-selwa px-5 py-2">Sign in</a>',
-        '    <a href="signup.html?return=cart.html" class="btn btn-selwa-outline px-5 py-2">Create account</a>',
+        '<div style="grid-column:1/-1;text-align:center;padding:64px 24px">',
+        '  <i class="bi bi-lock" style="font-size:3rem;color:var(--text-faint)"></i>',
+        '  <h3 style="margin-top:16px;margin-bottom:8px">Sign in to view your cart</h3>',
+        '  <p style="color:var(--text-muted);margin-bottom:24px">Your saved items and orders are waiting for you.</p>',
+        '  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">',
+        '    <a href="login.html?return=cart.html" class="s-btn s-btn--gold">Sign in</a>',
+        '    <a href="signup.html?return=cart.html" class="s-btn s-btn--outline-dark">Create account</a>',
         '  </div>',
-        '  <div class="mt-4"><a href="products.html" class="small" style="color:var(--amber-dark)">Continue browsing</a></div>',
+        '  <div style="margin-top:20px"><a href="products.html" style="font-size:.875rem;color:var(--gold)">Continue browsing</a></div>',
         '</div>'
     ].join('');
-    // Hide coupon and suggestions sections
-    document.querySelectorAll('.px-4.pb-5').forEach(function(el, i) {
-        if (i > 0) el.style.display = 'none';
-    });
 }
 
 /* ── recalculate()

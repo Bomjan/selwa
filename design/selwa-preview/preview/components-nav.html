@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'DM Sans', sans-serif; background: #F4EDE0; }
+
+.label {
+  font-size: .6rem; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: #B8A080;
+  padding: 16px 48px 6px;
+}
+
+/* ── Desktop ── */
+.s-nav {
+  background: rgba(250,247,242,.97);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #E2D8C8;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+}
+.s-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.55rem; font-weight: 700;
+  color: #1C1208; flex-shrink: 0;
+  margin-right: 36px; text-decoration: none;
+  letter-spacing: -.01em;
+}
+.s-search {
+  display: flex; align-items: center;
+  background: #F4EDE0; border: 1.5px solid #E2D8C8;
+  border-radius: 9999px; overflow: hidden;
+  flex: 1; max-width: 300px;
+  transition: border-color .2s, background .2s;
+}
+.s-search:focus-within { border-color: #B8701A; background: #fff; }
+.s-search input {
+  flex: 1; border: none; background: none;
+  padding: 8px 16px; font-size: .875rem;
+  color: #2C1A06; outline: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.s-search input::placeholder { color: #B8A080; }
+.s-search button {
+  background: none; border: none; color: #8B6040;
+  padding: 8px 14px; display: flex; align-items: center;
+  cursor: pointer; transition: color .2s;
+}
+.s-search button:hover { color: #B8701A; }
+
+.nav-links {
+  display: flex; gap: 2px; align-items: center;
+  margin-left: auto; margin-right: 16px;
+}
+.nav-link {
+  padding: 7px 14px; font-size: .875rem; font-weight: 500;
+  color: #5C3A10; border-radius: 6px;
+  text-decoration: none; transition: all .2s; white-space: nowrap;
+}
+.nav-link:hover { color: #B8701A; background: #FAF1E2; }
+.nav-link.active { color: #B8701A; font-weight: 600; }
+
+.nav-end { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.user-chip {
+  font-size: .82rem; font-weight: 600; color: #B8701A;
+  display: flex; align-items: center; gap: 5px; white-space: nowrap;
+}
+.cart-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #B8701A; color: #fff;
+  padding: 8px 20px; border-radius: 9999px;
+  font-size: .82rem; font-weight: 600;
+  border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none; white-space: nowrap;
+  transition: background .2s, transform .15s;
+}
+.cart-btn:hover { background: #9A5C12; transform: translateY(-1px); }
+.cart-count {
+  background: rgba(255,255,255,.22); border-radius: 9999px;
+  padding: 1px 7px; font-size: .72rem; min-width: 20px; text-align: center;
+}
+
+/* ── Mobile ── */
+.s-nav-mobile {
+  background: rgba(250,247,242,.97);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #E2D8C8;
+  padding: 0 20px;
+}
+.mobile-top {
+  height: 56px; display: flex;
+  align-items: center; justify-content: space-between;
+}
+.mobile-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700;
+  color: #1C1208; letter-spacing: -.01em;
+}
+.mobile-icons { display: flex; gap: 4px; align-items: center; }
+.mobile-icon-btn {
+  width: 36px; height: 36px; display: flex; align-items: center;
+  justify-content: center; border: none; background: none;
+  color: #5C3A10; font-size: 1rem; cursor: pointer;
+  border-radius: 8px; transition: background .2s, color .2s;
+}
+.mobile-icon-btn:hover { background: #FAF1E2; color: #B8701A; }
+.mobile-search {
+  display: flex; align-items: center;
+  background: #F4EDE0; border: 1.5px solid #E2D8C8;
+  border-radius: 9999px; overflow: hidden;
+  margin-bottom: 12px;
+}
+.mobile-search input {
+  flex: 1; border: none; background: none;
+  padding: 9px 16px; font-size: .875rem;
+  color: #2C1A06; outline: none; font-family: 'DM Sans', sans-serif;
+}
+.mobile-search input::placeholder { color: #B8A080; }
+.mobile-search button {
+  background: none; border: none; color: #8B6040;
+  padding: 9px 14px; display: flex; align-items: center;
+}
+.mobile-links {
+  display: flex; border-top: 1px solid #E2D8C8;
+  padding: 10px 0;
+}
+.mobile-link {
+  flex: 1; text-align: center; padding: 9px 4px;
+  font-size: .875rem; font-weight: 500; color: #5C3A10;
+  border-radius: 8px; transition: all .2s;
+}
+.mobile-link.active { color: #B8701A; font-weight: 600; background: #FAF1E2; }
+
+.label { font-size:.6rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#B8A080; padding:20px 48px 6px; display:block; }
+</style>
+</head>
+<body>
+
+<span class="label">Desktop — 1280px</span>
+<nav class="s-nav">
+  <a class="s-logo" href="#">Selwa</a>
+  <div class="s-search">
+    <input type="text" placeholder="Search products…">
+    <button><i class="bi bi-search"></i></button>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link active" href="#">Home</a>
+    <a class="nav-link" href="#">Products</a>
+    <a class="nav-link" href="#">Artisans</a>
+    <a class="nav-link" href="#">About</a>
+  </div>
+  <div class="nav-end">
+    <span class="user-chip"><i class="bi bi-person-circle"></i> Tashi</span>
+    <a class="cart-btn" href="#">
+      <i class="bi bi-bag"></i> Cart <span class="cart-count">3</span>
+    </a>
+  </div>
+</nav>
+
+<span class="label" style="padding-left:20px">Mobile — 390px</span>
+<div style="max-width:390px; margin:0 20px;">
+  <div class="s-nav-mobile">
+    <div class="mobile-top">
+      <span class="mobile-logo">Selwa</span>
+      <div class="mobile-icons">
+        <button class="mobile-icon-btn"><i class="bi bi-search"></i></button>
+        <button class="mobile-icon-btn" style="position:relative">
+          <i class="bi bi-bag"></i>
+          <span style="position:absolute;top:4px;right:4px;width:8px;height:8px;background:#B8701A;border-radius:50%;border:2px solid #FAF7F2"></span>
+        </button>
+        <button class="mobile-icon-btn"><i class="bi bi-list" style="font-size:1.2rem"></i></button>
+      </div>
+    </div>
+    <div class="mobile-search">
+      <input type="text" placeholder="Search products…">
+      <button><i class="bi bi-search"></i></button>
+    </div>
+    <div class="mobile-links">
+      <span class="mobile-link active">Home</span>
+      <span class="mobile-link">Products</span>
+      <span class="mobile-link">Artisans</span>
+      <span class="mobile-link">About</span>
+    </div>
+  </div>
+</div>
+
+<div style="height:24px"></div>
+</body>
+</html>
