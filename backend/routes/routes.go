@@ -3,6 +3,7 @@ package routes
 import (
 	"log"
 	"net/http"
+	"os"
 	"selwa/handler"
 
 	"github.com/gorilla/mux"
@@ -19,6 +20,11 @@ func InitializeRoutes() {
 
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("../frontend")))
 
-	log.Println("server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("server running on http://localhost:%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }

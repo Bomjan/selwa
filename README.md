@@ -29,11 +29,12 @@ Artisans and product data are stored in a PostgreSQL database served through a G
    - [Login flow](#login-flow)
    - [Add to cart flow](#add-to-cart-flow)
    - [Checkout flow](#checkout-flow)
-8. [How to Run](#how-to-run)
-9. [Dependencies](#dependencies)
-10. [What Is Working](#what-is-working)
-11. [What Is NOT Working](#what-is-not-working)
-12. [Security notes](#security-notes)
+8. [How to Run locally](#how-to-run-locally)
+9. [Deploying to Render](#deploying-to-render)
+10. [Dependencies](#dependencies)
+11. [What Is Working](#what-is-working)
+12. [What Is NOT Working](#what-is-not-working)
+13. [Security notes](#security-notes)
 
 ---
 
@@ -710,7 +711,7 @@ Note: no order is saved to the database. This is a known limitation (see below).
 
 ---
 
-## How to Run
+## How to Run locally
 
 ### Prerequisites
 
@@ -724,16 +725,19 @@ Note: no order is saved to the database. This is a known limitation (see below).
 # 1. Create the database (only needed once)
 createdb selwa
 
-# 2. Apply the schema and seed data
+# 2. Create the tables (safe to re-run — uses IF NOT EXISTS)
 psql -d selwa -f backend/schema.sql
 
-# 3. Start the server
+# 3. Insert demo products and artisans (only run once, or to reset data)
+psql -d selwa -f backend/seed.sql
+
+# 4. Start the server
 cd backend
 go run main.go
 ```
 
-The server listens on **http://localhost:8080** and also serves the frontend
-directory, so opening that URL in a browser loads the home page directly.
+The server listens on **http://localhost:8080** and serves the `frontend/` directory
+as static files — no separate dev server needed.
 
 #### Live reload (optional)
 
@@ -744,15 +748,117 @@ cd backend
 air
 ```
 
-`air` watches for file changes and restarts the server automatically.
-
 #### Custom database URL
-
-If your Postgres setup is different, set the environment variable before running:
 
 ```bash
 DATABASE_URL="postgres://user:password@localhost/selwa?sslmode=disable" go run main.go
 ```
+
+---
+
+## Deploying to Render
+
+The repo contains a `render.yaml` Blueprint at the root. Render reads this file and
+creates everything automatically.
+
+### What render.yaml defines
+
+```yaml
+databases:
+  - name: selwa-db       # free-tier managed PostgreSQL
+    databaseName: selwa
+    user: selwa
+
+services:
+  - type: web
+    name: selwa
+    runtime: go
+    rootDir: backend     # commands run from the backend/ folder
+    buildCommand: go build -o ./selwa-server .
+    startCommand: ./selwa-server
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: selwa-db
+          property: connectionString  # auto-wired from the DB above
+```
+
+Key points:
+- `rootDir: backend` — Render runs build and start commands from the `backend/`
+  directory, so the compiled binary's working directory is `backend/`. This means
+  `../frontend` (the static file path in `routes.go`) still resolves correctly to the
+  `frontend/` folder at the repo root.
+- `DATABASE_URL` is automatically set by Render from the managed database — no
+  manual copy-pasting of credentials needed.
+- `PORT` is automatically set by Render (to 10000). The server reads it with
+  `os.Getenv("PORT")` and falls back to `8080` for local development.
+- `/api/health` is used by Render to check that the service started successfully.
+
+### Step-by-step deployment
+
+**1. Push the code to GitHub**
+
+Make sure all changes are committed and pushed to your GitHub repository.
+
+**2. Create a new Render account (or log in)**
+
+Go to [render.com](https://render.com) and sign in with GitHub.
+
+**3. Create resources from the Blueprint**
+
+- In the Render dashboard click **New → Blueprint**
+- Connect your GitHub repository
+- Render detects `render.yaml` and shows you a preview of what will be created:
+  one Web Service + one PostgreSQL database
+- Click **Apply** — Render provisions the database and deploys the backend
+
+**4. Run the schema and seed data (one time)**
+
+After the first deploy, the database tables do not exist yet. You need to run the SQL files once.
+
+Open the Render dashboard → your **selwa-db** database → **Connect** tab.
+Copy the **PSQL Command** (it looks like `psql postgres://selwa:...@...`).
+
+Run it in your terminal, then apply the files:
+
+```bash
+# Paste the PSQL command from Render here to connect:
+psql postgres://selwa:<password>@<host>/selwa
+
+# Once inside the psql shell, run:
+\i backend/schema.sql
+\i backend/seed.sql
+\q
+```
+
+Or run both files directly without opening the shell:
+
+```bash
+psql "postgres://selwa:<password>@<host>/selwa" -f backend/schema.sql
+psql "postgres://selwa:<password>@<host>/selwa" -f backend/seed.sql
+```
+
+**5. Your app is live**
+
+Render gives the web service a URL like `https://selwa.onrender.com`.
+Opening it in a browser loads the home page.
+
+### Subsequent deploys
+
+Every `git push` to the connected branch triggers an automatic redeploy.
+You do **not** need to re-run `schema.sql` or `seed.sql` again — the tables and
+data already exist in the managed database.
+
+### Environment variables summary
+
+| Variable       | Where it comes from             | Used for                          |
+|----------------|---------------------------------|-----------------------------------|
+| `DATABASE_URL` | Auto-set by Render from the DB  | PostgreSQL connection string      |
+| `PORT`         | Auto-set by Render (e.g. 10000) | Port the HTTP server binds to     |
+
+Both variables have local fallbacks in the code so `go run main.go` still works
+without setting anything.
 
 ---
 
