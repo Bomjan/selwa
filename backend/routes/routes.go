@@ -4,30 +4,21 @@ import (
 	"log"
 	"net/http"
 	"selwa/handler"
+
+	"github.com/gorilla/mux"
 )
 
-// only routes to h if the HTTP method matches; otherwise 405
-func only(method string, h http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != method {
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-		h(w, r)
-	}
-}
-
 func InitializeRoutes() {
-	mux := http.NewServeMux()
+	r := mux.NewRouter()
 
-	mux.HandleFunc("/api/health", only(http.MethodGet, handler.HealthCheck))
-	mux.HandleFunc("/api/products", only(http.MethodGet, handler.GetProducts))
-	mux.HandleFunc("/api/products/", only(http.MethodGet, handler.GetProduct))
-	mux.HandleFunc("/api/signup", only(http.MethodPost, handler.Signup))
-	mux.HandleFunc("/api/login", only(http.MethodPost, handler.Login))
+	r.HandleFunc("/api/health", handler.HealthCheck).Methods("GET")
+	r.HandleFunc("/api/products", handler.GetProducts).Methods("GET")
+	r.HandleFunc("/api/products/{id}", handler.GetProduct).Methods("GET")
+	r.HandleFunc("/api/signup", handler.Signup).Methods("POST")
+	r.HandleFunc("/api/login", handler.Login).Methods("POST")
 
-	mux.Handle("/", http.FileServer(http.Dir("../frontend")))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("../frontend")))
 
 	log.Println("server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }

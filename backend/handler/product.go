@@ -5,7 +5,8 @@ import (
 	"selwa/model"
 	"selwa/utils"
 	"strconv"
-	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
@@ -26,14 +27,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {
-	idText := strings.TrimPrefix(r.URL.Path, "/api/products/")
-	idText = strings.TrimSpace(idText)
-	if idText == "" {
-		utils.ResponseWithError(w, http.StatusBadRequest, "Product ID is required")
-		return
-	}
-
-	id, err := strconv.ParseInt(idText, 10, 64)
+	id, err := strconv.ParseInt(mux.Vars(r)["id"], 10, 64)
 	if err != nil {
 		utils.ResponseWithError(w, http.StatusBadRequest, "Invalid product ID")
 		return
@@ -45,7 +39,6 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 			utils.ResponseWithError(w, http.StatusNotFound, "Product not found")
 			return
 		}
-
 		utils.ResponseWithError(w, http.StatusInternalServerError, "Failed to fetch product")
 		return
 	}
