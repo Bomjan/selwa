@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -15,7 +16,7 @@ func Init() {
 		return
 	}
 
-	connStr := os.Getenv("DATABASE_URL")
+	connStr := strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	if connStr == "" {
 		connStr = "postgres://sundrabomjan@/selwa?host=/var/run/postgresql&sslmode=disable"
 	}
