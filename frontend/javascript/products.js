@@ -36,6 +36,13 @@ function applyFilters() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const catParam = params.get('category');
+  if (catParam) {
+    const cb = document.querySelector(`.s-filter-group input[data-category="${catParam}"]`);
+    if (cb) { cb.checked = true; applyFilters(); }
+  }
+
   document.querySelectorAll('.s-filter-group input[type=checkbox]').forEach(cb => {
     cb.addEventListener('change', applyFilters);
   });

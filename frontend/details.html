@@ -26,23 +26,13 @@
         <a class="nav-link" href="about.html">About</a>
       </div>
       <div class="nav-utils">
-        <form class="s-nav-search" action="products.html" method="get">
-          <button type="submit"><i class="bi bi-search"></i></button>
-          <input type="text" placeholder="Search products…" name="q" />
-        </form>
         <span id="nav-auth-item"></span>
         <a href="cart.html" class="s-cart-btn">
           <i class="bi bi-bag"></i><span class="s-cart-label"> Cart</span>
           <span id="cart-count">0</span>
         </a>
       </div>
-      <button
-        class="nav-toggle"
-        onclick="
-          document.getElementById('nav-links').classList.toggle('mobile-open')
-        "
-        aria-label="Menu"
-      >
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
         <i class="bi bi-list"></i>
       </button>
     </nav>
@@ -131,12 +121,6 @@
           <div class="pd-actions">
             <button class="s-btn s-btn--gold" onclick="addToCart(event)">
               <i class="bi bi-bag"></i> Add to cart
-            </button>
-            <button
-              class="s-btn s-btn--outline-dark"
-              onclick="saveWishlist(event)"
-            >
-              Save to wishlist
             </button>
           </div>
           <div class="pd-info-box">
@@ -440,7 +424,7 @@
             <li><a href="products.html">Products</a></li>
             <li><a href="artisans.html">Artisans</a></li>
             <li><a href="about.html">About us</a></li>
-            <li><a href="getintouch.html">Contact</a></li>
+            <li><a href="about.html#contact">Contact</a></li>
           </ul>
         </div>
         <div class="s-footer__col">
@@ -459,16 +443,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="javascript/global.js"></script>
-    <script src="javascript/details.js"></script>
     <script>
+      function changeQty(delta) {
+        var el = document.getElementById('qty');
+        el.textContent = Math.max(1, parseInt(el.textContent) + delta);
+      }
+
+      function setThumb(el, src) {
+        document.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+        el.classList.add('active');
+        document.getElementById('current-img').src = src;
+      }
+
       function switchTab(el, id) {
-        document
-          .querySelectorAll(".pd-tabs__tab")
-          .forEach((t) => t.classList.remove("active"));
-        el.classList.add("active");
-        ["desc", "spec", "rev"].forEach(function (tid) {
-          document.getElementById("tab-" + tid).style.display =
-            tid === id ? "" : "none";
+        document.querySelectorAll('.pd-tabs__tab').forEach(function(t) { t.classList.remove('active'); });
+        el.classList.add('active');
+        ['desc', 'spec', 'rev'].forEach(function(tid) {
+          document.getElementById('tab-' + tid).style.display = tid === id ? '' : 'none';
         });
       }
     </script>

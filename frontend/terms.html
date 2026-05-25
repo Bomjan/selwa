@@ -245,23 +245,13 @@
         <a class="nav-link" href="about.html">About</a>
       </div>
       <div class="nav-utils">
-        <form class="s-nav-search" action="products.html" method="get">
-          <button type="submit"><i class="bi bi-search"></i></button>
-          <input type="text" placeholder="Search products…" name="q" />
-        </form>
         <span id="nav-auth-item"></span>
         <a href="cart.html" class="s-cart-btn">
           <i class="bi bi-bag"></i><span class="s-cart-label"> Cart</span>
           <span id="cart-count">0</span>
         </a>
       </div>
-      <button
-        class="nav-toggle"
-        onclick="
-          document.getElementById('nav-links').classList.toggle('mobile-open')
-        "
-        aria-label="Menu"
-      >
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
         <i class="bi bi-list"></i>
       </button>
     </nav>
@@ -696,7 +686,7 @@
             <li><a href="products.html">Products</a></li>
             <li><a href="artisans.html">Artisans</a></li>
             <li><a href="about.html">About us</a></li>
-            <li><a href="getintouch.html">Contact</a></li>
+            <li><a href="about.html#contact">Contact</a></li>
           </ul>
         </div>
         <div class="s-footer__col">

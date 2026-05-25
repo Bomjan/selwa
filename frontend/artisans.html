@@ -26,23 +26,13 @@
         <a class="nav-link" href="about.html">About</a>
       </div>
       <div class="nav-utils">
-        <form class="s-nav-search" action="products.html" method="get">
-          <button type="submit"><i class="bi bi-search"></i></button>
-          <input type="text" placeholder="Search products…" name="q" />
-        </form>
         <span id="nav-auth-item"></span>
         <a href="cart.html" class="s-cart-btn">
           <i class="bi bi-bag"></i><span class="s-cart-label"> Cart</span>
           <span id="cart-count">0</span>
         </a>
       </div>
-      <button
-        class="nav-toggle"
-        onclick="
-          document.getElementById('nav-links').classList.toggle('mobile-open')
-        "
-        aria-label="Menu"
-      >
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
         <i class="bi bi-list"></i>
       </button>
     </nav>
@@ -55,54 +45,6 @@
         Each product you buy supports a real craftsperson preserving centuries
         of Bhutanese heritage.
       </p>
-    </div>
-
-    <!-- SEARCH & FILTER BAR -->
-    <div class="artisans-bar">
-      <div class="s-wrap artisans-bar__inner">
-        <div class="artisans-search">
-          <input
-            type="text"
-            id="artisan-search"
-            placeholder="Search artisans or craft type…"
-          />
-          <button
-            class="s-btn s-btn--gold s-btn--sm"
-            onclick="searchArtisans()"
-          >
-            Search
-          </button>
-        </div>
-        <div class="artisans-filters">
-          <button
-            class="filter-btn active"
-            onclick="filterArtisans('all', this)"
-          >
-            All
-          </button>
-          <button class="filter-btn" onclick="filterArtisans('textiles', this)">
-            Textiles
-          </button>
-          <button
-            class="filter-btn"
-            onclick="filterArtisans('woodcraft', this)"
-          >
-            Woodcraft
-          </button>
-          <button
-            class="filter-btn"
-            onclick="filterArtisans('jewellery', this)"
-          >
-            Jewellery
-          </button>
-          <button class="filter-btn" onclick="filterArtisans('pottery', this)">
-            Pottery
-          </button>
-          <button class="filter-btn" onclick="filterArtisans('wellness', this)">
-            Wellness
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- ARTISAN GRID -->
@@ -137,12 +79,6 @@
                 style="flex: 1; justify-content: center"
                 >View products</a
               >
-              <button
-                class="s-btn s-btn--outline-dark s-btn--sm"
-                style="flex: 1"
-              >
-                Follow
-              </button>
             </div>
           </div>
         </div>
@@ -178,12 +114,6 @@
                 style="flex: 1; justify-content: center"
                 >View products</a
               >
-              <button
-                class="s-btn s-btn--outline-dark s-btn--sm"
-                style="flex: 1"
-              >
-                Follow
-              </button>
             </div>
           </div>
         </div>
@@ -224,12 +154,6 @@
                 style="flex: 1; justify-content: center"
                 >View products</a
               >
-              <button
-                class="s-btn s-btn--outline-dark s-btn--sm"
-                style="flex: 1"
-              >
-                Follow
-              </button>
             </div>
           </div>
         </div>
@@ -268,12 +192,6 @@
                 style="flex: 1; justify-content: center"
                 >View products</a
               >
-              <button
-                class="s-btn s-btn--outline-dark s-btn--sm"
-                style="flex: 1"
-              >
-                Follow
-              </button>
             </div>
           </div>
         </div>
@@ -311,12 +229,6 @@
                 style="flex: 1; justify-content: center"
                 >View products</a
               >
-              <button
-                class="s-btn s-btn--outline-dark s-btn--sm"
-                style="flex: 1"
-              >
-                Follow
-              </button>
             </div>
           </div>
         </div>
@@ -354,12 +266,6 @@
                 style="flex: 1; justify-content: center"
                 >View products</a
               >
-              <button
-                class="s-btn s-btn--outline-dark s-btn--sm"
-                style="flex: 1"
-              >
-                Follow
-              </button>
             </div>
           </div>
         </div>
@@ -392,7 +298,6 @@
           logistics — you focus on making.
         </p>
         <div class="join-cta__actions">
-          <a href="getintouch.html" class="s-btn s-btn--gold">Apply to join</a>
           <a href="about.html" class="s-btn s-btn--outline">Learn more</a>
         </div>
       </div>
@@ -414,7 +319,7 @@
             <li><a href="products.html">Products</a></li>
             <li><a href="artisans.html">Artisans</a></li>
             <li><a href="about.html">About us</a></li>
-            <li><a href="getintouch.html">Contact</a></li>
+            <li><a href="about.html">Contact</a></li>
           </ul>
         </div>
         <div class="s-footer__col">
@@ -433,6 +338,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="javascript/global.js"></script>
-    <script src="javascript/artisans.js"></script>
   </body>
 </html>
