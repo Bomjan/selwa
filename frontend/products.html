@@ -45,9 +45,12 @@
 
     <!-- PRODUCTS LAYOUT -->
     <div class="s-wrap">
+      <button class="mobile-filter-btn" id="filter-toggle-btn" aria-expanded="false" aria-controls="filter-sidebar">
+        <i class="bi bi-funnel"></i> Filters
+      </button>
       <div class="products-layout">
         <!-- SIDEBAR FILTERS -->
-        <aside class="s-filters">
+        <aside class="s-filters" id="filter-sidebar">
           <div class="s-filter-group">
             <div class="s-filter-group__title">Category</div>
             <label class="s-filter-opt"><input type="checkbox" data-category="crafts" /> Crafts</label>

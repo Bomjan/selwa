@@ -36,8 +36,18 @@ function applyFilters() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Wire up category checkboxes with data-category attributes
   document.querySelectorAll('.s-filter-group input[type=checkbox]').forEach(cb => {
     cb.addEventListener('change', applyFilters);
   });
+
+  const filterBtn = document.getElementById('filter-toggle-btn');
+  const filterSidebar = document.getElementById('filter-sidebar');
+  if (filterBtn && filterSidebar) {
+    filterBtn.addEventListener('click', () => {
+      const open = filterSidebar.classList.toggle('mobile-open');
+      filterBtn.classList.toggle('active', open);
+      filterBtn.setAttribute('aria-expanded', open);
+      filterBtn.querySelector('i').className = open ? 'bi bi-funnel-fill' : 'bi bi-funnel';
+    });
+  }
 });
