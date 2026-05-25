@@ -122,11 +122,9 @@
 
 /* ── Summary Card ── */
 .summary-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  border-left: 2px solid var(--gold);
-  padding: 20px;
+  background: var(--bg-alt);
+  border: none;
+  padding: 24px;
   position: sticky;
   top: calc(var(--nav-h) + 12px);
 }
@@ -204,6 +202,31 @@
 .cart-continue { margin-top: 12px; }
 
 /* ── Mobile ── */
+@media (max-width: 768px) {
+  /* Summary moves below items; sticky checkout strip replaces it */
+  .summary-card { position: static; }
+
+  /* Sticky checkout strip at bottom (above dock) */
+  .cart-actions {
+    position: fixed;
+    bottom: 62px;
+    left: 0;
+    right: 0;
+    padding: 12px 18px;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    z-index: 800;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 0;
+  }
+  .cart-actions .s-btn { flex: 1; justify-content: center; }
+  /* Add bottom padding so cart content clears strip */
+  .cart-layout { padding-bottom: 24px; }
+}
+
 @media (max-width: 480px) {
   .cart-item { flex-wrap: wrap; }
   .cart-item__img { width: 62px; height: 62px; }
@@ -217,7 +240,4 @@
     border-top: 1px solid var(--border);
   }
   .cart-item__price-val { margin-bottom: 0; }
-  .summary-card { position: static; }
-  .cart-actions { flex-direction: column; }
-  .cart-actions .s-btn { width: 100%; justify-content: center; }
 }

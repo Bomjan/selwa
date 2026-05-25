@@ -14,7 +14,7 @@
     <nav class="s-nav">
       <a class="s-logo" href="index.html">Selwa</a>
       <div class="nav-links" id="nav-links">
-        <a class="nav-link" href="index.html">Home</a>
+
         <a class="nav-link active" href="products.html">Products</a>
         <a class="nav-link" href="artisans.html">Artisans</a>
         <a class="nav-link" href="about.html">About</a>
@@ -35,133 +35,125 @@
     <div class="products-header">
       <div class="s-wrap">
         <h1>All products</h1>
-        <p>Discover authentic Bhutanese crafts, wellness products, and more.</p>
+        <p>Authentic Bhutanese crafts, wellness, and more — made by hand.</p>
       </div>
     </div>
 
-    <!-- PRODUCTS LAYOUT -->
-    <div class="s-wrap">
-      <button class="mobile-filter-btn" id="filter-toggle-btn" aria-expanded="false" aria-controls="filter-sidebar">
-        <i class="bi bi-funnel"></i> Filters
-      </button>
-      <div class="products-layout">
-        <!-- SIDEBAR FILTERS -->
-        <aside class="s-filters" id="filter-sidebar">
-          <div class="s-filter-group">
-            <div class="s-filter-group__title">Category</div>
-            <label class="s-filter-opt"><input type="checkbox" data-category="crafts" /> Crafts</label>
-            <label class="s-filter-opt"><input type="checkbox" data-category="woodcraft" /> Woodcraft</label>
-            <label class="s-filter-opt"><input type="checkbox" data-category="pottery" /> Pottery</label>
-            <label class="s-filter-opt"><input type="checkbox" data-category="wellness" /> Wellness</label>
-            <label class="s-filter-opt"><input type="checkbox" data-category="food" /> Food</label>
-            <label class="s-filter-opt"><input type="checkbox" data-category="souvenirs" /> Souvenirs</label>
-          </div>
-        </aside>
+    <!-- FILTER BAR -->
+    <div class="pf-bar s-wrap">
+      <div class="pf-tags" id="pf-tags" role="tablist" aria-label="Filter by category">
+        <button class="pf-tag active" data-category="" role="tab" aria-selected="true">All</button>
+        <button class="pf-tag" data-category="crafts" role="tab" aria-selected="false">Crafts</button>
+        <button class="pf-tag" data-category="woodcraft" role="tab" aria-selected="false">Woodcraft</button>
+        <button class="pf-tag" data-category="pottery" role="tab" aria-selected="false">Pottery</button>
+        <button class="pf-tag" data-category="wellness" role="tab" aria-selected="false">Wellness</button>
+        <button class="pf-tag" data-category="food" role="tab" aria-selected="false">Food &amp; Honey</button>
+        <button class="pf-tag" data-category="souvenirs" role="tab" aria-selected="false">Souvenirs</button>
+        <div class="pf-indicator" id="pf-indicator" aria-hidden="true"></div>
+      </div>
+      <div class="pf-meta">
+        <span class="pf-count" id="product-count"></span>
+        <select class="pf-sort" id="pf-sort" aria-label="Sort products">
+          <option value="">Featured</option>
+          <option value="asc">Price ↑</option>
+          <option value="desc">Price ↓</option>
+        </select>
+      </div>
+    </div>
 
-        <!-- PRODUCT GRID -->
-        <div>
-          <div class="products-toolbar">
-            <span class="products-count" id="product-count">Showing 6 products</span>
-            <select class="products-sort" onchange="handleSort(this.value)">
-              <option>Sort: Featured</option>
-              <option>Price: Low to high</option>
-              <option>Price: High to low</option>
-            </select>
+    <!-- PRODUCT GRID -->
+    <div class="s-wrap pf-grid-wrap">
+      <div class="p-grid" id="product-grid">
+        <a href="details.html" class="p-card product-item" data-category="crafts">
+          <div class="p-card__img">
+            <img src="images/bangchung.avif" alt="Handwoven Bangchung" />
+            <span class="p-card__cat">Crafts</span>
           </div>
+          <div class="p-card__body">
+            <div class="p-card__name">Handwoven Bangchung</div>
+            <div class="p-card__by">Karma Wangmo · Bumthang</div>
+            <div class="p-card__foot">
+              <span class="p-card__price">Nu. 850</span>
+              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+            </div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card product-item" data-category="woodcraft">
+          <div class="p-card__img">
+            <img src="images/palang.avif" alt="Traditional Wooden Palang" />
+            <span class="p-card__cat">Woodcraft</span>
+          </div>
+          <div class="p-card__body">
+            <div class="p-card__name">Traditional Wooden Palang</div>
+            <div class="p-card__by">Tashi Dorji · Trashigang</div>
+            <div class="p-card__foot">
+              <span class="p-card__price">Nu. 2,800</span>
+              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+            </div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card product-item" data-category="souvenirs">
+          <div class="p-card__img">
+            <img src="images/tsholam-keychain.avif" alt="Tsholam Keychain" />
+            <span class="p-card__cat">Souvenirs</span>
+          </div>
+          <div class="p-card__body">
+            <div class="p-card__name">Tsholam Keychain</div>
+            <div class="p-card__by">Pema Lhamo · Thimphu</div>
+            <div class="p-card__foot">
+              <span class="p-card__price">Nu. 450</span>
+              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+            </div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card product-item" data-category="pottery">
+          <div class="p-card__img">
+            <img src="images/tea-cup.avif" alt="Artisan Tea Cup" />
+            <span class="p-card__cat">Pottery</span>
+          </div>
+          <div class="p-card__body">
+            <div class="p-card__name">Artisan Tea Cup</div>
+            <div class="p-card__by">Sonam Choden · Paro</div>
+            <div class="p-card__foot">
+              <span class="p-card__price">Nu. 650</span>
+              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+            </div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card product-item" data-category="wellness">
+          <div class="p-card__img">
+            <img src="images/menjong-sorig.avif" alt="Menjong Sorig Cream" />
+            <span class="p-card__cat">Wellness</span>
+          </div>
+          <div class="p-card__body">
+            <div class="p-card__name">Menjong Sorig Cream</div>
+            <div class="p-card__by">Kinley Pem · Thimphu</div>
+            <div class="p-card__foot">
+              <span class="p-card__price">Nu. 850</span>
+              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+            </div>
+          </div>
+        </a>
+        <a href="details.html" class="p-card product-item" data-category="food">
+          <div class="p-card__img">
+            <img src="images/high-altitude-honey.avif" alt="High Altitude Honey" />
+            <span class="p-card__cat">Food</span>
+          </div>
+          <div class="p-card__body">
+            <div class="p-card__name">High Altitude Honey</div>
+            <div class="p-card__by">Dorji Wangchuk · Bumthang</div>
+            <div class="p-card__foot">
+              <span class="p-card__price">Nu. 950</span>
+              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+            </div>
+          </div>
+        </a>
+      </div>
 
-          <div class="p-grid" id="product-grid">
-            <a href="details.html" class="p-card product-item" data-category="crafts">
-              <div class="p-card__img">
-                <img src="images/bangchung.avif" alt="Handwoven Bangchung" />
-                <span class="p-card__cat">Crafts</span>
-              </div>
-              <div class="p-card__body">
-                <div class="p-card__name">Handwoven Bangchung</div>
-                <div class="p-card__by">Karma Wangmo · Bumthang</div>
-                <div class="p-card__stars">★★★★★ (42)</div>
-                <div class="p-card__foot">
-                  <span class="p-card__price">Nu. 850</span>
-                  <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-                </div>
-              </div>
-            </a>
-            <a href="details.html" class="p-card product-item" data-category="woodcraft">
-              <div class="p-card__img">
-                <img src="images/palang.avif" alt="Traditional Wooden Palang" />
-                <span class="p-card__cat">Woodcraft</span>
-              </div>
-              <div class="p-card__body">
-                <div class="p-card__name">Traditional Wooden Palang</div>
-                <div class="p-card__by">Tashi Dorji · Trashigang</div>
-                <div class="p-card__stars">★★★★☆ (18)</div>
-                <div class="p-card__foot">
-                  <span class="p-card__price">Nu. 2,800</span>
-                  <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-                </div>
-              </div>
-            </a>
-            <a href="details.html" class="p-card product-item" data-category="souvenirs">
-              <div class="p-card__img">
-                <img src="images/tsholam-keychain.avif" alt="Tsholam Keychain" />
-                <span class="p-card__cat">Souvenirs</span>
-              </div>
-              <div class="p-card__body">
-                <div class="p-card__name">Tsholam Keychain</div>
-                <div class="p-card__by">Pema Lhamo · Thimphu</div>
-                <div class="p-card__stars">★★★★★ (31)</div>
-                <div class="p-card__foot">
-                  <span class="p-card__price">Nu. 450</span>
-                  <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-                </div>
-              </div>
-            </a>
-            <a href="details.html" class="p-card product-item" data-category="pottery">
-              <div class="p-card__img">
-                <img src="images/tea-cup.avif" alt="Artisan Tea Cup" />
-                <span class="p-card__cat">Pottery</span>
-              </div>
-              <div class="p-card__body">
-                <div class="p-card__name">Artisan Tea Cup</div>
-                <div class="p-card__by">Sonam Choden · Paro</div>
-                <div class="p-card__stars">★★★★☆ (12)</div>
-                <div class="p-card__foot">
-                  <span class="p-card__price">Nu. 650</span>
-                  <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-                </div>
-              </div>
-            </a>
-            <a href="details.html" class="p-card product-item" data-category="wellness">
-              <div class="p-card__img">
-                <img src="images/menjong-sorig.avif" alt="Menjong Sorig Incense" />
-                <span class="p-card__cat">Wellness</span>
-              </div>
-              <div class="p-card__body">
-                <div class="p-card__name">Menjong Sorig Cream</div>
-                <div class="p-card__by">Kinley Pem · Thimphu</div>
-                <div class="p-card__stars">★★★★☆ (9)</div>
-                <div class="p-card__foot">
-                  <span class="p-card__price">Nu. 850</span>
-                  <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-                </div>
-              </div>
-            </a>
-            <a href="details.html" class="p-card product-item" data-category="food">
-              <div class="p-card__img">
-                <img src="images/high-altitude-honey.avif" alt="High Altitude Honey" />
-                <span class="p-card__cat">Food</span>
-              </div>
-              <div class="p-card__body">
-                <div class="p-card__name">High Altitude Honey</div>
-                <div class="p-card__by">Dorji Wangchuk · Bumthang</div>
-                <div class="p-card__stars">★★★★★ (24)</div>
-                <div class="p-card__foot">
-                  <span class="p-card__price">Nu. 950</span>
-                  <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
+      <!-- Empty state -->
+      <div id="pf-empty" class="pf-empty" style="display:none">
+        <div class="pf-empty__icon"><i class="bi bi-funnel"></i></div>
+        <div class="pf-empty__text">No products in this category yet.</div>
       </div>
     </div>
 

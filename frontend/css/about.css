@@ -188,11 +188,10 @@
   justify-items: center;
 }
 @media (max-width: 768px) {
-  .about-team__grid {
-    grid-template-columns: 1fr;
-    max-width: 320px;
-    margin: 0 auto;
-  }
+  .about-team__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+@media (max-width: 400px) {
+  .about-team__grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
 }
 
 .team-card {
@@ -209,7 +208,6 @@
 .team-card__avatar {
   width: 58px;
   height: 58px;
-  border-radius: 50%;
   background: var(--gold);
   color: #fff;
   font-family: 'Playfair Display', serif;

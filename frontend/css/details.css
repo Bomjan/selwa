@@ -24,7 +24,13 @@
   padding-bottom: 56px;
 }
 @media (max-width: 768px) {
-  .pd-layout { grid-template-columns: 1fr; gap: 24px; }
+  .pd-layout { grid-template-columns: 1fr; gap: 24px; padding-bottom: 32px; }
+  .pd-gallery { position: static; }
+  .pd-main-img { aspect-ratio: 3/2; }
+  .pd-price { font-size: 1.6rem; }
+  .pd-tabs { margin-top: 28px; }
+  .pd-tabs__list { gap: 14px; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+  .pd-tabs__list::-webkit-scrollbar { display: none; }
 }
 
 /* ── Gallery ── */
@@ -216,7 +222,6 @@
 .pd-artisan-avatar {
   width: 42px;
   height: 42px;
-  border-radius: 50%;
   background: var(--gold);
   color: #fff;
   font-family: 'Playfair Display', serif;
@@ -278,7 +283,6 @@
 .pd-review__avatar {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
   background: var(--bg-alt);
   color: var(--gold-deep);
   font-weight: 600;

@@ -3,8 +3,6 @@ function showError(msg) {
   if (!el) {
     el = document.createElement('div');
     el.id = 'auth-error';
-    el.style.cssText =
-      'color:#c0392b;font-size:0.875rem;margin-bottom:14px;padding:10px 14px;background:#fdf0f0;border:1px solid #f5c6c6;border-radius:6px;';
     const form = document.querySelector('form');
     form.insertBefore(el, form.firstChild);
   }

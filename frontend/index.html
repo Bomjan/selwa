@@ -20,7 +20,7 @@
     <nav class="s-nav">
       <a class="s-logo" href="index.html">Selwa</a>
       <div class="nav-links" id="nav-links">
-        <a class="nav-link active" href="index.html">Home</a>
+
         <a class="nav-link" href="products.html">Products</a>
         <a class="nav-link" href="artisans.html">Artisans</a>
         <a class="nav-link" href="about.html">About</a>
@@ -43,6 +43,7 @@
 
     <!-- HERO -->
     <div class="s-hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
       <img
         class="s-hero__bg"
         src="images/hero.webp"
@@ -65,26 +66,6 @@
       </div>
     </div>
 
-    <!-- TRUST BAR -->
-    <div class="s-trust">
-      <div class="s-trust-inner">
-        <div>
-          <i class="bi bi-people s-trust__icon"></i>
-          <span class="s-trust__num">240+</span>
-          <span class="s-trust__label">Artisans</span>
-        </div>
-        <div>
-          <i class="bi bi-box-seam s-trust__icon"></i>
-          <span class="s-trust__num">1,800+</span>
-          <span class="s-trust__label">Products</span>
-        </div>
-        <div>
-          <i class="bi bi-geo-alt s-trust__icon"></i>
-          <span class="s-trust__num">42</span>
-          <span class="s-trust__label">Districts</span>
-        </div>
-      </div>
-    </div>
 
     <!-- CATEGORIES + FEATURED PRODUCTS -->
     <div class="s-section s-wrap">
@@ -120,7 +101,6 @@
           <div class="p-card__body">
             <div class="p-card__name">Handwoven Bangchung</div>
             <div class="p-card__by">By Karma Wangmo, Bumthang</div>
-            <div class="p-card__stars">★★★★★</div>
             <div class="p-card__foot">
               <span class="p-card__price">Nu. 850</span>
               <button class="s-btn--add" onclick="addToCart(event)">Add</button>
@@ -135,7 +115,6 @@
           <div class="p-card__body">
             <div class="p-card__name">Traditional Wooden Palang</div>
             <div class="p-card__by">By Tashi Dorji, Trashigang</div>
-            <div class="p-card__stars">★★★★☆</div>
             <div class="p-card__foot">
               <span class="p-card__price">Nu. 2,800</span>
               <button class="s-btn--add" onclick="addToCart(event)">Add</button>
@@ -150,7 +129,6 @@
           <div class="p-card__body">
             <div class="p-card__name">Tsholam Keychain</div>
             <div class="p-card__by">By Pema Lhamo, Thimphu</div>
-            <div class="p-card__stars">★★★★★</div>
             <div class="p-card__foot">
               <span class="p-card__price">Nu. 450</span>
               <button class="s-btn--add" onclick="addToCart(event)">Add</button>
@@ -161,7 +139,7 @@
     </div>
 
     <!-- FEATURED ARTISANS -->
-    <div class="s-section s-section--alt">
+    <div class="s-section">
       <div class="s-wrap">
         <span class="s-eyebrow">Makers</span>
         <div class="s-hd-row">
@@ -172,10 +150,6 @@
         </div>
         <div class="p-grid">
           <div class="a-card">
-            <div
-              class="a-card__banner"
-              style="background: linear-gradient(135deg, #3d2008, #b8701a)"
-            ></div>
             <div class="a-card__body">
               <div class="a-card__avatar">KW</div>
               <div class="a-card__name">Karma Wangmo</div>
@@ -184,7 +158,7 @@
                 <i class="bi bi-geo-alt"></i> Bumthang, Bhutan
               </div>
               <div class="a-card__bio">
-                Karma has been weaving Kishuthara for over 20 years, preserving
+                Karma weaves Kishuthara silk, preserving
                 the intricate diamond patterns passed down through generations.
               </div>
               <div class="a-tags">
@@ -195,12 +169,8 @@
             </div>
           </div>
           <div class="a-card">
-            <div
-              class="a-card__banner"
-              style="background: linear-gradient(135deg, #1c1208, #5c3a10)"
-            ></div>
             <div class="a-card__body">
-              <div class="a-card__avatar" style="background: var(--bark)">
+              <div class="a-card__avatar" style="background: var(--gold)">
                 TD
               </div>
               <div class="a-card__name">Tashi Dorji</div>
@@ -221,12 +191,8 @@
             </div>
           </div>
           <div class="a-card">
-            <div
-              class="a-card__banner"
-              style="background: linear-gradient(135deg, #5c3a10, #d4920a)"
-            ></div>
             <div class="a-card__body">
-              <div class="a-card__avatar" style="background: var(--gold-warm)">
+              <div class="a-card__avatar" style="background: var(--gold)">
                 PL
               </div>
               <div class="a-card__name">Pema Lhamo</div>
@@ -301,5 +267,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="javascript/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="javascript/bhutan.js"></script>
   </body>
 </html>
