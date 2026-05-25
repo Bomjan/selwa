@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   AUTH PAGES — Minimalist v3
+   AUTH PAGES — Warm Craft Editorial v4
 ═══════════════════════════════════════════════ */
 
 .auth-page {
@@ -15,27 +15,43 @@
   align-items: center;
   justify-content: center;
   padding: 56px 40px;
-  width: 360px;
+  width: 380px;
   flex-shrink: 0;
   border-right: 1px solid var(--border-dark);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle warm texture overlay */
+.auth-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(184,112,26,.12) 0%, transparent 65%);
+  pointer-events: none;
 }
 
 .auth-panel__img {
   width: 80%;
   max-width: 240px;
-  border-radius: var(--r);
-  opacity: .75;
-  margin-bottom: 28px;
+  border-radius: var(--r-md);
+  opacity: .78;
+  margin-bottom: 30px;
+  box-shadow: var(--sh-lg);
+  position: relative;
+  z-index: 1;
 }
 
 .auth-panel__logo {
   font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   font-weight: 700;
   color: var(--gold-pale);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   text-align: center;
   letter-spacing: -.01em;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-panel__tagline {
@@ -44,18 +60,22 @@
   letter-spacing: .2em;
   text-transform: uppercase;
   color: var(--on-dark-3);
-  opacity: .6;
-  margin-bottom: 28px;
+  opacity: .65;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-panel__quote {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  font-size: .85rem;
+  font-size: .875rem;
   color: var(--on-dark-3);
-  max-width: 220px;
-  line-height: 1.75;
+  max-width: 230px;
+  line-height: 1.8;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Right Panel (Form) ── */
@@ -64,28 +84,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 40px;
+  padding: 52px 44px;
   background: var(--cream);
   overflow-y: auto;
 }
 
 .auth-form-inner {
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
 }
 
 .auth-title {
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--ink-2);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .auth-subtitle {
   font-size: .875rem;
   color: var(--text-muted);
-  margin-bottom: 24px;
-  line-height: 1.55;
+  margin-bottom: 26px;
+  line-height: 1.6;
 }
 
 /* ── Inputs ── */
@@ -102,7 +122,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .auth-input-icon {
@@ -115,20 +135,24 @@
 
 .auth-input {
   width: 100%;
-  padding: 11px 13px;
-  border: 1px solid var(--border);
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
   border-radius: var(--r);
   font-size: .9rem;
   background: var(--surface);
   color: var(--text-body);
   outline: none;
-  transition: border-color .2s;
+  transition: border-color .2s, box-shadow .2s;
   font-family: 'DM Sans', sans-serif;
+  box-shadow: var(--sh-sm);
 }
-.auth-input.with-icon { padding-left: 37px; }
-.auth-input:focus { border-color: var(--gold); }
+.auth-input.with-icon { padding-left: 38px; }
+.auth-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,112,26,.1);
+}
 .auth-input::placeholder { color: var(--text-faint); }
-.auth-input.is-invalid { border-color: #c0392b; }
+.auth-input.is-invalid { border-color: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,.08); }
 
 /* ── Password Toggle ── */
 .password-toggle {
@@ -147,21 +171,23 @@
 /* ── Submit ── */
 .auth-submit {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   background: var(--gold);
   color: #fff;
   border: 1.5px solid var(--gold);
   border-radius: var(--r);
-  font-size: .9rem;
+  font-size: .92rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background .15s, border-color .15s;
+  transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
   font-family: 'DM Sans', sans-serif;
   margin-bottom: 14px;
 }
 .auth-submit:hover {
   background: var(--gold-deep);
   border-color: var(--gold-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(184,112,26,.28);
 }
 
 /* ── Divider ── */
@@ -169,7 +195,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 20px 0;
+  margin: 22px 0;
   color: var(--text-faint);
   font-size: .72rem;
   text-transform: uppercase;
@@ -186,8 +212,8 @@
 /* ── Social Login ── */
 .btn-google {
   width: 100%;
-  padding: 11px;
-  border: 1px solid var(--border);
+  padding: 12px;
+  border: 1.5px solid var(--border);
   border-radius: var(--r);
   background: var(--surface);
   font-family: 'DM Sans', sans-serif;
@@ -199,14 +225,19 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: border-color .15s, background .15s;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+  box-shadow: var(--sh-sm);
 }
-.btn-google:hover { background: var(--cream-2); border-color: var(--gold); }
+.btn-google:hover {
+  background: var(--cream-2);
+  border-color: var(--gold);
+  box-shadow: var(--sh-md);
+}
 
 /* ── Links ── */
 .auth-switch {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 22px;
   font-size: .85rem;
   color: var(--text-muted);
 }
@@ -244,12 +275,14 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .auth-check input[type="checkbox"] {
   accent-color: var(--gold);
   margin-top: 3px;
   flex-shrink: 0;
+  width: 15px;
+  height: 15px;
 }
 .auth-check label { font-size: .8rem; color: var(--text-muted); line-height: 1.5; }
 .auth-check a { color: var(--gold); }
@@ -263,6 +296,7 @@
     min-height: calc(100vh - var(--nav-h));
   }
 
+  /* Mobile brand mark at top */
   .auth-mobile-logo {
     display: block;
     font-family: 'Playfair Display', serif;
@@ -276,8 +310,9 @@
   .auth-mobile-logo-img {
     display: block;
     width: 100px;
-    border-radius: var(--r);
-    margin: 0 auto 22px;
+    border-radius: var(--r-md);
+    margin: 0 auto 24px;
+    box-shadow: var(--sh-md);
   }
 
   .auth-form-inner { max-width: 100%; }

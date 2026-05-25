@@ -48,12 +48,64 @@ function addToCart(event) {
   }
   saveCart(cart);
 
-  const original = btn.textContent;
-  btn.textContent = '✓';
-  setTimeout(() => (btn.textContent = original), 900);
+  const original = btn.innerHTML;
+  btn.innerHTML = '<i class="bi bi-check"></i>';
+  setTimeout(() => (btn.innerHTML = original), 900);
+}
+
+// ── Mobile nav toggle: hamburger ↔ X icon ──
+
+function initMobileNav() {
+  // Support both id="nav-toggle" and class="nav-toggle" (older pages use inline onclick)
+  const toggle = document.getElementById('nav-toggle') || document.querySelector('.nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  if (!toggle || !navLinks) return;
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = navLinks.classList.toggle('mobile-open');
+    // Switch icon between bi-list and bi-x
+    const icon = toggle.querySelector('i');
+    if (icon) {
+      icon.className = isOpen ? 'bi bi-x' : 'bi bi-list';
+    }
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // Close when clicking a nav link
+  navLinks.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('mobile-open');
+      const icon = toggle.querySelector('i');
+      if (icon) icon.className = 'bi bi-list';
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Close when clicking outside the nav
+  document.addEventListener('click', (e) => {
+    const nav = document.querySelector('.s-nav');
+    if (nav && !nav.contains(e.target) && navLinks.classList.contains('mobile-open')) {
+      navLinks.classList.remove('mobile-open');
+      const icon = toggle.querySelector('i');
+      if (icon) icon.className = 'bi bi-list';
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('mobile-open')) {
+      navLinks.classList.remove('mobile-open');
+      const icon = toggle.querySelector('i');
+      if (icon) icon.className = 'bi bi-list';
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   updateCartCount();
   renderNavAuth();
+  initMobileNav();
 });

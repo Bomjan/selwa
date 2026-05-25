@@ -1,34 +1,37 @@
 /* ═══════════════════════════════════════════════
-   ARTISANS PAGE — Minimalist v3
+   ARTISANS PAGE — Warm Craft Editorial v4
 ═══════════════════════════════════════════════ */
 
 /* ── Hero Banner ── */
 .artisans-hero {
   background: var(--cream-2);
   border-bottom: 1px solid var(--border);
-  padding: 48px 0 36px;
+  padding: 52px 0 40px;
   text-align: center;
 }
 
 .artisans-hero__eyebrow { display: block; margin-bottom: 10px; }
 
 .artisans-hero__heading {
-  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-  margin-bottom: 10px;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  margin-bottom: 12px;
+  font-weight: 700;
 }
 
 .artisans-hero__sub {
-  max-width: 460px;
+  max-width: 480px;
   margin: 0 auto;
   font-size: .9rem;
   color: var(--text-muted);
+  line-height: 1.8;
 }
 
 /* ── Search & Filter Bar ── */
 .artisans-bar {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 13px 0;
+  padding: 14px 0;
+  box-shadow: var(--sh-sm);
 }
 
 .artisans-bar__inner {
@@ -43,23 +46,28 @@
   display: flex;
   gap: 8px;
   align-items: center;
-  max-width: 300px;
+  max-width: 320px;
   width: 100%;
 }
 
 .artisans-search input {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
+  padding: 9px 13px;
+  border: 1.5px solid var(--border);
   border-radius: var(--r);
   font-size: .85rem;
   background: var(--cream-2);
   outline: none;
   font-family: 'DM Sans', sans-serif;
   min-width: 0;
-  transition: border-color .2s;
+  transition: border-color .2s, box-shadow .2s;
+  box-shadow: var(--sh-sm);
 }
-.artisans-search input:focus { border-color: var(--gold); }
+.artisans-search input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,112,26,.08);
+  background: var(--surface);
+}
 
 .artisans-filters { display: flex; gap: 6px; flex-wrap: wrap; }
 
@@ -81,7 +89,7 @@
 .artisans-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 20px;
   padding-top: 36px;
   padding-bottom: 64px;
 }
@@ -91,43 +99,50 @@
 /* ── Artisan Card ── */
 .artisan-card {
   background: var(--surface);
-  border-radius: var(--r);
+  border-radius: var(--r-lg);
   overflow: hidden;
   border: 1px solid var(--border);
-  transition: border-color .2s;
+  transition: border-color .22s, transform .22s, box-shadow .22s;
   cursor: pointer;
+  box-shadow: var(--sh-sm);
 }
-.artisan-card:hover { border-color: var(--gold-pale); }
+.artisan-card:hover {
+  border-color: transparent;
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
 
 .artisan-card__banner {
-  height: 60px;
+  height: 80px;
   background: linear-gradient(135deg, var(--bark), var(--gold));
 }
 
 .artisan-card__body { padding: 0 18px 18px; }
 
 .artisan-card__avatar {
-  width: 54px;
-  height: 54px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: var(--gold);
   color: #fff;
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  font-size: .9rem;
+  font-size: .95rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 3px solid var(--surface);
-  margin-top: -27px;
+  margin-top: -30px;
   margin-bottom: 10px;
+  box-shadow: var(--sh-sm);
 }
 
 .artisan-card__name {
   font-family: 'Playfair Display', serif;
-  font-size: .95rem;
+  font-size: .97rem;
   color: var(--ink-2);
   margin-bottom: 2px;
+  font-weight: 600;
 }
 
 .artisan-card__craft { font-size: .73rem; color: var(--text-muted); margin-bottom: 3px; }
@@ -143,22 +158,22 @@
 .artisan-card__bio {
   font-size: .8rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
   margin-bottom: 10px;
 }
 
 /* ── Tags ── */
-.artisan-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.artisan-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
 
 .artisan-tag {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
+  background: var(--gold-mist);
+  color: var(--gold-deep);
+  border: 1px solid var(--gold-pale);
   border-radius: var(--r-sm);
   font-size: .62rem;
   font-weight: 600;
   letter-spacing: .05em;
-  padding: 3px 8px;
+  padding: 3px 9px;
   text-transform: uppercase;
 }
 
@@ -167,20 +182,22 @@
   padding: var(--sec) 0;
   background: var(--ink-2);
   text-align: center;
-  border-top: 1px solid var(--border-dark);
+  border-top: 3px solid var(--gold);
 }
 
 .join-cta__heading {
   color: var(--on-dark);
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
-  margin-bottom: 10px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin-bottom: 12px;
+  font-weight: 700;
 }
 
 .join-cta__sub {
   color: var(--on-dark-3);
-  max-width: 400px;
-  margin: 0 auto 24px;
+  max-width: 420px;
+  margin: 0 auto 26px;
   font-size: .9rem;
+  line-height: 1.8;
 }
 
 .join-cta__actions {
@@ -191,12 +208,12 @@
 }
 
 /* ── Artisan Profile ── */
-.artisan-profile { padding: 32px 0 64px; }
+.artisan-profile { padding: 36px 0 64px; }
 
 .artisan-profile__header {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 40px;
+  gap: 44px;
   align-items: start;
 }
 @media (max-width: 768px) {
@@ -204,32 +221,34 @@
 }
 
 .artisan-profile__banner {
-  height: 180px;
-  border-radius: var(--r);
+  height: 190px;
+  border-radius: var(--r-lg);
   background: linear-gradient(135deg, var(--bark), var(--gold));
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  box-shadow: var(--sh-md);
 }
 
 .artisan-profile__avatar {
-  width: 110px;
-  height: 110px;
+  width: 116px;
+  height: 116px;
   border-radius: 50%;
   background: var(--gold);
   color: #fff;
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 4px solid var(--surface);
-  margin-top: -55px;
+  margin-top: -58px;
+  box-shadow: var(--sh-md);
 }
 
-.artisan-profile__name  { font-size: 1.7rem; margin-bottom: 4px; }
+.artisan-profile__name  { font-size: 1.75rem; margin-bottom: 5px; font-weight: 700; }
 .artisan-profile__craft { font-size: .88rem; color: var(--text-muted); margin-bottom: 8px; }
-.artisan-profile__loc   { font-size: .83rem; color: var(--gold); font-weight: 500; margin-bottom: 14px; }
-.artisan-profile__bio   { font-size: .9rem; line-height: 1.8; color: var(--text-body); }
+.artisan-profile__loc   { font-size: .83rem; color: var(--gold); font-weight: 500; margin-bottom: 16px; }
+.artisan-profile__bio   { font-size: .9rem; line-height: 1.85; color: var(--text-body); }
 
-.artisan-profile__products { margin-top: 44px; }
-.artisan-profile__products h2 { margin-bottom: 22px; }
+.artisan-profile__products { margin-top: 48px; }
+.artisan-profile__products h2 { margin-bottom: 24px; font-weight: 700; }

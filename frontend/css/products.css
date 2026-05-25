@@ -1,17 +1,18 @@
 /* ═══════════════════════════════════════════════
-   PRODUCTS PAGE — Minimalist v3
+   PRODUCTS PAGE — Warm Craft Editorial v4
 ═══════════════════════════════════════════════ */
 
 /* ── Page Header ── */
 .products-header {
-  padding: 28px 0 22px;
+  padding: 32px 0 26px;
   border-bottom: 1px solid var(--border);
   background: var(--cream);
 }
 
 .products-header h1 {
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  margin-bottom: 4px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 5px;
+  font-weight: 700;
 }
 
 .products-header p {
@@ -22,7 +23,7 @@
 /* ── Products Layout ── */
 .products-layout {
   display: grid;
-  grid-template-columns: 210px 1fr;
+  grid-template-columns: 220px 1fr;
   gap: 28px;
   align-items: start;
   padding-top: 28px;
@@ -42,7 +43,7 @@
 
 .price-input {
   flex: 1;
-  padding: 7px 10px;
+  padding: 8px 11px;
   border: 1px solid var(--border);
   border-radius: var(--r);
   font-size: .82rem;
@@ -50,15 +51,19 @@
   outline: none;
   font-family: 'DM Sans', sans-serif;
   min-width: 0;
+  transition: border-color .2s;
 }
-.price-input:focus { border-color: var(--gold); }
+.price-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,112,26,.08);
+}
 
 /* ── Products Toolbar ── */
 .products-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -69,7 +74,7 @@
 }
 
 .products-sort {
-  padding: 7px 10px;
+  padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: var(--r);
   font-size: .82rem;
@@ -78,6 +83,8 @@
   outline: none;
   font-family: 'DM Sans', sans-serif;
   cursor: pointer;
+  transition: border-color .15s;
+  box-shadow: var(--sh-sm);
 }
 .products-sort:focus { border-color: var(--gold); }
 
@@ -87,14 +94,14 @@
 .active-filter {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   background: var(--gold-mist);
   color: var(--gold-deep);
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
+  border: 1px solid var(--gold-pale);
+  border-radius: var(--r-pill);
   font-size: .72rem;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 4px 12px;
   cursor: pointer;
   transition: background .15s, color .15s;
 }
@@ -105,21 +112,22 @@
   display: flex;
   justify-content: center;
   gap: 5px;
-  margin-top: 32px;
+  margin-top: 36px;
 }
 
 .pagination-item {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--r);
   font-size: .85rem;
   border: 1px solid var(--border);
   color: var(--text-muted);
   cursor: pointer;
   transition: border-color .15s, color .15s, background .15s;
+  box-shadow: var(--sh-sm);
 }
 .pagination-item.active {
   border-color: var(--ink-2);
@@ -129,12 +137,13 @@
 .pagination-item:hover:not(.active) {
   border-color: var(--gold);
   color: var(--gold);
+  background: var(--gold-mist);
 }
 
 /* ── Empty State ── */
-.products-empty { text-align: center; padding: 64px 24px; }
-.products-empty__icon { font-size: 2.5rem; color: var(--text-faint); margin-bottom: 14px; }
-.products-empty__heading { font-size: 1.2rem; margin-bottom: 8px; }
+.products-empty { text-align: center; padding: 72px 24px; }
+.products-empty__icon { font-size: 2.8rem; color: var(--text-faint); margin-bottom: 16px; }
+.products-empty__heading { font-size: 1.25rem; margin-bottom: 9px; }
 .products-empty__sub { color: var(--text-muted); font-size: .9rem; }
 
 /* ── Mobile Filter Toggle ── */
@@ -147,7 +156,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 9px 20px;
+    padding: 10px 20px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r);
@@ -157,11 +166,13 @@
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
     margin: 14px 0 0;
-    transition: border-color .15s, color .15s;
+    transition: border-color .15s, color .15s, background .15s;
+    box-shadow: var(--sh-sm);
   }
   .mobile-filter-btn:hover {
     border-color: var(--gold);
     color: var(--gold);
+    background: var(--gold-mist);
   }
   .mobile-filter-btn.active {
     border-color: var(--gold);
