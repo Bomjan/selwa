@@ -251,14 +251,23 @@ function fmtDate(str) {
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const user = getAdminUser();
+  // Resolve identity from cookie via /api/me (source of truth),
+  // fall back to localStorage only as a display hint.
+  let user = null;
+  try {
+    const meRes = await fetch('/api/me', { credentials: 'include' });
+    if (meRes.ok) {
+      user = await meRes.json();
+      localStorage.setItem('selwa_user', JSON.stringify(user));
+    }
+  } catch (_) {}
 
-  if (!user) {
+  if (!user || !user.is_admin) {
     document.getElementById('access-denied').style.display = 'flex';
     return;
   }
 
-  // Verify admin status with backend
+  // Load stats (already authed via cookie)
   try {
     const res = await fetch('/api/admin/stats', { credentials: 'include' });
     if (!res.ok) {

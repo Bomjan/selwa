@@ -36,6 +36,7 @@ function toggleWishlist(event) {
   const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
   const image = card.querySelector('img').getAttribute('src');
 
+  const productId = card.dataset.productId ? parseInt(card.dataset.productId, 10) : null;
   const list = getWishlist();
   const idx = list.findIndex(item => item.name === name);
   if (idx >= 0) {
@@ -44,7 +45,7 @@ function toggleWishlist(event) {
     btn.querySelector('i').className = 'bi bi-heart';
     btn.setAttribute('aria-label', 'Add to wishlist');
   } else {
-    list.push({ name, price, image });
+    list.push({ name, price, image, id: productId });
     btn.classList.add('wishlisted');
     btn.querySelector('i').className = 'bi bi-heart-fill';
     btn.setAttribute('aria-label', 'Remove from wishlist');
@@ -91,13 +92,14 @@ function addToCart(event) {
   const priceText = card.querySelector('.p-card__price').textContent;
   const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
   const image = card.querySelector('img').getAttribute('src');
+  const productId = card.dataset.productId ? parseInt(card.dataset.productId, 10) : null;
 
   const cart = getCart();
   const existing = cart.find(item => item.name === name);
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ name, price, image, qty: 1 });
+    cart.push({ name, price, image, qty: 1, id: productId });
   }
   saveCart(cart);
 

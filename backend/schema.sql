@@ -52,7 +52,10 @@ CREATE TABLE IF NOT EXISTS orders (
 CREATE TABLE IF NOT EXISTS order_items (
     id         BIGSERIAL PRIMARY KEY,
     order_id   BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
-    product_id BIGINT NOT NULL REFERENCES products(id),
+    product_id BIGINT REFERENCES products(id),
     quantity   INTEGER NOT NULL,
     unit_price DECIMAL(10,2) NOT NULL
 );
+
+-- Allow product_id to be null (for items added before dynamic product IDs were available)
+ALTER TABLE order_items ALTER COLUMN product_id DROP NOT NULL;

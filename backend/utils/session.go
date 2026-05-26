@@ -48,12 +48,23 @@ func verifyToken(token string) (int64, bool) {
 	return id, true
 }
 
-func SetSessionCookie(w http.ResponseWriter, userID int64) {
+func isSecure(r *http.Request) bool {
+	if r.TLS != nil {
+		return true
+	}
+	if r.Header.Get("X-Forwarded-Proto") == "https" {
+		return true
+	}
+	return os.Getenv("COOKIE_SECURE") == "true"
+}
+
+func SetSessionCookie(w http.ResponseWriter, r *http.Request, userID int64) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     cookieName,
 		Value:    signToken(userID),
 		Path:     "/",
 		HttpOnly: true,
+		Secure:   isSecure(r),
 		SameSite: http.SameSiteLaxMode,
 		Expires:  time.Now().Add(30 * 24 * time.Hour),
 	})

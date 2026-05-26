@@ -165,8 +165,8 @@ func TestLogin_WrongPassword(t *testing.T) {
 	hash, _ := bcrypt.GenerateFromPassword([]byte("correctpassword"), bcrypt.DefaultCost)
 	mock.ExpectQuery("SELECT").
 		WithArgs("user@test.com").
-		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "email", "password_hash"}).
-			AddRow(int64(1), "User", "user@test.com", string(hash)))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "email", "password_hash", "is_admin"}).
+			AddRow(int64(1), "User", "user@test.com", string(hash), false))
 
 	req := postJSON(`{"email":"user@test.com","password":"wrongpassword"}`)
 	rr := httptest.NewRecorder()
@@ -182,8 +182,8 @@ func TestLogin_Success(t *testing.T) {
 	hash, _ := bcrypt.GenerateFromPassword([]byte("mypassword"), bcrypt.DefaultCost)
 	mock.ExpectQuery("SELECT").
 		WithArgs("alice@test.com").
-		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "email", "password_hash"}).
-			AddRow(int64(3), "Alice", "alice@test.com", string(hash)))
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "email", "password_hash", "is_admin"}).
+			AddRow(int64(3), "Alice", "alice@test.com", string(hash), false))
 
 	req := postJSON(`{"email":"alice@test.com","password":"mypassword"}`)
 	rr := httptest.NewRecorder()

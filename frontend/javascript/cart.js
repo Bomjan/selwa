@@ -69,15 +69,48 @@ function updateSummary() {
   document.getElementById('total').textContent = 'Nu. ' + subtotal.toLocaleString();
 }
 
-function checkout() {
-  if (getCart().length === 0) return;
-  if (!getUser()) {
-    window.location.href = 'login.html?redirect=cart.html';
-    return;
+async function checkout() {
+  const cart = getCart();
+  if (cart.length === 0) return;
+
+  const msgEl = document.getElementById('checkout-msg');
+  const btn = document.querySelector('.s-btn--gold[onclick="checkout()"]');
+
+  const items = cart.map(item => ({
+    product_id: item.id ? parseInt(item.id, 10) : null,
+    name: item.name,
+    quantity: item.qty,
+    unit_price: item.price,
+  }));
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Placing order...'; }
+  if (msgEl) msgEl.textContent = '';
+
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items }),
+    });
+
+    if (res.status === 401) {
+      window.location.href = 'index.html';
+      return;
+    }
+    if (!res.ok) {
+      if (msgEl) { msgEl.style.color = '#c0392b'; msgEl.textContent = 'Failed to place order. Please try again.'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Proceed to checkout'; }
+      return;
+    }
+
+    saveCart([]);
+    renderCart();
+    if (msgEl) { msgEl.style.color = 'var(--gold)'; msgEl.textContent = 'Order placed! Thank you for supporting Bhutanese artisans.'; }
+  } catch (_) {
+    if (msgEl) { msgEl.style.color = '#c0392b'; msgEl.textContent = 'Network error. Please check your connection.'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Proceed to checkout'; }
   }
-  saveCart([]);
-  renderCart();
-  alert('Order placed! Thank you for supporting Bhutanese artisans.');
 }
 
 document.addEventListener('DOMContentLoaded', renderCart);

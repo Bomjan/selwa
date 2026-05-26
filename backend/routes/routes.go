@@ -19,6 +19,7 @@ func InitializeRoutes() {
 	r.HandleFunc("/api/login", handler.Login).Methods("POST")
 	r.HandleFunc("/api/logout", handler.Logout).Methods("POST")
 	r.HandleFunc("/api/me", handler.Me).Methods("GET")
+	r.HandleFunc("/api/orders", handler.PlaceOrder).Methods("POST")
 
 	// Admin routes — protected by X-User-ID header (user must have is_admin=true)
 	r.HandleFunc("/api/admin/stats", handler.AdminStats).Methods("GET")

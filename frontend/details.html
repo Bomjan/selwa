@@ -3,24 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Selwa — Handwoven Bangchung</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <title>Selwa — Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/details.css" />
+    <style>
+      .pd-breadcrumb { display:flex; align-items:center; gap:6px; font-size:.77rem; color:var(--text-faint); padding-bottom:22px; }
+      .pd-breadcrumb a { color:var(--gold); }
+      .pd-breadcrumb i { font-size:.63rem; }
+      .pd-layout { display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; padding-top:20px; padding-bottom:56px; }
+      @media (max-width:768px) { .pd-layout { grid-template-columns:1fr; gap:24px; padding-bottom:32px; } .pd-gallery { position:static; } .pd-main-img { aspect-ratio:3/2; } .pd-price { font-size:1.6rem; } .pd-tabs { margin-top:28px; } .pd-tabs__list { gap:14px; overflow-x:auto; scrollbar-width:none; flex-wrap:nowrap; } .pd-tabs__list::-webkit-scrollbar { display:none; } }
+      .pd-gallery { position:sticky; top:calc(var(--nav-h) + 12px); }
+      .pd-main-img { border-radius:var(--r-md); overflow:hidden; background:var(--bg-alt); aspect-ratio:4/5; border:1px solid var(--border); }
+      .pd-main-img img { width:100%; height:100%; object-fit:cover; }
+      .pd-thumbnails { display:flex; gap:8px; margin-top:10px; }
+      .pd-thumb { width:60px; height:60px; border-radius:var(--r); overflow:hidden; border:1px solid var(--border); cursor:pointer; transition:border-color .15s; background:var(--bg-alt); }
+      .pd-thumb img { width:100%; height:100%; object-fit:cover; }
+      .pd-thumb:hover, .pd-thumb.active { border-color:var(--gold); }
+      .pd-info { padding-top:4px; }
+      .pd-badge { display:inline-block; background:var(--gold-mist); color:var(--gold-deep); border:1px solid var(--gold-pale); border-radius:var(--r-pill); font-size:.67rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 12px; margin-bottom:12px; }
+      .pd-title { font-size:clamp(1.4rem,2.8vw,1.9rem); margin-bottom:10px; font-weight:700; }
+      .pd-price-row { display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
+      .pd-price { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--ink-2); line-height:1; }
+      .pd-price-usd { font-size:.83rem; color:var(--text-faint); }
+      .pd-divider { border:none; border-top:1px solid var(--border); margin:12px 0; }
+      .pd-option { margin-bottom:8px; }
+      .pd-option__label { font-size:.68rem; font-weight:600; color:var(--text-muted); margin-bottom:2px; text-transform:uppercase; letter-spacing:.06em; }
+      .pd-option__value { font-size:.875rem; }
+      .pd-qty { display:inline-flex; align-items:center; border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+      .pd-qty__btn { width:34px; height:32px; background:var(--bg-alt); border:none; font-size:.9rem; color:var(--text-muted); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s, color .15s; }
+      .pd-qty__btn:hover { background:var(--gold-mist); color:var(--gold); }
+      .pd-qty__val { width:40px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:.875rem; border-left:1px solid var(--border); border-right:1px solid var(--border); }
+      .pd-stock { font-size:.73rem; color:var(--text-muted); margin-left:10px; }
+      .pd-actions { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+      .pd-actions .s-btn { width:100%; justify-content:center; font-size:.875rem; }
+      .pd-info-box { background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 14px; display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+      .pd-info-row { display:flex; align-items:center; gap:8px; font-size:.81rem; color:var(--text-muted); }
+      .pd-info-row i { color:var(--gold); font-size:.875rem; }
+      .pd-artisan-chip { display:flex; align-items:center; gap:12px; border:1px solid var(--border); border-radius:var(--r-md); padding:12px 14px; background:#fff; cursor:pointer; transition:border-color .15s; }
+      .pd-artisan-chip:hover { border-color:#aaa; }
+      .pd-artisan-avatar { width:42px; height:42px; background:var(--gold); color:#fff; font-family:'Playfair Display',serif; font-weight:700; font-size:.88rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+      .pd-artisan-info__label { font-size:.76rem; color:var(--text-faint); margin-bottom:1px; }
+      .pd-artisan-info__name { font-family:'Playfair Display',serif; font-size:.95rem; font-weight:600; color:var(--ink-2); }
+      .pd-artisan-info__craft { font-size:.72rem; color:var(--text-muted); }
+      .pd-artisan-chip i { margin-left:auto; color:var(--text-faint); }
+      .pd-tabs { margin-top:44px; border-top:1px solid var(--border); padding-top:28px; }
+      .pd-tabs__list { display:flex; gap:22px; border-bottom:1px solid var(--border); margin-bottom:22px; }
+      .pd-tabs__tab { padding-bottom:10px; font-size:.875rem; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; transition:color .15s, border-color .15s; font-weight:500; }
+      .pd-tabs__tab.active { color:var(--ink-2); border-bottom-color:var(--gold); font-weight:600; }
+      .pd-tabs__content { font-size:.875rem; line-height:1.8; }
+      .pd-specs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+      .pd-spec-cell { background:var(--bg-alt); border-radius:var(--r); padding:14px; }
+      .pd-spec-cell__label { font-size:.72rem; color:var(--text-muted); }
+      .pd-spec-cell__val { font-weight:600; font-size:.875rem; }
+      .pd-loading { padding:80px 0; text-align:center; color:var(--text-muted); }
+    </style>
   </head>
   <body>
     <!-- NAVBAR -->
     <nav class="s-nav">
       <a class="s-logo" href="index.html">Selwa</a>
       <div class="nav-links" id="nav-links">
-
         <a class="nav-link active" href="products.html">Products</a>
         <a class="nav-link" href="artisans.html">Artisans</a>
         <a class="nav-link" href="about.html">About</a>
@@ -42,351 +88,107 @@
     </nav>
 
     <div class="s-wrap">
-      <!-- BREADCRUMB -->
-      <div class="pd-breadcrumb">
-        <a href="index.html">Home</a>
-        <i class="bi bi-chevron-right"></i>
-        <a href="products.html">Products</a>
-        <i class="bi bi-chevron-right"></i>
-        <span>Handwoven Bangchung</span>
+      <div id="pd-loading" class="pd-loading">
+        <i class="bi bi-arrow-clockwise"></i> Loading product…
       </div>
+      <div id="pd-content" style="display:none">
+        <!-- BREADCRUMB -->
+        <div class="pd-breadcrumb">
+          <a href="index.html">Home</a>
+          <i class="bi bi-chevron-right"></i>
+          <a href="products.html">Products</a>
+          <i class="bi bi-chevron-right"></i>
+          <span id="pd-breadcrumb-name"></span>
+        </div>
 
-      <!-- PRODUCT LAYOUT -->
-      <div class="pd-layout">
-        <!-- LEFT: IMAGE GALLERY -->
-        <div class="pd-gallery">
-          <div class="pd-main-img">
-            <img
-              src="images/bangchung.avif"
-              alt="Handwoven Bangchung"
-              id="current-img"
-            />
+        <!-- PRODUCT LAYOUT -->
+        <div class="pd-layout">
+          <!-- LEFT: IMAGE -->
+          <div class="pd-gallery">
+            <div class="pd-main-img">
+              <img src="" alt="" id="current-img" />
+            </div>
           </div>
-          <div class="pd-thumbnails">
-            <div
-              class="pd-thumb active thumb"
-              onclick="setThumb(this, 'images/bangchung.avif')"
-            >
-              <img src="images/bangchung.avif" alt="" />
+
+          <!-- RIGHT: INFO -->
+          <div class="pd-info">
+            <span class="pd-badge" id="pd-badge"></span>
+            <h1 class="pd-title" id="pd-title"></h1>
+            <div class="pd-price-row">
+              <span class="pd-price" id="pd-price"></span>
             </div>
-            <div
-              class="pd-thumb thumb"
-              onclick="setThumb(this, 'images/selwa.bt.jpeg')"
-            >
-              <img src="images/selwa.bt.jpeg" alt="" />
+            <hr class="pd-divider" />
+            <div class="pd-option">
+              <div class="pd-option__label">Materials</div>
+              <div class="pd-option__value" id="pd-materials"></div>
             </div>
-            <div
-              class="pd-thumb thumb"
-              onclick="setThumb(this, 'images/palang.avif')"
-            >
-              <img src="images/palang.avif" alt="" />
+            <div class="pd-option">
+              <div class="pd-option__label">Region</div>
+              <div class="pd-option__value" id="pd-region"></div>
             </div>
+            <hr class="pd-divider" />
+            <div style="margin-bottom:14px">
+              <div class="pd-option__label" style="margin-bottom:8px">Quantity</div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="pd-qty">
+                  <button class="pd-qty__btn" onclick="changeQty(-1)">−</button>
+                  <span class="pd-qty__val" id="qty">1</span>
+                  <button class="pd-qty__btn" onclick="changeQty(1)">+</button>
+                </div>
+                <span class="pd-stock" id="pd-stock"></span>
+              </div>
+            </div>
+            <div class="pd-actions">
+              <button class="s-btn s-btn--gold" id="detail-add-btn" onclick="detailAddToCart(this)">
+                <i class="bi bi-bag"></i> Add to cart
+              </button>
+            </div>
+            <div class="pd-info-box">
+              <div class="pd-info-row"><i class="bi bi-truck"></i> Free shipping on orders over Nu. 5,000</div>
+              <div class="pd-info-row"><i class="bi bi-box"></i> Estimated delivery: 7–14 business days</div>
+              <div class="pd-info-row"><i class="bi bi-arrow-repeat"></i> Easy returns within 30 days</div>
+              <div class="pd-info-row"><i class="bi bi-shield-check"></i> Authentic artisan product, verified by Selwa</div>
+            </div>
+            <a href="artisans.html" class="pd-artisan-chip" id="pd-artisan-chip">
+              <div class="pd-artisan-avatar" id="pd-artisan-avatar"></div>
+              <div>
+                <div class="pd-artisan-info__label">Made by</div>
+                <div class="pd-artisan-info__name" id="pd-artisan-name"></div>
+                <div class="pd-artisan-info__craft" id="pd-artisan-craft"></div>
+              </div>
+              <i class="bi bi-chevron-right"></i>
+            </a>
           </div>
         </div>
 
-        <!-- RIGHT: PRODUCT INFO -->
-        <div class="pd-info">
-          <span class="pd-badge">Handicraft · Woven</span>
-          <h1 class="pd-title">Handwoven Bangchung</h1>
-          <div class="pd-price-row">
-            <span class="pd-price">Nu. 850</span>
-            <span class="pd-price-usd">≈ USD 10</span>
+        <!-- TABS -->
+        <div class="pd-tabs">
+          <div class="pd-tabs__list">
+            <span class="pd-tabs__tab active" onclick="switchTab(this,'desc')">Description</span>
+            <span class="pd-tabs__tab" onclick="switchTab(this,'spec')">Specifications</span>
+            <span class="pd-tabs__tab" onclick="switchTab(this,'rev')">Reviews</span>
           </div>
-          <hr class="pd-divider" />
-          <div class="pd-option">
-            <div class="pd-option__label">Material</div>
-            <div class="pd-option__value">
-              100% natural silk, hand-dyed with traditional patterns
-            </div>
-          </div>
-          <div class="pd-option">
-            <div class="pd-option__label">Dimensions</div>
-            <div class="pd-option__value">1.5m × 0.6m per panel</div>
-          </div>
-          <hr class="pd-divider" />
-          <div style="margin-bottom: 14px">
-            <div class="pd-option__label" style="margin-bottom: 8px">
-              Quantity
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px">
-              <div class="pd-qty">
-                <button class="pd-qty__btn" onclick="changeQty(-1)">−</button>
-                <span class="pd-qty__val" id="qty">1</span>
-                <button class="pd-qty__btn" onclick="changeQty(1)">+</button>
-              </div>
-              <span class="pd-stock">12 in stock</span>
-            </div>
-          </div>
-          <div class="pd-actions">
-            <button class="s-btn s-btn--gold" id="detail-add-btn" onclick="detailAddToCart(this)">
-              <i class="bi bi-bag"></i> Add to cart
-            </button>
-          </div>
-          <div class="pd-info-box">
-            <div class="pd-info-row">
-              <i class="bi bi-truck"></i> Free shipping on orders over Nu. 5,000
-            </div>
-            <div class="pd-info-row">
-              <i class="bi bi-box"></i> Estimated delivery: 7–14 business days
-            </div>
-            <div class="pd-info-row">
-              <i class="bi bi-arrow-repeat"></i> Easy returns within 30 days
-            </div>
-            <div class="pd-info-row">
-              <i class="bi bi-shield-check"></i> Authentic artisan product,
-              verified by Selwa
-            </div>
-          </div>
-          <a href="artisans.html" class="pd-artisan-chip">
-            <div class="pd-artisan-avatar">KW</div>
-            <div>
-              <div class="pd-artisan-info__label">Made by</div>
-              <div class="pd-artisan-info__name">Karma Wangmo</div>
-              <div class="pd-artisan-info__craft">Master weaver — Bumthang</div>
-            </div>
-            <i class="bi bi-chevron-right"></i>
-          </a>
-        </div>
-      </div>
-      <!-- /pd-layout -->
-
-      <!-- TABS -->
-      <div class="pd-tabs">
-        <div class="pd-tabs__list">
-          <span class="pd-tabs__tab active" onclick="switchTab(this, 'desc')"
-            >Description</span
-          >
-          <span class="pd-tabs__tab" onclick="switchTab(this, 'spec')"
-            >Specifications</span
-          >
-          <span class="pd-tabs__tab" onclick="switchTab(this, 'rev')"
-            >Reviews</span
-          >
-        </div>
-
-        <div id="tab-desc" class="pd-tabs__content">
-          <p>
-            The Kishuthara is one of Bhutan's most celebrated traditional silk
-            fabrics, woven by skilled artisans in the eastern districts. Each
-            piece is hand-loomed using techniques passed down through
-            generations, featuring intricate geometric patterns that carry deep
-            cultural significance.
-          </p>
-          <p style="margin-top: 14px">
-            This fabric by Karma Wangmo uses naturally dyed silk threads in rich
-            earth tones — saffron, crimson and indigo — creating a vibrant yet
-            harmonious pattern. No two pieces are identical.
-          </p>
-          <p style="margin-top: 14px">
-            Suitable for traditional Bhutanese garments, home décor, or as a
-            collector's piece. Hand wash recommended in cold water.
-          </p>
-        </div>
-
-        <div id="tab-spec" class="pd-tabs__content" style="display: none">
-          <div
-            style="
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              gap: 12px;
-            "
-          >
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Material
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                100% natural silk
-              </div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Origin
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                Bumthang, Bhutan
-              </div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Dimensions
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                1.5m × 0.6m
-              </div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Weight
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">180 GSM</div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Dye type
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                Natural plant dyes
-              </div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Weave time
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                Approx. 3 weeks
-              </div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Care
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                Hand wash, cold
-              </div>
-            </div>
-            <div
-              style="
-                background: var(--bg-alt);
-                border-radius: var(--r);
-                padding: 14px;
-              "
-            >
-              <div style="font-size: 0.72rem; color: var(--text-muted)">
-                Pattern
-              </div>
-              <div style="font-weight: 600; font-size: 0.875rem">
-                Traditional Kishuthara
-              </div>
-            </div>
+          <div id="tab-desc" class="pd-tabs__content"></div>
+          <div id="tab-spec" class="pd-tabs__content" style="display:none"></div>
+          <div id="tab-rev" class="pd-tabs__content" style="display:none">
+            <p style="color:var(--text-muted);font-size:.875rem">No reviews yet. Be the first to review this product.</p>
           </div>
         </div>
 
-        <div
-          id="tab-rev"
-          class="pd-tabs__content pd-reviews"
-          style="display: none"
-        >
-          <p style="color: var(--text-muted); font-size: .875rem;">No reviews yet. Be the first to review this product.</p>
-        </div>
-      </div>
-
-      <!-- RELATED PRODUCTS -->
-      <div style="margin-top: 48px; padding-bottom: 72px">
-        <div class="s-hd-row">
-          <h2>You may also like</h2>
-        </div>
-        <div class="p-grid">
-          <a href="details.html" class="p-card">
-            <div class="p-card__img">
-              <img
-                src="images/tsholam-keychain.avif"
-                alt="Tsholam Keychain"
-              /><span class="p-card__cat">Souvenir</span>
-            </div>
-            <div class="p-card__body">
-              <div class="p-card__name">Tsholam Keychain</div>
-              <div class="p-card__by">Pema Lhamo · Thimphu</div>
-              <div class="p-card__foot">
-                <span class="p-card__price">Nu. 450</span
-                ><button class="s-btn--add" onclick="addToCart(event)">
-                  Add
-                </button>
-              </div>
-            </div>
-          </a>
-          <a href="details.html" class="p-card">
-            <div class="p-card__img">
-              <img src="images/palang.avif" alt="Wooden Palang" /><span
-                class="p-card__cat"
-                >Woodcraft</span
-              >
-            </div>
-            <div class="p-card__body">
-              <div class="p-card__name">Traditional Wooden Palang</div>
-              <div class="p-card__by">Tashi Dorji · Trashigang</div>
-              <div class="p-card__foot">
-                <span class="p-card__price">Nu. 2,800</span
-                ><button class="s-btn--add" onclick="addToCart(event)">
-                  Add
-                </button>
-              </div>
-            </div>
-          </a>
-          <a href="details.html" class="p-card">
-            <div class="p-card__img">
-              <img src="images/tea-cup.avif" alt="Artisan Tea Cup" /><span
-                class="p-card__cat"
-                >Pottery</span
-              >
-            </div>
-            <div class="p-card__body">
-              <div class="p-card__name">Artisan Tea Cup</div>
-              <div class="p-card__by">Sonam Choden · Paro</div>
-              <div class="p-card__foot">
-                <span class="p-card__price">Nu. 650</span
-                ><button class="s-btn--add" onclick="addToCart(event)">
-                  Add
-                </button>
-              </div>
-            </div>
-          </a>
+        <!-- RELATED -->
+        <div style="margin-top:48px;padding-bottom:72px">
+          <div class="s-hd-row"><h2>You may also like</h2></div>
+          <div class="p-grid" id="related-grid"></div>
         </div>
       </div>
     </div>
-    <!-- /s-wrap -->
 
     <!-- FOOTER -->
     <footer class="s-footer">
       <div class="s-footer-inner">
         <div>
           <span class="s-footer__logo">Selwa</span>
-          <p class="s-footer__desc">
-            Connecting Bhutanese artisans with the world. Every purchase
-            supports a local craftsperson.
-          </p>
+          <p class="s-footer__desc">Connecting Bhutanese artisans with the world. Every purchase supports a local craftsperson.</p>
         </div>
         <div class="s-footer__col">
           <h4>Quick Links</h4>
@@ -399,64 +201,158 @@
         </div>
         <div class="s-footer__col">
           <h4>Support</h4>
-          <ul>
-            <li><a href="faq.html">FAQ</a></li>
-          </ul>
+          <ul><li><a href="faq.html">FAQ</a></li></ul>
         </div>
       </div>
-      <div class="s-footer-bottom">
-        © 2026 Selwa. Proudly promoting Bhutanese heritage.
-      </div>
+      <div class="s-footer-bottom">© 2026 Selwa. Proudly promoting Bhutanese heritage.</div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="javascript/global.js"></script>
     <script>
+      let currentProduct = null;
+
+      function esc(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
       function changeQty(delta) {
-        var el = document.getElementById('qty');
+        const el = document.getElementById('qty');
         el.textContent = Math.max(1, parseInt(el.textContent) + delta);
       }
 
       function detailAddToCart(btn) {
-        var name  = document.querySelector('.pd-title').textContent.trim();
-        var priceText = document.querySelector('.pd-price').textContent;
-        var price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
-        var image = document.getElementById('current-img').getAttribute('src');
-        var qty   = parseInt(document.getElementById('qty').textContent, 10) || 1;
-
-        var cart = getCart();
-        var existing = cart.find(function(item) { return item.name === name; });
+        if (!currentProduct) return;
+        const qty = parseInt(document.getElementById('qty').textContent, 10) || 1;
+        const cart = getCart();
+        const existing = cart.find(item => item.name === currentProduct.name);
         if (existing) {
           existing.qty += qty;
         } else {
-          cart.push({ name: name, price: price, image: image, qty: qty });
+          cart.push({
+            name: currentProduct.name,
+            price: Math.round(currentProduct.price),
+            image: currentProduct.image_url,
+            qty,
+            id: currentProduct.id,
+          });
         }
         saveCart(cart);
 
-        var original = btn.innerHTML;
+        const original = btn.innerHTML;
         btn.innerHTML = '<i class="bi bi-check"></i> Added';
-        btn.style.opacity = '0.8';
         btn.disabled = true;
-        setTimeout(function() {
+        btn.style.opacity = '0.8';
+        setTimeout(() => {
           btn.innerHTML = original;
-          btn.style.opacity = '';
           btn.disabled = false;
+          btn.style.opacity = '';
         }, 1000);
       }
 
-      function setThumb(el, src) {
-        document.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
-        el.classList.add('active');
-        document.getElementById('current-img').src = src;
-      }
-
       function switchTab(el, id) {
-        document.querySelectorAll('.pd-tabs__tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.pd-tabs__tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
-        ['desc', 'spec', 'rev'].forEach(function(tid) {
+        ['desc','spec','rev'].forEach(tid => {
           document.getElementById('tab-' + tid).style.display = tid === id ? '' : 'none';
         });
       }
+
+      function relatedCardHTML(p) {
+        const price = Math.round(p.price);
+        return `
+          <a href="details.html?id=${p.id}" class="p-card" data-product-id="${p.id}">
+            <div class="p-card__img">
+              <img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" />
+              <span class="p-card__cat">${esc(p.category)}</span>
+              <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
+            </div>
+            <div class="p-card__body">
+              <div class="p-card__name">${esc(p.name)}</div>
+              <div class="p-card__foot">
+                <span class="p-card__price">Nu. ${price.toLocaleString()}</span>
+                <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+              </div>
+            </div>
+          </a>`;
+      }
+
+      async function loadProduct() {
+        const id = new URLSearchParams(window.location.search).get('id');
+        if (!id) { window.location.href = 'products.html'; return; }
+
+        try {
+          const res = await fetch(`/api/products/${id}`);
+          if (!res.ok) { window.location.href = 'products.html'; return; }
+          const p = await res.json();
+          currentProduct = p;
+
+          document.title = `Selwa — ${p.name}`;
+          document.getElementById('pd-breadcrumb-name').textContent = p.name;
+          document.getElementById('pd-title').textContent = p.name;
+          document.getElementById('pd-badge').textContent = p.category;
+          document.getElementById('pd-price').textContent = `Nu. ${Math.round(p.price).toLocaleString()}`;
+          document.getElementById('pd-materials').textContent = p.materials || '—';
+          document.getElementById('pd-region').textContent = p.region || '—';
+          document.getElementById('pd-stock').textContent = p.stock_quantity > 0
+            ? `${p.stock_quantity} in stock` : 'Out of stock';
+
+          const img = document.getElementById('current-img');
+          img.src = p.image_url;
+          img.alt = p.name;
+
+          // Description tab
+          document.getElementById('tab-desc').innerHTML =
+            `<p>${esc(p.description)}</p>`;
+
+          // Specs tab
+          document.getElementById('tab-spec').innerHTML = `
+            <div class="pd-specs-grid">
+              <div class="pd-spec-cell"><div class="pd-spec-cell__label">Category</div><div class="pd-spec-cell__val">${esc(p.category)}</div></div>
+              <div class="pd-spec-cell"><div class="pd-spec-cell__label">Materials</div><div class="pd-spec-cell__val">${esc(p.materials || '—')}</div></div>
+              <div class="pd-spec-cell"><div class="pd-spec-cell__label">Region</div><div class="pd-spec-cell__val">${esc(p.region || '—')}</div></div>
+              <div class="pd-spec-cell"><div class="pd-spec-cell__label">In stock</div><div class="pd-spec-cell__val">${p.stock_quantity}</div></div>
+            </div>`;
+
+          // Artisan chip
+          if (p.artisan && p.artisan.name) {
+            const initials = p.artisan.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+            document.getElementById('pd-artisan-avatar').textContent = initials;
+            document.getElementById('pd-artisan-name').textContent = p.artisan.name;
+            document.getElementById('pd-artisan-craft').textContent =
+              [p.artisan.craft_type, p.artisan.location].filter(Boolean).join(' — ');
+          } else {
+            document.getElementById('pd-artisan-chip').style.display = 'none';
+          }
+
+          document.getElementById('pd-loading').style.display = 'none';
+          document.getElementById('pd-content').style.display = '';
+
+          // Related products (same category, excluding this one)
+          loadRelated(p.id, p.category);
+
+        } catch (_) {
+          document.getElementById('pd-loading').innerHTML =
+            '<i class="bi bi-exclamation-circle"></i> Failed to load product.';
+        }
+      }
+
+      async function loadRelated(currentId, category) {
+        try {
+          const res = await fetch('/api/products');
+          if (!res.ok) return;
+          const all = await res.json();
+          const related = all
+            .filter(p => p.id !== currentId && p.category === category)
+            .slice(0, 3);
+          if (!related.length) return;
+          const grid = document.getElementById('related-grid');
+          grid.innerHTML = related.map(relatedCardHTML).join('');
+          if (typeof initWishlistButtons === 'function') initWishlistButtons();
+        } catch (_) {}
+      }
+
+      document.addEventListener('DOMContentLoaded', loadProduct);
     </script>
   </body>
 </html>

@@ -10,14 +10,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/products.css" />
+    <style>
+      .products-header { padding: 28px 0 22px; border-bottom: 1px solid var(--border); }
+      .products-header h1 { font-size: clamp(1.4rem,2.8vw,1.9rem); margin-bottom: 4px; font-weight: 700; }
+      .products-header p { color: var(--text-muted); font-size: .875rem; }
+      .pf-bar { display: flex; align-items: stretch; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 24px; flex-wrap: wrap; }
+      .pf-tags { display: flex; position: relative; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; flex: 1; min-width: 0; }
+      .pf-tags::-webkit-scrollbar { display: none; }
+      .pf-tag { position: relative; padding: 16px 18px; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); background: none; border: none; cursor: pointer; white-space: nowrap; transition: color .22s; font-family: 'DM Sans', sans-serif; flex-shrink: 0; }
+      .pf-tag:hover { color: var(--ink); }
+      .pf-tag.active { color: var(--ink); }
+      .pf-indicator { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--gold); transition: left .42s cubic-bezier(.76,0,.24,1), width .42s cubic-bezier(.76,0,.24,1); pointer-events: none; }
+      .pf-meta { display: flex; align-items: center; gap: 14px; padding: 14px 0; flex-shrink: 0; }
+      .pf-count { font-size: .7rem; color: var(--text-faint); letter-spacing: .06em; white-space: nowrap; min-width: 60px; text-align: right; transition: opacity .2s; }
+      .pf-count.updating { opacity: 0; }
+      .pf-sort { -webkit-appearance: none; appearance: none; padding: 7px 30px 7px 11px; border: 1px solid var(--border); background-color: #fff; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5'%3E%3Cpath d='M0 0l4.5 5L9 0z' fill='%23999'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; font-size: .68rem; font-family: 'DM Sans', sans-serif; color: var(--text-body); cursor: pointer; outline: none; letter-spacing: .06em; transition: border-color .15s; }
+      .pf-sort:focus { border-color: var(--gold); }
+      .pf-grid-wrap { padding-top: 28px; padding-bottom: 72px; }
+      .pf-empty { text-align: center; padding: 80px 24px; }
+      .pf-empty__icon { font-size: 2rem; color: var(--text-faint); margin-bottom: 12px; }
+      .pf-empty__text { font-size: .875rem; color: var(--text-muted); }
+      .pf-loading { display: flex; justify-content: center; padding: 80px 0; color: var(--text-muted); font-size: .875rem; gap: 10px; align-items: center; }
+      @media (max-width: 640px) {
+        .pf-bar { gap: 0; flex-direction: column; }
+        .pf-meta { padding: 10px 0; border-top: 1px solid var(--border); justify-content: space-between; }
+        .pf-count { text-align: left; }
+        .pf-tag { padding: 14px; font-size: .62rem; }
+        .pf-grid-wrap { padding-top: 20px; padding-bottom: 40px; }
+      }
+      @media (max-width: 480px) {
+        .p-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+        .p-card__name { font-size: .82rem; }
+        .p-card__by { display: none; }
+        .p-card__body { padding: 10px 0 12px; }
+      }
+    </style>
   </head>
   <body>
     <!-- NAVBAR -->
     <nav class="s-nav">
       <a class="s-logo" href="index.html">Selwa</a>
       <div class="nav-links" id="nav-links">
-
         <a class="nav-link active" href="products.html">Products</a>
         <a class="nav-link" href="artisans.html">Artisans</a>
         <a class="nav-link" href="about.html">About</a>
@@ -70,100 +103,10 @@
 
     <!-- PRODUCT GRID -->
     <div class="s-wrap pf-grid-wrap">
-      <div class="p-grid" id="product-grid">
-        <a href="details.html" class="p-card product-item" data-category="crafts">
-          <div class="p-card__img">
-            <img src="images/bangchung.avif" alt="Handwoven Bangchung" />
-            <span class="p-card__cat">Crafts</span>
-            <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
-          </div>
-          <div class="p-card__body">
-            <div class="p-card__name">Handwoven Bangchung</div>
-            <div class="p-card__by">Karma Wangmo · Bumthang</div>
-            <div class="p-card__foot">
-              <span class="p-card__price">Nu. 850</span>
-              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-            </div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card product-item" data-category="woodcraft">
-          <div class="p-card__img">
-            <img src="images/palang.avif" alt="Traditional Wooden Palang" />
-            <span class="p-card__cat">Woodcraft</span>
-            <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
-          </div>
-          <div class="p-card__body">
-            <div class="p-card__name">Traditional Wooden Palang</div>
-            <div class="p-card__by">Tashi Dorji · Trashigang</div>
-            <div class="p-card__foot">
-              <span class="p-card__price">Nu. 2,800</span>
-              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-            </div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card product-item" data-category="souvenirs">
-          <div class="p-card__img">
-            <img src="images/tsholam-keychain.avif" alt="Tsholam Keychain" />
-            <span class="p-card__cat">Souvenirs</span>
-            <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
-          </div>
-          <div class="p-card__body">
-            <div class="p-card__name">Tsholam Keychain</div>
-            <div class="p-card__by">Pema Lhamo · Thimphu</div>
-            <div class="p-card__foot">
-              <span class="p-card__price">Nu. 450</span>
-              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-            </div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card product-item" data-category="pottery">
-          <div class="p-card__img">
-            <img src="images/tea-cup.avif" alt="Artisan Tea Cup" />
-            <span class="p-card__cat">Pottery</span>
-            <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
-          </div>
-          <div class="p-card__body">
-            <div class="p-card__name">Artisan Tea Cup</div>
-            <div class="p-card__by">Sonam Choden · Paro</div>
-            <div class="p-card__foot">
-              <span class="p-card__price">Nu. 650</span>
-              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-            </div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card product-item" data-category="wellness">
-          <div class="p-card__img">
-            <img src="images/menjong-sorig.avif" alt="Menjong Sorig Cream" />
-            <span class="p-card__cat">Wellness</span>
-            <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
-          </div>
-          <div class="p-card__body">
-            <div class="p-card__name">Menjong Sorig Cream</div>
-            <div class="p-card__by">Kinley Pem · Thimphu</div>
-            <div class="p-card__foot">
-              <span class="p-card__price">Nu. 850</span>
-              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-            </div>
-          </div>
-        </a>
-        <a href="details.html" class="p-card product-item" data-category="food">
-          <div class="p-card__img">
-            <img src="images/high-altitude-honey.avif" alt="High Altitude Honey" />
-            <span class="p-card__cat">Food</span>
-            <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
-          </div>
-          <div class="p-card__body">
-            <div class="p-card__name">High Altitude Honey</div>
-            <div class="p-card__by">Dorji Wangchuk · Bumthang</div>
-            <div class="p-card__foot">
-              <span class="p-card__price">Nu. 950</span>
-              <button class="s-btn--add" onclick="addToCart(event)">Add</button>
-            </div>
-          </div>
-        </a>
+      <div id="pf-loading" class="pf-loading">
+        <i class="bi bi-arrow-clockwise"></i> Loading products…
       </div>
-
-      <!-- Empty state -->
+      <div class="p-grid" id="product-grid" style="display:none"></div>
       <div id="pf-empty" class="pf-empty" style="display:none">
         <div class="pf-empty__icon"><i class="bi bi-funnel"></i></div>
         <div class="pf-empty__text">No products in this category yet.</div>
@@ -192,5 +135,70 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="javascript/global.js"></script>
     <script src="javascript/products.js"></script>
+    <script>
+      function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      function cardHTML(p) {
+        const cat = (p.category || '').toLowerCase();
+        const price = Math.round(p.price);
+        const by = p.artisan && p.artisan.name
+          ? esc(p.artisan.name) + (p.artisan.location ? ' · ' + esc(p.artisan.location) : '')
+          : '';
+        return `
+          <a href="details.html?id=${p.id}" class="p-card product-item" data-category="${esc(cat)}" data-product-id="${p.id}">
+            <div class="p-card__img">
+              <img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" />
+              <span class="p-card__cat">${esc(p.category)}</span>
+              <button class="s-btn--wishlist" aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
+            </div>
+            <div class="p-card__body">
+              <div class="p-card__name">${esc(p.name)}</div>
+              ${by ? `<div class="p-card__by">${by}</div>` : ''}
+              <div class="p-card__foot">
+                <span class="p-card__price">Nu. ${price.toLocaleString()}</span>
+                <button class="s-btn--add" onclick="addToCart(event)">Add</button>
+              </div>
+            </div>
+          </a>`;
+      }
+
+      async function loadProducts() {
+        try {
+          const res = await fetch('/api/products');
+          if (!res.ok) throw new Error('fetch failed');
+          const products = await res.json();
+
+          const grid = document.getElementById('product-grid');
+          grid.innerHTML = products.map(cardHTML).join('');
+          document.getElementById('pf-loading').style.display = 'none';
+          grid.style.display = '';
+
+          // Init wishlist button states
+          if (typeof initWishlistButtons === 'function') initWishlistButtons();
+
+          // Trigger products.js to recount and reposition indicator
+          const total = products.length;
+          const countEl = document.getElementById('product-count');
+          if (countEl) countEl.textContent = `${total} product${total !== 1 ? 's' : ''}`;
+
+          const active = document.querySelector('.pf-tag.active');
+          if (typeof moveIndicator === 'function' && active) moveIndicator(active);
+
+          // Apply URL category param
+          const catParam = new URLSearchParams(window.location.search).get('category');
+          if (catParam) {
+            const tag = document.querySelector(`.pf-tag[data-category="${catParam}"]`);
+            if (tag && typeof selectTag === 'function') selectTag(tag);
+          }
+        } catch (_) {
+          document.getElementById('pf-loading').innerHTML =
+            '<i class="bi bi-exclamation-circle"></i> Failed to load products.';
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
   </body>
 </html>

@@ -37,7 +37,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.SetSessionCookie(w, user.ID)
+	utils.SetSessionCookie(w, r, user.ID)
 	utils.ResponseWithJSON(w, http.StatusCreated, AuthResponse{
 		Message: "Account created successfully",
 		User:    user,
@@ -68,7 +68,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.SetSessionCookie(w, user.ID)
+	utils.SetSessionCookie(w, r, user.ID)
 	utils.ResponseWithJSON(w, http.StatusOK, AuthResponse{
 		Message: "Login successful",
 		User:    user,
