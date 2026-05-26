@@ -11,7 +11,9 @@ INSERT INTO users (name, email, password_hash, is_admin) VALUES (
     'admin@selwa.bt',
     '$2a$10$5Z7nDaScwV.tljV4ZBameem2DVAqw9m4RAED9gZz4CG2eNsaWWkvS',
     true
-) ON CONFLICT (email) DO UPDATE SET is_admin = true;
+) ON CONFLICT (email) DO UPDATE
+    SET password_hash = EXCLUDED.password_hash,
+        is_admin      = EXCLUDED.is_admin;
 
 INSERT INTO artisans (name, location, craft_type, bio) VALUES
     ('Karma Choden',   'Thimphu', 'Crafts',    'Traditional artisan specialising in bamboo weaving and handmade Bhutanese craft objects.'),
