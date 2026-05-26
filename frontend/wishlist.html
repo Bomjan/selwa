@@ -139,31 +139,35 @@
 
     <script src="javascript/global.js"></script>
     <script>
-      function renderWishlist() {
-        const list = getWishlist();
+      let _wishlistItems = [];
+
+      function renderWishlist(items) {
+        _wishlistItems = items;
         const grid = document.getElementById('wl-grid');
         const empty = document.getElementById('wl-empty');
         const countText = document.getElementById('wl-count-text');
 
-        countText.textContent = list.length === 0
+        countText.textContent = items.length === 0
           ? '0 saved items'
-          : `${list.length} saved item${list.length !== 1 ? 's' : ''}`;
+          : `${items.length} saved item${items.length !== 1 ? 's' : ''}`;
 
-        if (list.length === 0) {
+        if (items.length === 0) {
           empty.style.display = 'block';
           grid.innerHTML = '';
           return;
         }
 
         empty.style.display = 'none';
-        grid.innerHTML = list.map((item, idx) => `
+        grid.innerHTML = items.map((item, idx) => `
           <div class="wl-card">
             <div class="wl-card__img">
-              <img src="${item.image}" alt="${item.name}" />
+              <a href="${item.id ? 'details.html?id=' + item.id : 'products.html'}">
+                <img src="${item.image}" alt="${item.name}" />
+              </a>
             </div>
             <div class="wl-card__body">
               <div class="wl-card__name">${item.name}</div>
-              <div class="wl-card__price">Nu. ${item.price.toLocaleString()}</div>
+              <div class="wl-card__price">Nu. ${Math.round(item.price).toLocaleString()}</div>
               <div class="wl-card__actions">
                 <button class="wl-card__add" onclick="moveToCart(${idx})">
                   <i class="bi bi-bag-plus"></i> Add to cart
@@ -177,30 +181,66 @@
         `).join('');
       }
 
-      function removeFromWishlist(idx) {
-        const list = getWishlist();
-        list.splice(idx, 1);
+      async function removeFromWishlist(idx) {
+        const item = _wishlistItems[idx];
+        const list = _wishlistItems.filter((_, i) => i !== idx);
         saveWishlist(list);
-        renderWishlist();
+
+        if (getUser() && item.id) {
+          try {
+            await fetch(`/api/wishlist/${item.id}`, { method: 'DELETE', credentials: 'include' });
+          } catch (_) {}
+        }
+
+        renderWishlist(list);
       }
 
-      function moveToCart(idx) {
-        const list = getWishlist();
-        const item = list[idx];
+      async function moveToCart(idx) {
+        const item = _wishlistItems[idx];
+
         const cart = getCart();
-        const existing = cart.find(c => c.name === item.name);
+        const existing = cart.find(c => (item.id && c.id === item.id) || c.name === item.name);
         if (existing) {
           existing.qty += 1;
         } else {
-          cart.push({ name: item.name, price: item.price, image: item.image, qty: 1 });
+          cart.push({ name: item.name, price: item.price, image: item.image, qty: 1, id: item.id || null });
         }
         saveCart(cart);
-        list.splice(idx, 1);
+
+        const list = _wishlistItems.filter((_, i) => i !== idx);
         saveWishlist(list);
-        renderWishlist();
+
+        if (getUser() && item.id) {
+          try {
+            await fetch(`/api/wishlist/${item.id}`, { method: 'DELETE', credentials: 'include' });
+          } catch (_) {}
+        }
+
+        renderWishlist(list);
       }
 
-      document.addEventListener('DOMContentLoaded', renderWishlist);
+      async function loadWishlist() {
+        if (getUser()) {
+          try {
+            const res = await fetch('/api/wishlist', { credentials: 'include' });
+            if (res.ok) {
+              const data = await res.json();
+              const items = data.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                image: item.image_url,
+              }));
+              saveWishlist(items);
+              renderWishlist(items);
+              return;
+            }
+          } catch (_) {}
+        }
+        renderWishlist(getWishlist());
+      }
+
+      document.addEventListener('DOMContentLoaded', loadWishlist);
     </script>
   </body>
 </html>

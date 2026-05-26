@@ -26,7 +26,7 @@ function isWishlisted(name) {
   return getWishlist().some(item => item.name === name);
 }
 
-function toggleWishlist(event) {
+async function toggleWishlist(event) {
   event.preventDefault();
   event.stopPropagation();
   const btn = event.currentTarget;
@@ -39,18 +39,63 @@ function toggleWishlist(event) {
   const productId = card.dataset.productId ? parseInt(card.dataset.productId, 10) : null;
   const list = getWishlist();
   const idx = list.findIndex(item => item.name === name);
-  if (idx >= 0) {
-    list.splice(idx, 1);
-    btn.classList.remove('wishlisted');
-    btn.querySelector('i').className = 'bi bi-heart';
-    btn.setAttribute('aria-label', 'Add to wishlist');
-  } else {
+  const adding = idx < 0;
+
+  if (adding) {
     list.push({ name, price, image, id: productId });
     btn.classList.add('wishlisted');
     btn.querySelector('i').className = 'bi bi-heart-fill';
     btn.setAttribute('aria-label', 'Remove from wishlist');
+  } else {
+    list.splice(idx, 1);
+    btn.classList.remove('wishlisted');
+    btn.querySelector('i').className = 'bi bi-heart';
+    btn.setAttribute('aria-label', 'Add to wishlist');
   }
   saveWishlist(list);
+
+  if (getUser() && productId) {
+    try {
+      if (adding) {
+        await fetch('/api/wishlist', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_id: productId }),
+        });
+      } else {
+        await fetch(`/api/wishlist/${productId}`, { method: 'DELETE', credentials: 'include' });
+      }
+    } catch (_) {}
+  }
+}
+
+async function syncWishlistFromServer() {
+  try {
+    const res = await fetch('/api/wishlist', { credentials: 'include' });
+    if (!res.ok) return;
+    const items = await res.json();
+    const list = items.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image_url,
+    }));
+    saveWishlist(list);
+  } catch (_) {}
+}
+
+async function syncWishlistToServer() {
+  const list = getWishlist();
+  for (const item of list) {
+    if (!item.id) continue;
+    try {
+      await fetch('/api/wishlist', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: item.id }),
+      });
+    } catch (_) {}
+  }
 }
 
 // ── Cart ──────────────────────────────────────────────────────────────────────
@@ -327,6 +372,10 @@ function buildAuthModal() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Login failed');
       localStorage.setItem('selwa_user', JSON.stringify(data.user));
+      await syncWishlistToServer();
+      await syncWishlistFromServer();
+      updateWishlistCount();
+      initWishlistButtons();
       closeAuthModal();
       renderNavAuth();
       if (data.user.is_admin) window.location.href = 'admin.html';
@@ -354,6 +403,10 @@ function buildAuthModal() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to create account');
       localStorage.setItem('selwa_user', JSON.stringify(data.user));
+      await syncWishlistToServer();
+      await syncWishlistFromServer();
+      updateWishlistCount();
+      initWishlistButtons();
       closeAuthModal();
       renderNavAuth();
     } catch (err) {
@@ -607,6 +660,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.setItem('selwa_user', JSON.stringify(user));
       }
     } catch (_) {}
+  }
+
+  // Sync wishlist from server so badge and heart states are accurate
+  if (getUser()) {
+    await syncWishlistFromServer();
   }
 
   updateCartCount();

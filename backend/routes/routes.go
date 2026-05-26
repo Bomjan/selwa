@@ -20,6 +20,9 @@ func InitializeRoutes() {
 	r.HandleFunc("/api/logout", handler.Logout).Methods("POST")
 	r.HandleFunc("/api/me", handler.Me).Methods("GET")
 	r.HandleFunc("/api/orders", handler.PlaceOrder).Methods("POST")
+	r.HandleFunc("/api/wishlist", handler.GetWishlist).Methods("GET")
+	r.HandleFunc("/api/wishlist", handler.AddToWishlist).Methods("POST")
+	r.HandleFunc("/api/wishlist/{productID}", handler.RemoveFromWishlist).Methods("DELETE")
 
 	// Admin routes — protected by X-User-ID header (user must have is_admin=true)
 	r.HandleFunc("/api/admin/stats", handler.AdminStats).Methods("GET")
