@@ -83,14 +83,24 @@
     <div id="empty-cart" class="cart-empty" style="display: none">
       <div class="cart-empty__bg"></div>
       <div class="cart-empty__inner">
-        <div class="weave" aria-hidden="true">
-          <div class="weave__row weave__row--1"></div>
-          <div class="weave__row weave__row--2"></div>
-          <div class="weave__row weave__row--3"></div>
-          <div class="weave__row weave__row--4"></div>
-          <div class="weave__row weave__row--5"></div>
-          <div class="weave__row weave__row--6"></div>
-          <div class="weave__row weave__row--7"></div>
+        <div class="ec-bag" aria-hidden="true">
+          <svg class="ec-bag__svg" viewBox="0 0 100 122" xmlns="http://www.w3.org/2000/svg">
+            <!-- dark interior, revealed when open -->
+            <rect class="ec-interior" x="16" y="52" width="68" height="66" rx="5"/>
+            <!-- bag body -->
+            <rect class="ec-body" x="16" y="52" width="68" height="66" rx="5"/>
+            <!-- left flap, pivots on its right edge -->
+            <g class="ec-flap ec-flap--l">
+              <rect x="16" y="41" width="34" height="13" rx="3"/>
+            </g>
+            <!-- right flap, pivots on its left edge -->
+            <g class="ec-flap ec-flap--r">
+              <rect x="50" y="41" width="34" height="13" rx="3"/>
+            </g>
+            <!-- handles (drawn last, always on top) -->
+            <path class="ec-handle" d="M 27 53 C 27 26 47 26 47 53"/>
+            <path class="ec-handle" d="M 53 53 C 53 26 73 26 73 53"/>
+          </svg>
         </div>
         <span class="cart-empty__eyebrow">Nothing here yet</span>
         <h2 class="cart-empty__heading">Your cart awaits<br>its first treasure</h2>
