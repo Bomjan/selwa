@@ -15,6 +15,8 @@ INSERT INTO users (name, email, password_hash, is_admin) VALUES (
     SET password_hash = EXCLUDED.password_hash,
         is_admin      = EXCLUDED.is_admin;
 
+UPDATE users SET is_admin = true WHERE email = 'admin@selwa.bt';
+
 INSERT INTO artisans (name, location, craft_type, bio) VALUES
     ('Karma Choden',   'Thimphu', 'Crafts',    'Traditional artisan specialising in bamboo weaving and handmade Bhutanese craft objects.'),
     ('Tashi Dorji',    'Paro',    'Woodcraft',  'Wood carver and craftsman producing ceremonial and decorative pieces from local timber.'),

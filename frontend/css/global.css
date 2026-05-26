@@ -344,6 +344,38 @@ p { margin: 0; }
 }
 .s-cart-btn:hover { border-color: var(--ink-2); color: var(--ink); }
 
+/* Wishlist nav button */
+.s-wishlist-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 8px 10px;
+  font-size: 1.05rem;
+  border: none;
+  cursor: pointer;
+  transition: color .15s;
+  position: relative;
+  align-self: center;
+  flex-shrink: 0;
+}
+.s-wishlist-btn:hover { color: var(--gold); }
+.s-wishlist-btn .s-wishlist-count {
+  background: var(--gold);
+  color: #fff;
+  border-radius: var(--r-pill);
+  padding: 0 5px;
+  min-width: 17px;
+  height: 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 #cart-count {
   background: var(--gold);
   color: #fff;
@@ -437,6 +469,7 @@ p { margin: 0; }
 
   .s-cart-btn .s-cart-label { display: none; }
   .s-cart-btn { padding: 8px 11px; }
+  .s-wishlist-btn { display: none; }
 }
 
 /* ═══════════════════════════════════════════════

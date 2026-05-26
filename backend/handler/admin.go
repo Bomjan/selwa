@@ -11,14 +11,9 @@ import (
 )
 
 func adminGuard(w http.ResponseWriter, r *http.Request) (*model.User, bool) {
-	idStr := r.Header.Get("X-User-ID")
-	if idStr == "" {
-		utils.ResponseWithError(w, http.StatusUnauthorized, "Authentication required")
-		return nil, false
-	}
-	id, err := strconv.ParseInt(idStr, 10, 64)
+	id, err := utils.UserIDFromCookie(r)
 	if err != nil {
-		utils.ResponseWithError(w, http.StatusUnauthorized, "Invalid user ID")
+		utils.ResponseWithError(w, http.StatusUnauthorized, "Authentication required")
 		return nil, false
 	}
 	user, err := model.GetUserByID(id)

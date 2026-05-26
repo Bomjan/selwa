@@ -33,11 +33,11 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			utils.ResponseWithError(w, http.StatusConflict, "Email already exists")
 			return
 		}
-
 		utils.ResponseWithError(w, http.StatusInternalServerError, "Failed to create user")
 		return
 	}
 
+	utils.SetSessionCookie(w, user.ID)
 	utils.ResponseWithJSON(w, http.StatusCreated, AuthResponse{
 		Message: "Account created successfully",
 		User:    user,
@@ -64,13 +64,33 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			utils.ResponseWithError(w, http.StatusUnauthorized, "Invalid email or password")
 			return
 		}
-
 		utils.ResponseWithError(w, http.StatusInternalServerError, "Failed to login")
 		return
 	}
 
+	utils.SetSessionCookie(w, user.ID)
 	utils.ResponseWithJSON(w, http.StatusOK, AuthResponse{
 		Message: "Login successful",
 		User:    user,
 	})
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	utils.ClearSessionCookie(w)
+	utils.ResponseWithJSON(w, http.StatusOK, map[string]string{"message": "Logged out"})
+}
+
+func Me(w http.ResponseWriter, r *http.Request) {
+	id, err := utils.UserIDFromCookie(r)
+	if err != nil {
+		utils.ResponseWithError(w, http.StatusUnauthorized, "Not authenticated")
+		return
+	}
+	user, err := model.GetUserByID(id)
+	if err != nil {
+		utils.ClearSessionCookie(w)
+		utils.ResponseWithError(w, http.StatusUnauthorized, "Session expired")
+		return
+	}
+	utils.ResponseWithJSON(w, http.StatusOK, user)
 }

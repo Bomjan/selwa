@@ -6,6 +6,20 @@ function getWishlist() {
 
 function saveWishlist(list) {
   localStorage.setItem('selwa_wishlist', JSON.stringify(list));
+  updateWishlistCount();
+}
+
+function updateWishlistCount() {
+  const total = getWishlist().length;
+  document.querySelectorAll('.s-wishlist-count').forEach(el => {
+    el.textContent = total;
+    el.style.display = total === 0 ? 'none' : '';
+  });
+  const dockBadge = document.getElementById('dock-wishlist-badge');
+  if (dockBadge) {
+    dockBadge.textContent = total;
+    dockBadge.style.display = total === 0 ? 'none' : '';
+  }
 }
 
 function isWishlisted(name) {
@@ -135,12 +149,15 @@ function buildMobileDock() {
   const dock = document.createElement('nav');
   dock.id = 's-dock';
   dock.setAttribute('aria-label', 'Mobile navigation');
+  const wishlistCount = getWishlist().length;
   dock.innerHTML = `
     <a class="s-dock__item ${active('products.html')}" href="products.html">
       <i class="bi bi-grid-3x3-gap"></i><span>Products</span>
     </a>
-    <a class="s-dock__item ${active('artisans.html')}" href="artisans.html">
-      <i class="bi bi-person-heart"></i><span>Artisans</span>
+    <a class="s-dock__item ${active('wishlist.html')}" href="wishlist.html" style="position:relative">
+      <i class="bi bi-heart"></i>
+      <span class="s-dock__badge s-wishlist-count" id="dock-wishlist-badge" style="display:${wishlistCount === 0 ? 'none' : ''}">${wishlistCount}</span>
+      <span>Wishlist</span>
     </a>
     <a class="s-dock__item ${active('cart.html')}" href="cart.html" style="position:relative">
       <i class="bi bi-bag"></i>
@@ -299,7 +316,7 @@ function buildAuthModal() {
     btn.disabled = true; btn.textContent = 'Signing in…';
     try {
       const res = await fetch('/api/login', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: document.getElementById('am-email').value.trim(),
           password: document.getElementById('am-password').value,
@@ -325,7 +342,7 @@ function buildAuthModal() {
     btn.disabled = true; btn.textContent = 'Creating account…';
     try {
       const res = await fetch('/api/signup', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: document.getElementById('am-name').value.trim(),
           email: document.getElementById('am-signup-email').value.trim(),
@@ -570,8 +587,28 @@ function initWishlistButtons() {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', () => {
+async function signOut() {
+  try {
+    await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+  } catch (_) {}
+  localStorage.removeItem('selwa_user');
+  window.location.href = 'index.html';
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // Restore session from cookie if localStorage is stale / missing
+  if (!getUser()) {
+    try {
+      const res = await fetch('/api/me', { credentials: 'include' });
+      if (res.ok) {
+        const user = await res.json();
+        localStorage.setItem('selwa_user', JSON.stringify(user));
+      }
+    } catch (_) {}
+  }
+
   updateCartCount();
+  updateWishlistCount();
   buildAuthModal();
   renderNavAuth();
   buildMobileDock();

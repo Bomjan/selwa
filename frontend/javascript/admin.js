@@ -4,18 +4,18 @@ function getAdminUser() {
   return JSON.parse(localStorage.getItem('selwa_user') || 'null');
 }
 
-function adminLogout() {
+async function adminLogout() {
+  try { await fetch('/api/logout', { method: 'POST', credentials: 'include' }); } catch (_) {}
   localStorage.removeItem('selwa_user');
   window.location.href = 'index.html';
 }
 
 function adminFetch(path, options = {}) {
-  const user = getAdminUser();
   return fetch(path, {
     ...options,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'X-User-ID': user ? String(user.id) : '',
       ...(options.headers || {}),
     },
   });
@@ -260,9 +260,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Verify admin status with backend
   try {
-    const res = await fetch('/api/admin/stats', {
-      headers: { 'X-User-ID': String(user.id) },
-    });
+    const res = await fetch('/api/admin/stats', { credentials: 'include' });
     if (!res.ok) {
       document.getElementById('access-denied').style.display = 'flex';
       return;
