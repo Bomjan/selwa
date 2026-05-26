@@ -1,7 +1,17 @@
--- Wipes and re-inserts all artisans and products.
+-- Wipes and re-inserts all seed data.
 -- WARNING: run this only once after schema.sql, or to reset demo data.
 
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT false;
+
 TRUNCATE TABLE products, artisans RESTART IDENTITY CASCADE;
+
+-- Admin account  (password: admin123)
+INSERT INTO users (name, email, password_hash, is_admin) VALUES (
+    'Admin',
+    'admin@selwa.bt',
+    '$2a$10$5Z7nDaScwV.tljV4ZBameem2DVAqw9m4RAED9gZz4CG2eNsaWWkvS',
+    true
+) ON CONFLICT (email) DO UPDATE SET is_admin = true;
 
 INSERT INTO artisans (name, location, craft_type, bio) VALUES
     ('Karma Choden',   'Thimphu', 'Crafts',    'Traditional artisan specialising in bamboo weaving and handmade Bhutanese craft objects.'),
