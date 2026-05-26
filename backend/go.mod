@@ -8,3 +8,5 @@ require (
 )
 
 require github.com/gorilla/mux v1.8.1
+
+require github.com/DATA-DOG/go-sqlmock v1.5.2
