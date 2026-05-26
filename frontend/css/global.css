@@ -348,32 +348,35 @@ p { margin: 0; }
 .s-wishlist-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
   background: transparent;
-  color: var(--text-muted);
-  padding: 8px 10px;
-  font-size: 1.05rem;
-  border: none;
+  color: var(--ink-2);
+  padding: 7px 10px;
+  font-size: 1rem;
+  border: 1px solid var(--border);
   cursor: pointer;
-  transition: color .15s;
+  transition: border-color .15s, color .15s;
   position: relative;
   align-self: center;
   flex-shrink: 0;
+  text-decoration: none;
 }
-.s-wishlist-btn:hover { color: var(--gold); }
+.s-wishlist-btn:hover { border-color: var(--ink-2); color: var(--ink); }
 .s-wishlist-btn .s-wishlist-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
   background: var(--gold);
   color: #fff;
-  border-radius: var(--r-pill);
-  padding: 0 5px;
-  min-width: 17px;
-  height: 17px;
+  min-width: 16px;
+  height: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: .65rem;
+  font-size: .6rem;
   font-weight: 700;
   line-height: 1;
+  padding: 0 4px;
 }
 
 #cart-count {
