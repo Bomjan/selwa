@@ -58,36 +58,89 @@ if (loginForm) {
 // Signup form
 const signupForm = document.getElementById('signup-form');
 if (signupForm) {
-  // Password strength indicator
   const pwdInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirm-password');
+  const fill = document.getElementById('strength-fill');
+  const strengthText = document.getElementById('strength-text');
+  const rulesEl = document.getElementById('pw-rules');
+  const confirmMsg = document.getElementById('confirm-msg');
+
+  const rules = [
+    { id: 'rule-length',  test: v => v.length >= 8 },
+    { id: 'rule-upper',   test: v => /[A-Z]/.test(v) },
+    { id: 'rule-number',  test: v => /[0-9]/.test(v) },
+    { id: 'rule-special', test: v => /[^A-Za-z0-9]/.test(v) },
+  ];
+
+  function checkPassword(val) {
+    const results = rules.map(r => r.test(val));
+    const strength = results.filter(Boolean).length;
+
+    // strength bar
+    const colors = ['', '#e74c3c', '#e67e22', '#f1c40f', '#27ae60'];
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    fill.style.width = (strength * 25) + '%';
+    fill.style.background = colors[strength];
+    strengthText.textContent = val.length ? labels[strength] : '';
+    strengthText.style.color = colors[strength];
+
+    // rules list
+    if (val.length > 0) {
+      rulesEl.classList.add('visible');
+      rules.forEach((r, i) => {
+        const li = document.getElementById(r.id);
+        li.className = results[i] ? 'ok' : 'fail';
+      });
+    } else {
+      rulesEl.classList.remove('visible');
+      rules.forEach(r => { document.getElementById(r.id).className = ''; });
+    }
+
+    return results.every(Boolean);
+  }
+
+  function checkConfirm() {
+    if (!confirmInput.value) { confirmMsg.textContent = ''; confirmMsg.className = 'confirm-msg'; return false; }
+    const match = pwdInput.value === confirmInput.value;
+    confirmMsg.textContent = match ? 'Passwords match' : 'Passwords do not match';
+    confirmMsg.className = 'confirm-msg ' + (match ? 'match' : 'no-match');
+    return match;
+  }
+
   if (pwdInput) {
     pwdInput.addEventListener('input', () => {
-      const val = pwdInput.value;
-      const fill = document.getElementById('strength-fill');
-      const text = document.getElementById('strength-text');
-      if (!fill || !text) return;
-      let strength = 0;
-      if (val.length >= 8) strength++;
-      if (/[A-Z]/.test(val)) strength++;
-      if (/[0-9]/.test(val)) strength++;
-      if (/[^A-Za-z0-9]/.test(val)) strength++;
-      const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-      const colors = ['', '#e74c3c', '#e67e22', '#f1c40f', '#27ae60'];
-      fill.style.width = (strength * 25) + '%';
-      fill.style.background = colors[strength];
-      text.textContent = labels[strength];
-      text.style.color = colors[strength];
+      checkPassword(pwdInput.value);
+      if (confirmInput.value) checkConfirm();
     });
+  }
+
+  if (confirmInput) {
+    confirmInput.addEventListener('input', checkConfirm);
   }
 
   signupForm.addEventListener('submit', async e => {
     e.preventDefault();
     const name = document.getElementById('full-name').value.trim();
     const email = document.getElementById('signup-email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirm = document.getElementById('confirm-password').value;
+    const password = pwdInput.value;
+    const confirm = confirmInput.value;
+
+    if (!name) { showError('Please enter your full name'); return; }
+    if (!email) { showError('Please enter your email'); return; }
+
+    const pwdStrong = checkPassword(password);
+    if (!pwdStrong) {
+      showError('Password does not meet all requirements');
+      rulesEl.classList.add('visible');
+      rules.forEach(r => {
+        const li = document.getElementById(r.id);
+        if (!li.classList.contains('ok')) li.className = 'fail';
+      });
+      return;
+    }
 
     if (password !== confirm) {
+      checkConfirm();
       showError('Passwords do not match');
       return;
     }

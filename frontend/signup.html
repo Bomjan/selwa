@@ -45,6 +45,17 @@
       .strength-bar { height: 2px; background: var(--border); margin-top: 6px; overflow: hidden; }
       .strength-fill { height: 100%; width: 0; transition: width .25s, background .25s; }
       .strength-text { font-size: .68rem; margin-top: 4px; color: var(--text-faint); letter-spacing: .04em; }
+      .pw-rules { list-style: none; margin: 8px 0 0; padding: 0; display: none; }
+      .pw-rules.visible { display: block; }
+      .pw-rules li { font-size: .72rem; color: var(--text-faint); padding: 2px 0; display: flex; align-items: center; gap: 6px; transition: color .15s; }
+      .pw-rules li::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--border); flex-shrink: 0; transition: background .15s, border-color .15s; }
+      .pw-rules li.ok { color: #27ae60; }
+      .pw-rules li.ok::before { background: #27ae60; border-color: #27ae60; }
+      .pw-rules li.fail { color: #c0392b; }
+      .pw-rules li.fail::before { border-color: #c0392b; }
+      .confirm-msg { font-size: .72rem; margin-top: 5px; height: 16px; }
+      .confirm-msg.match { color: #27ae60; }
+      .confirm-msg.no-match { color: #c0392b; }
       @media (max-width: 700px) {
         .auth-body { overflow: auto; }
         .auth-split { flex-direction: column; overflow-y: auto; height: auto; min-height: 100vh; }
@@ -102,6 +113,12 @@
             </div>
             <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
             <div class="strength-text" id="strength-text"></div>
+            <ul class="pw-rules" id="pw-rules">
+              <li id="rule-length">At least 8 characters</li>
+              <li id="rule-upper">One uppercase letter</li>
+              <li id="rule-number">One number</li>
+              <li id="rule-special">One special character (!@#$%...)</li>
+            </ul>
 
             <label class="auth-label" for="confirm-password" style="margin-top:14px">Confirm password</label>
             <div class="auth-input-wrapper">
@@ -110,6 +127,7 @@
                 <i class="bi bi-eye"></i>
               </button>
             </div>
+            <div class="confirm-msg" id="confirm-msg"></div>
 
             <button type="submit" class="auth-submit">Create account</button>
           </form>
