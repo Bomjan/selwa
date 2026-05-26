@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
     name          VARCHAR(255) NOT NULL,
     email         VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
+    is_admin      BOOLEAN NOT NULL DEFAULT false,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -29,4 +30,29 @@ CREATE TABLE IF NOT EXISTS products (
     stock_quantity INTEGER DEFAULT 0,
     image_url      VARCHAR(500),
     created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS wishlists (
+    id         BIGSERIAL PRIMARY KEY,
+    user_id    BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, product_id)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id           BIGSERIAL PRIMARY KEY,
+    user_id      BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    status       VARCHAR(50) NOT NULL DEFAULT 'pending',
+    total_amount DECIMAL(10,2) NOT NULL,
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id         BIGSERIAL PRIMARY KEY,
+    order_id   BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    product_id BIGINT NOT NULL REFERENCES products(id),
+    quantity   INTEGER NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL
 );

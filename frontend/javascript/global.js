@@ -1,3 +1,43 @@
+// ── Wishlist ──────────────────────────────────────────────────────────────────
+
+function getWishlist() {
+  return JSON.parse(localStorage.getItem('selwa_wishlist') || '[]');
+}
+
+function saveWishlist(list) {
+  localStorage.setItem('selwa_wishlist', JSON.stringify(list));
+}
+
+function isWishlisted(name) {
+  return getWishlist().some(item => item.name === name);
+}
+
+function toggleWishlist(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const btn = event.currentTarget;
+  const card = btn.closest('.p-card');
+  const name = card.querySelector('.p-card__name').textContent.trim();
+  const priceText = card.querySelector('.p-card__price').textContent;
+  const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
+  const image = card.querySelector('img').getAttribute('src');
+
+  const list = getWishlist();
+  const idx = list.findIndex(item => item.name === name);
+  if (idx >= 0) {
+    list.splice(idx, 1);
+    btn.classList.remove('wishlisted');
+    btn.querySelector('i').className = 'bi bi-heart';
+    btn.setAttribute('aria-label', 'Add to wishlist');
+  } else {
+    list.push({ name, price, image });
+    btn.classList.add('wishlisted');
+    btn.querySelector('i').className = 'bi bi-heart-fill';
+    btn.setAttribute('aria-label', 'Remove from wishlist');
+  }
+  saveWishlist(list);
+}
+
 // ── Cart ──────────────────────────────────────────────────────────────────────
 
 function getCart() {
@@ -510,6 +550,23 @@ function initPageTransitions() {
   });
 }
 
+// ── Wishlist button sync ──────────────────────────────────────────────────────
+
+function initWishlistButtons() {
+  document.querySelectorAll('.p-card').forEach(card => {
+    const name = card.querySelector('.p-card__name');
+    if (!name) return;
+    const btn = card.querySelector('.s-btn--wishlist');
+    if (!btn) return;
+    if (isWishlisted(name.textContent.trim())) {
+      btn.classList.add('wishlisted');
+      btn.querySelector('i').className = 'bi bi-heart-fill';
+      btn.setAttribute('aria-label', 'Remove from wishlist');
+    }
+    btn.addEventListener('click', toggleWishlist);
+  });
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -520,6 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initScrollReveal();
   initCardGlow();
+  initWishlistButtons();
   initRipple();
   initScrollProgress();
   initBackToTop();

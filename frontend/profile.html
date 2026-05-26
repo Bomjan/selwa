@@ -63,6 +63,14 @@
           </div>
         </div>
 
+        <div class="profile-section">
+          <h3><i class="bi bi-heart"></i> Wishlist</h3>
+          <div id="wishlist-summary-list"></div>
+          <div style="margin-top: 12px;">
+            <a href="products.html" class="s-btn s-btn--outline-dark s-btn--sm">Browse products</a>
+          </div>
+        </div>
+
         <button class="s-btn s-btn--dark logout-btn" onclick="logout()">
           <i class="bi bi-box-arrow-right"></i> Sign out
         </button>
@@ -97,6 +105,19 @@
             `<div class="cart-summary-item">
               <span>${item.name} × ${item.qty}</span>
               <span>Nu. ${(item.price * item.qty).toLocaleString()}</span>
+            </div>`
+          ).join('');
+        }
+
+        const wishlist = getWishlist();
+        const wishlistEl = document.getElementById('wishlist-summary-list');
+        if (wishlist.length === 0) {
+          wishlistEl.innerHTML = '<p class="empty-note">No saved items yet.</p>';
+        } else {
+          wishlistEl.innerHTML = wishlist.map(item =>
+            `<div class="cart-summary-item">
+              <span>${item.name}</span>
+              <span>Nu. ${item.price.toLocaleString()}</span>
             </div>`
           ).join('');
         }

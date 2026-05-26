@@ -18,6 +18,14 @@ func InitializeRoutes() {
 	r.HandleFunc("/api/signup", handler.Signup).Methods("POST")
 	r.HandleFunc("/api/login", handler.Login).Methods("POST")
 
+	// Admin routes — protected by X-User-ID header (user must have is_admin=true)
+	r.HandleFunc("/api/admin/stats", handler.AdminStats).Methods("GET")
+	r.HandleFunc("/api/admin/users", handler.AdminGetUsers).Methods("GET")
+	r.HandleFunc("/api/admin/orders", handler.AdminGetOrders).Methods("GET")
+	r.HandleFunc("/api/admin/products", handler.AdminCreateProduct).Methods("POST")
+	r.HandleFunc("/api/admin/products/{id}", handler.AdminUpdateProduct).Methods("PUT")
+	r.HandleFunc("/api/admin/products/{id}", handler.AdminDeleteProduct).Methods("DELETE")
+
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("../frontend")))
 
 	port := os.Getenv("PORT")

@@ -21,16 +21,35 @@ const (
 		RETURNING id;
 	`
 	queryGetUserByEmail = `
-		SELECT id, name, email, password_hash
+		SELECT id, name, email, password_hash, is_admin
 		FROM users
 		WHERE email = $1;
+	`
+	queryGetUserByID = `
+		SELECT id, name, email, is_admin
+		FROM users
+		WHERE id = $1;
+	`
+	queryGetAllUsers = `
+		SELECT id, name, email, is_admin, created_at
+		FROM users
+		ORDER BY id;
 	`
 )
 
 type User struct {
-	ID    int64  `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID      int64  `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	IsAdmin bool   `json:"is_admin"`
+}
+
+type UserWithDate struct {
+	ID        int64  `json:"id"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	IsAdmin   bool   `json:"is_admin"`
+	CreatedAt string `json:"created_at"`
 }
 
 type CreateUserInput struct {
@@ -73,12 +92,42 @@ func GetUserByEmail(email string) (*User, string, error) {
 		&user.Name,
 		&user.Email,
 		&passwordHash,
+		&user.IsAdmin,
 	)
 	if err != nil {
 		return nil, "", err
 	}
 
 	return &user, passwordHash, nil
+}
+
+func GetUserByID(id int64) (*User, error) {
+	var user User
+	err := db.Db.QueryRow(queryGetUserByID, id).Scan(
+		&user.ID, &user.Name, &user.Email, &user.IsAdmin,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func GetAllUsers() ([]UserWithDate, error) {
+	rows, err := db.Db.Query(queryGetAllUsers)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	users := []UserWithDate{}
+	for rows.Next() {
+		var u UserWithDate
+		if err := rows.Scan(&u.ID, &u.Name, &u.Email, &u.IsAdmin, &u.CreatedAt); err != nil {
+			return nil, err
+		}
+		users = append(users, u)
+	}
+	return users, rows.Err()
 }
 
 func ValidateUserCredentials(email, password string) (*User, error) {
