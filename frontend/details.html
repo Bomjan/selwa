@@ -40,6 +40,7 @@
       .pd-stock { font-size:.73rem; color:var(--text-muted); margin-left:10px; }
       .pd-actions { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
       .pd-actions .s-btn { width:100%; justify-content:center; font-size:.875rem; }
+      #detail-wishlist-btn.wishlisted { border-color: var(--gold); color: var(--gold); }
       .pd-info-box { background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 14px; display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
       .pd-info-row { display:flex; align-items:center; gap:8px; font-size:.81rem; color:var(--text-muted); }
       .pd-info-row i { color:var(--gold); font-size:.875rem; }
@@ -141,6 +142,9 @@
             <div class="pd-actions">
               <button class="s-btn s-btn--gold" id="detail-add-btn" onclick="detailAddToCart(this)">
                 <i class="bi bi-bag"></i> Add to cart
+              </button>
+              <button class="s-btn s-btn--outline-dark" id="detail-wishlist-btn" onclick="detailToggleWishlist(this)" aria-label="Add to wishlist">
+                <i class="bi bi-heart"></i> Save
               </button>
             </div>
             <div class="pd-info-box">
@@ -250,6 +254,52 @@
         }, 1000);
       }
 
+      async function detailToggleWishlist(btn) {
+        if (!currentProduct) return;
+        const list = getWishlist();
+        const idx = list.findIndex(item => item.id === currentProduct.id || item.name === currentProduct.name);
+        const adding = idx < 0;
+
+        if (adding) {
+          list.push({
+            id: currentProduct.id,
+            name: currentProduct.name,
+            price: Math.round(currentProduct.price),
+            image: currentProduct.image_url,
+          });
+          btn.innerHTML = '<i class="bi bi-heart-fill"></i> Saved';
+          btn.classList.add('wishlisted');
+        } else {
+          list.splice(idx, 1);
+          btn.innerHTML = '<i class="bi bi-heart"></i> Save';
+          btn.classList.remove('wishlisted');
+        }
+        saveWishlist(list);
+
+        if (getUser() && currentProduct.id) {
+          try {
+            if (adding) {
+              await fetch('/api/wishlist', {
+                method: 'POST', credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_id: currentProduct.id }),
+              });
+            } else {
+              await fetch(`/api/wishlist/${currentProduct.id}`, { method: 'DELETE', credentials: 'include' });
+            }
+          } catch (_) {}
+        }
+      }
+
+      function updateDetailWishlistBtn() {
+        if (!currentProduct) return;
+        const btn = document.getElementById('detail-wishlist-btn');
+        if (!btn) return;
+        const wishlisted = getWishlist().some(item => item.id === currentProduct.id || item.name === currentProduct.name);
+        btn.innerHTML = wishlisted ? '<i class="bi bi-heart-fill"></i> Saved' : '<i class="bi bi-heart"></i> Save';
+        if (wishlisted) btn.classList.add('wishlisted'); else btn.classList.remove('wishlisted');
+      }
+
       function switchTab(el, id) {
         document.querySelectorAll('.pd-tabs__tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
@@ -327,6 +377,7 @@
 
           document.getElementById('pd-loading').style.display = 'none';
           document.getElementById('pd-content').style.display = '';
+          updateDetailWishlistBtn();
 
           // Related products (same category, excluding this one)
           loadRelated(p.id, p.category);

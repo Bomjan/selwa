@@ -753,24 +753,16 @@ p { margin: 0; }
   right: 8px;
   width: 32px;
   height: 32px;
-  border-radius: 50%;
   background: rgba(255,255,255,0.9);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity .22s, transform .22s, background .18s;
+  transition: background .18s, color .18s;
   font-size: .95rem;
   color: var(--text-muted);
   z-index: 2;
-}
-.p-card:hover .s-btn--wishlist,
-.s-btn--wishlist.wishlisted {
-  opacity: 1;
-  transform: scale(1);
 }
 .s-btn--wishlist.wishlisted {
   color: #e63946;
