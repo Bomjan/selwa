@@ -114,11 +114,267 @@
 }
 .cart-item__remove:hover { color: #c0392b; }
 
+/* ── Cart Page Header ── */
+.cart-page-hd {
+  padding-top: 32px;
+  padding-bottom: 12px;
+}
+.cart-page-hd h1 { font-size: clamp(1.4rem, 3vw, 1.8rem); }
+.cart-page-hd p  { color: var(--text-muted); font-size: .875rem; }
+
 /* ── Empty Cart ── */
-.cart-empty { text-align: center; padding: 56px 24px; }
-.cart-empty__icon { font-size: 2.4rem; color: var(--text-faint); margin-bottom: 14px; }
-.cart-empty__heading { font-size: 1.2rem; margin-bottom: 7px; }
-.cart-empty__sub { color: var(--text-muted); font-size: .875rem; margin-bottom: 22px; }
+.cart-empty {
+  position: relative;
+  min-height: calc(100vh - var(--nav-h, 60px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0c0a07;
+}
+
+/* Radial gold glow at center */
+.cart-empty__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 48%, rgba(180,130,20,.09) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cart-empty__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+  padding: 48px 24px;
+}
+
+/* ── Weaving animation ────────────────────────────────────────────────────── */
+/*
+  Warp threads: vertical stripes in container background, with a sheen
+  gradient to simulate a rounded thread cross-section.
+
+  Weft threads: revealed left→right via clip-path (NOT scaleX) so the
+  background gradient patterns don't compress as the thread enters.
+
+  Over/under interlace: each row has a repeating warp-over-weft overlay
+  at alternating 40px columns — odd rows show warp at 20-26px, even rows
+  at 0-6px, matching the background warp pitch. This creates real plain-weave.
+
+  Sheen: a linear-gradient(180deg) on every row simulates a round thread.
+*/
+
+.weave {
+  width: 240px;
+  height: 140px;
+  position: relative;
+  flex-shrink: 0;
+  /* Warp — 6px thread with highlight sheen, 14px gap, repeat 20px */
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(55,32,5,.95)  0px,
+      rgba(185,120,20,.9) 2px,
+      rgba(195,130,22,.9) 4px,
+      rgba(55,32,5,.95)  6px,
+      transparent        6px,
+      transparent       20px
+    ),
+    #0c0a07;
+}
+
+.weave__row {
+  position: absolute;
+  left: 0; right: 0;
+  height: 16px;
+  /* clip-path reveal: thread enters from left without distorting gradients */
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Thread sheen: bright top edge → transparent midpoint → dark underside */
+.weave__row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,.26) 0%,
+    rgba(255,255,255,.04) 45%,
+    rgba(0,0,0,.22) 100%
+  );
+  z-index: 1;
+}
+
+/* Warp-over-weft overlay — sits on top of thread colour + sheen.
+   Odd rows: warp covers columns 20–26px of every 40px (even warps go over).
+   Even rows: warp covers columns 0–6px of every 40px (odd warps go over).
+   Period is 40px = 2 × warp pitch, creating the alternating interlace. */
+.weave__row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.weave__row:nth-child(odd)::after {
+  background: repeating-linear-gradient(90deg,
+    transparent         0px,
+    transparent        20px,
+    rgba(55,32,5,.92)  20px,
+    rgba(185,120,20,.88) 22px,
+    rgba(185,120,20,.88) 24px,
+    rgba(55,32,5,.92)  26px,
+    transparent        26px,
+    transparent        40px
+  );
+}
+.weave__row:nth-child(even)::after {
+  background: repeating-linear-gradient(90deg,
+    rgba(55,32,5,.92)   0px,
+    rgba(185,120,20,.88) 2px,
+    rgba(185,120,20,.88) 4px,
+    rgba(55,32,5,.92)   6px,
+    transparent         6px,
+    transparent        40px
+  );
+}
+
+/* Thread colours — traditional 5 Bhutanese colours */
+.weave__row--1 { top: 0px;   background-color: #c8920a; }
+.weave__row--2 { top: 20px;  background-color: #1a56c0; }
+.weave__row--3 { top: 40px;  background-color: #c4b056; }
+.weave__row--4 { top: 60px;  background-color: #b81e1e; }
+.weave__row--5 { top: 80px;  background-color: #287035; }
+.weave__row--6 { top: 100px; background-color: #c8920a; }
+.weave__row--7 { top: 120px; background-color: #1a56c0; }
+
+/* Animations — clip-path: inset(0 100%→0% 0 0)
+   Cycle = 7s · stagger 5% per row · reveal 6% · hold until 68%
+   Fade 68–79% · snap-reset at 79.1% · invisible until 100% */
+.weave__row--1 { animation: wv1 7s ease infinite; }
+.weave__row--2 { animation: wv2 7s ease infinite; }
+.weave__row--3 { animation: wv3 7s ease infinite; }
+.weave__row--4 { animation: wv4 7s ease infinite; }
+.weave__row--5 { animation: wv5 7s ease infinite; }
+.weave__row--6 { animation: wv6 7s ease infinite; }
+.weave__row--7 { animation: wv7 7s ease infinite; }
+
+@keyframes wv1 {
+  0%    { clip-path: inset(0 100% 0 0); opacity: 0; }
+  2%    { opacity: 1; }
+  7%    { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%   { opacity: 1; }
+  79%   { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1% { clip-path: inset(0 100% 0 0); }
+  100%  { opacity: 0; }
+}
+@keyframes wv2 {
+  0%, 5% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  7%     { opacity: 1; }
+  12%    { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%    { opacity: 1; }
+  79%    { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1%  { clip-path: inset(0 100% 0 0); }
+  100%   { opacity: 0; }
+}
+@keyframes wv3 {
+  0%, 10% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  12%     { opacity: 1; }
+  17%     { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%     { opacity: 1; }
+  79%     { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1%   { clip-path: inset(0 100% 0 0); }
+  100%    { opacity: 0; }
+}
+@keyframes wv4 {
+  0%, 15% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  17%     { opacity: 1; }
+  22%     { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%     { opacity: 1; }
+  79%     { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1%   { clip-path: inset(0 100% 0 0); }
+  100%    { opacity: 0; }
+}
+@keyframes wv5 {
+  0%, 20% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  22%     { opacity: 1; }
+  27%     { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%     { opacity: 1; }
+  79%     { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1%   { clip-path: inset(0 100% 0 0); }
+  100%    { opacity: 0; }
+}
+@keyframes wv6 {
+  0%, 25% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  27%     { opacity: 1; }
+  32%     { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%     { opacity: 1; }
+  79%     { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1%   { clip-path: inset(0 100% 0 0); }
+  100%    { opacity: 0; }
+}
+@keyframes wv7 {
+  0%, 30% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  32%     { opacity: 1; }
+  37%     { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  68%     { opacity: 1; }
+  79%     { opacity: 0; clip-path: inset(0 0% 0 0); }
+  79.1%   { clip-path: inset(0 100% 0 0); }
+  100%    { opacity: 0; }
+}
+
+.cart-empty__eyebrow {
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.cart-empty__heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  font-weight: 600;
+  color: #f0ead6;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.cart-empty__sub {
+  color: rgba(240,234,214,.45);
+  font-size: .9rem;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.cart-empty__cta { margin-top: 6px; }
+
+.cart-empty__cats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.07);
+  width: 100%;
+  max-width: 380px;
+}
+.cart-empty__cats a {
+  font-size: .78rem;
+  color: rgba(240,234,214,.35);
+  text-decoration: none;
+  transition: color .2s;
+}
+.cart-empty__cats a:hover { color: var(--gold); }
+.cart-empty__cats span   { color: rgba(255,255,255,.15); }
+
+@media (max-width: 480px) {
+  .cart-empty__inner { gap: 18px; padding: 40px 20px; }
+  .cart-empty__heading { font-size: clamp(1.4rem, 7vw, 1.8rem); }
+  .cart-empty__sub .br-md { display: none; }
+  .cart-empty__cta { width: 100%; justify-content: center; }
+}
 
 /* ── Summary Card ── */
 .summary-card {
@@ -202,6 +458,10 @@
 .cart-continue { margin-top: 12px; }
 
 /* ── Mobile ── */
+@media (max-width: 480px) {
+  .cart-empty { padding: 52px 20px 72px; gap: 16px; }
+}
+
 @media (max-width: 768px) {
   /* Summary moves below items; sticky checkout strip replaces it */
   .summary-card { position: static; }

@@ -5,15 +5,18 @@ function renderCart() {
   const cartMain = document.getElementById('cart-main');
   const itemCount = document.getElementById('item-count');
 
+  const hdEl    = document.getElementById('cart-page-hd');
   const totalQty = cart.reduce((s, i) => s + i.qty, 0);
   if (itemCount) itemCount.textContent = totalQty;
 
   if (cart.length === 0) {
+    if (hdEl) hdEl.style.display = 'none';
     if (cartMain) cartMain.style.display = 'none';
     if (emptyEl) emptyEl.style.display = 'flex';
     return;
   }
 
+  if (hdEl) hdEl.style.display = '';
   if (emptyEl) emptyEl.style.display = 'none';
   if (cartMain) cartMain.style.display = '';
 

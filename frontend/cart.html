@@ -32,11 +32,9 @@
     </nav>
 
     <div class="s-wrap">
-      <div style="padding-top: 32px; padding-bottom: 12px">
-        <h1 style="font-size: clamp(1.4rem, 3vw, 1.8rem)">Your cart</h1>
-        <p style="color: var(--text-muted); font-size: 0.875rem">
-          <span id="item-count">0</span> items
-        </p>
+      <div id="cart-page-hd" class="cart-page-hd">
+        <h1>Your cart</h1>
+        <p><span id="item-count">0</span> items</p>
       </div>
 
       <div id="cart-main" class="cart-layout" style="display: none">
@@ -79,13 +77,34 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Empty cart state -->
-      <div id="empty-cart" class="cart-empty" style="display: none">
-        <i class="bi bi-bag cart-empty__icon"></i>
-        <h3 class="cart-empty__heading">Your cart is empty</h3>
-        <p class="cart-empty__sub">Looks like you haven't added anything yet.</p>
-        <a href="products.html" class="s-btn s-btn--gold" style="margin-top: 8px">Browse products</a>
+    <!-- Empty cart — full-bleed, outside s-wrap -->
+    <div id="empty-cart" class="cart-empty" style="display: none">
+      <div class="cart-empty__bg"></div>
+      <div class="cart-empty__inner">
+        <div class="weave" aria-hidden="true">
+          <div class="weave__row weave__row--1"></div>
+          <div class="weave__row weave__row--2"></div>
+          <div class="weave__row weave__row--3"></div>
+          <div class="weave__row weave__row--4"></div>
+          <div class="weave__row weave__row--5"></div>
+          <div class="weave__row weave__row--6"></div>
+          <div class="weave__row weave__row--7"></div>
+        </div>
+        <span class="cart-empty__eyebrow">Nothing here yet</span>
+        <h2 class="cart-empty__heading">Your cart awaits<br>its first treasure</h2>
+        <p class="cart-empty__sub">Every piece is handcrafted by a Bhutanese artisan,<br class="br-md">carrying centuries of tradition.</p>
+        <a href="products.html" class="s-btn s-btn--gold cart-empty__cta">Explore collection</a>
+        <div class="cart-empty__cats">
+          <a href="products.html?category=textiles">Textiles</a>
+          <span>·</span>
+          <a href="products.html?category=crafts">Crafts</a>
+          <span>·</span>
+          <a href="products.html?category=wellness">Wellness</a>
+          <span>·</span>
+          <a href="products.html?category=food">Food &amp; Honey</a>
+        </div>
       </div>
     </div>
 
