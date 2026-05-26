@@ -114,7 +114,7 @@
             </div>
           </div>
           <div class="pd-actions">
-            <button class="s-btn s-btn--gold" onclick="addToCart(event)">
+            <button class="s-btn s-btn--gold" id="detail-add-btn" onclick="detailAddToCart(this)">
               <i class="bi bi-bag"></i> Add to cart
             </button>
           </div>
@@ -397,8 +397,6 @@
           <h4>Support</h4>
           <ul>
             <li><a href="faq.html">FAQ</a></li>
-            <li><a href="privacy.html">Privacy policy</a></li>
-            <li><a href="terms.html">Terms</a></li>
           </ul>
         </div>
       </div>
@@ -413,6 +411,33 @@
       function changeQty(delta) {
         var el = document.getElementById('qty');
         el.textContent = Math.max(1, parseInt(el.textContent) + delta);
+      }
+
+      function detailAddToCart(btn) {
+        var name  = document.querySelector('.pd-title').textContent.trim();
+        var priceText = document.querySelector('.pd-price').textContent;
+        var price = parseInt(priceText.replace(/[^0-9]/g, ''), 10);
+        var image = document.getElementById('current-img').getAttribute('src');
+        var qty   = parseInt(document.getElementById('qty').textContent, 10) || 1;
+
+        var cart = getCart();
+        var existing = cart.find(function(item) { return item.name === name; });
+        if (existing) {
+          existing.qty += qty;
+        } else {
+          cart.push({ name: name, price: price, image: image, qty: qty });
+        }
+        saveCart(cart);
+
+        var original = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check"></i> Added';
+        btn.style.opacity = '0.8';
+        btn.disabled = true;
+        setTimeout(function() {
+          btn.innerHTML = original;
+          btn.style.opacity = '';
+          btn.disabled = false;
+        }, 1000);
       }
 
       function setThumb(el, src) {

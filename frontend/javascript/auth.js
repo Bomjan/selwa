@@ -44,7 +44,8 @@ if (loginForm) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Login failed');
       localStorage.setItem('selwa_user', JSON.stringify(data.user));
-      window.location.href = 'profile.html';
+      const redirect = new URLSearchParams(window.location.search).get('redirect');
+      window.location.href = redirect || 'profile.html';
     } catch (err) {
       showError(err.message);
       btn.disabled = false;

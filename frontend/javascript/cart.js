@@ -72,7 +72,7 @@ function updateSummary() {
 function checkout() {
   if (getCart().length === 0) return;
   if (!getUser()) {
-    window.location.href = 'login.html';
+    window.location.href = 'login.html?redirect=cart.html';
     return;
   }
   saveCart([]);
