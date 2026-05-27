@@ -831,6 +831,8 @@ p { margin: 0; }
   .p-card__by { display: none; }
   .p-card__body { padding: 10px 0 12px; }
   .p-card__name { font-size: .82rem; }
+  .p-card__price { font-size: .88rem; }
+  .s-btn--add { padding: 6px 10px; font-size: .68rem; letter-spacing: .03em; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1714,15 +1716,13 @@ html.page-exit { opacity: 0; }
   /* Body clears dock + safe area */
   body:not(.auth-body) { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
 
-  /* Hide hamburger — dock takes over */
+  /* Hide hamburger and nav links — dock handles all navigation */
   .nav-toggle { display: none !important; }
-  .nav-links   { display: flex !important; }
+  .nav-links   { display: none !important; }
 
-  /* Slim top nav on mobile — just logo + cart */
+  /* Slim top nav: logo + utils only */
   .s-nav { height: 52px; padding: 0 18px; gap: 0; }
-  .nav-utils { gap: 8px; }
-  .nav-links { gap: 0; margin-left: auto; margin-right: 8px; }
-  .nav-links .nav-link { padding: 8px 10px; font-size: .7rem; }
+  .nav-utils { gap: 8px; margin-left: auto; }
 
   /* Raise back-to-top above dock */
   #s-back-top { bottom: 76px; }
@@ -1738,10 +1738,4 @@ html.page-exit { opacity: 0; }
 
   /* Footer: no extra bottom padding (dock handles it) */
   .s-footer { padding-bottom: 0; }
-}
-
-/* On very small phones hide non-active nav links — dock covers navigation */
-@media (max-width: 480px) {
-  .nav-links .nav-link:not(.active) { display: none; }
-  .nav-links .nav-link.active       { display: flex; }
 }
