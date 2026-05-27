@@ -1,10 +1,8 @@
-# Selwa — Bhutanese Artisan Marketplace
+# Selwa — Bhutanese Handicrafts Platform
 
-A web application that connects Bhutanese artisans with buyers. Customers can browse
-handcrafted products, add items to a cart, create an account, and view their profile.
-Artisans and product data are stored in a PostgreSQL database served through a Go backend.
+A full-stack e-commerce platform for authentic Bhutanese handicrafts, connecting customers with local artisans.
 
-> **School project — Part B**
+> School project — Part B
 
 ---
 
@@ -13,44 +11,51 @@ Artisans and product data are stored in a PostgreSQL database served through a G
 1. [Tech Stack](#tech-stack)
 2. [Project Structure](#project-structure)
 3. [Database Schema](#database-schema)
-4. [Backend Architecture](#backend-architecture)
-   - [How the server starts](#how-the-server-starts)
-   - [Router — Gorilla Mux](#router--gorilla-mux)
-   - [Handlers](#handlers)
-   - [Models](#models)
-   - [Utilities](#utilities)
-5. [API Reference](#api-reference)
-6. [Frontend Architecture](#frontend-architecture)
-   - [Pages](#pages)
-   - [JavaScript files](#javascript-files)
-   - [CSS / Design system](#css--design-system)
-7. [Data flow walkthroughs](#data-flow-walkthroughs)
-   - [Signup flow](#signup-flow)
-   - [Login flow](#login-flow)
-   - [Add to cart flow](#add-to-cart-flow)
-   - [Checkout flow](#checkout-flow)
-8. [How to Run locally](#how-to-run-locally)
-9. [Deploying to Render](#deploying-to-render)
-10. [Dependencies](#dependencies)
-11. [What Is Working](#what-is-working)
-12. [What Is NOT Working](#what-is-not-working)
-13. [Security notes](#security-notes)
+4. [Setup and Running](#setup-and-running)
+5. [Environment Variables](#environment-variables)
+6. [Authentication and Sessions](#authentication-and-sessions)
+7. [REST API Reference](#rest-api-reference)
+   - [Health](#health)
+   - [Auth — Signup](#post-apisignup)
+   - [Auth — Login](#post-apilogin)
+   - [Auth — Logout](#post-apilogout)
+   - [Auth — Me](#get-apime)
+   - [Products — List](#get-apiproducts)
+   - [Products — Single](#get-apiproductsid)
+   - [Wishlist — Get](#get-apiwishlist)
+   - [Wishlist — Add](#post-apiwishlist)
+   - [Wishlist — Remove](#delete-apiwishlistproductid)
+   - [Orders — Place](#post-apiorders)
+   - [Admin — Stats](#get-apiadminstats)
+   - [Admin — Users](#get-apiadminusers)
+   - [Admin — Orders](#get-apiadminorders)
+   - [Admin — Create Product](#post-apiadminproducts)
+   - [Admin — Update Product](#put-apiadminproductsid)
+   - [Admin — Delete Product](#delete-apiadminproductsid)
+8. [Error Response Format](#error-response-format)
+9. [Frontend Pages](#frontend-pages)
+10. [Password Validation](#password-validation)
+11. [Data Flow Walkthroughs](#data-flow-walkthroughs)
+12. [Tests](#tests)
+13. [Dependencies](#dependencies)
 
 ---
 
 ## Tech Stack
 
-| Layer      | Technology                          | Why                                                       |
-|------------|-------------------------------------|-----------------------------------------------------------|
-| Language   | Go 1.21                             | Fast, simple, compiled, good for HTTP servers             |
-| Router     | Gorilla Mux v1.8.1                  | Clean `{id}` path variables, per-route method enforcement |
-| Database   | PostgreSQL                          | Relational, good for products + artisan join queries      |
-| DB driver  | `lib/pq`                            | Standard Go PostgreSQL driver                             |
-| Passwords  | `golang.org/x/crypto/bcrypt`        | Industry-standard password hashing                        |
-| Frontend   | Plain HTML + CSS + Vanilla JS       | No framework needed for this scope                        |
-| UI library | Bootstrap 5.3 + Bootstrap Icons     | Responsive grid and icon set                              |
-| Fonts      | Playfair Display + DM Sans (Google) | Serif for headings, sans-serif for body                   |
-| State      | `localStorage` (browser)           | Cart and auth state — no server-side sessions             |
+| Layer       | Technology                                        |
+|-------------|---------------------------------------------------|
+| Language    | Go 1.21                                           |
+| Router      | Gorilla Mux v1.8.1                                |
+| Database    | PostgreSQL                                        |
+| DB driver   | `github.com/lib/pq` v1.10.9                       |
+| Passwords   | `golang.org/x/crypto/bcrypt`                      |
+| Sessions    | HMAC-SHA256 signed `HttpOnly` cookie              |
+| Frontend    | Plain HTML + CSS + Vanilla JavaScript             |
+| UI icons    | Bootstrap Icons 1.11.3 (CDN)                      |
+| Fonts       | Playfair Display + DM Sans (Google Fonts, CDN)    |
+| Cart state  | Browser `localStorage`                            |
+| Test mocks  | `github.com/DATA-DOG/go-sqlmock` v1.5.2           |
 
 ---
 
@@ -58,269 +63,257 @@ Artisans and product data are stored in a PostgreSQL database served through a G
 
 ```
 selwa/
-│
-├── README.md                    ← this file
-│
+├── README.md
 ├── backend/
-│   ├── main.go                  ← entry point: connects DB, starts router
-│   ├── go.mod                   ← Go module definition + dependencies
-│   ├── go.sum                   ← dependency checksums (auto-generated)
-│   ├── schema.sql               ← table definitions + seed data (16 products)
-│   ├── .air.toml                ← live-reload config for `air`
-│   │
-│   ├── routes/
-│   │   └── routes.go            ← all routes registered on the Gorilla Mux router
-│   │
-│   ├── handler/
-│   │   ├── auth.go              ← Signup and Login HTTP handlers
-│   │   └── product.go           ← HealthCheck, GetProducts, GetProduct handlers
-│   │
-│   ├── model/
-│   │   ├── user.go              ← User struct, Create(), ValidateUserCredentials()
-│   │   └── product.go           ← Product + ArtisanSummary structs, GetAllProducts(), Read()
+│   ├── main.go              entry point: init DB then start router
+│   ├── go.mod
+│   ├── go.sum
+│   ├── schema.sql           CREATE TABLE statements (IF NOT EXISTS, safe to re-run)
+│   ├── seed.sql             demo artisans, products, admin account — wipes + re-inserts
 │   │
 │   ├── db/
-│   │   └── db.go                ← opens and pings the PostgreSQL connection
+│   │   └── db.go            opens + pings the Postgres connection; stores in db.Db
+│   │
+│   ├── model/
+│   │   ├── user.go          User struct, Create, GetUserByID, ValidateUserCredentials
+│   │   ├── product.go       Product + ArtisanSummary, CRUD, GetAllProducts, admin stats
+│   │   ├── order.go         CreateOrder — transactional insert of orders + order_items
+│   │   └── wishlist.go      WishlistItem, GetWishlist, AddToWishlist, RemoveFromWishlist
+│   │
+│   ├── handler/
+│   │   ├── auth.go          Signup, Login, Logout, Me
+│   │   ├── product.go       HealthCheck, GetProducts, GetProduct
+│   │   ├── order.go         PlaceOrder
+│   │   ├── wishlist.go      GetWishlist, AddToWishlist, RemoveFromWishlist
+│   │   ├── admin.go         adminGuard, AdminStats, AdminGetUsers, AdminGetOrders,
+│   │   │                    AdminCreateProduct, AdminUpdateProduct, AdminDeleteProduct
+│   │   ├── auth_test.go     unit tests for Signup + Login handlers
+│   │   └── product_test.go  unit tests for HealthCheck + GetProducts + GetProduct
+│   │
+│   ├── routes/
+│   │   └── routes.go        registers every route; falls back to static file server
 │   │
 │   └── utils/
-│       └── response.go          ← ResponseWithJSON() and ResponseWithError() helpers
+│       ├── session.go       SetSessionCookie, ClearSessionCookie, UserIDFromCookie
+│       ├── response.go      ResponseWithJSON, ResponseWithError
+│       └── response_test.go (utility tests)
 │
 └── frontend/
-    │
-    ├── index.html               ← home page: hero, trust bar, featured products, artisans
-    ├── products.html            ← product grid with category filter sidebar + sort
-    ├── cart.html                ← shopping cart (JS-rendered from localStorage)
-    ├── profile.html             ← user profile: name, email, cart summary, logout
-    ├── login.html               ← sign-in form (wired to /api/login)
-    ├── signup.html              ← create account form (wired to /api/signup)
-    ├── artisans.html            ← static artisan showcase page
-    ├── about.html               ← static about / mission page
-    ├── details.html             ← static product detail page (not dynamic)
-    ├── getintouch.html          ← static contact / artisan inquiry page
-    ├── faq.html                 ← static FAQ page
-    ├── privacy.html             ← static privacy policy
-    ├── terms.html               ← static terms of service
-    ├── forgot-password.html     ← exists but unlinked — no backend for this
-    │
-    ├── javascript/
-    │   ├── global.js            ← shared: cart (localStorage), nav auth, addToCart()
-    │   ├── auth.js              ← login + signup form handlers, password strength/toggle
-    │   ├── cart.js              ← cart page: render items, qty change, remove, checkout
-    │   └── products.js          ← products page: sort by price, filter by category
-    │
+    ├── index.html           landing page
+    ├── signup.html          registration with live password validation
+    ├── login.html           sign-in
+    ├── profile.html         user profile and order history
+    ├── products.html        catalogue with filter + sort
+    ├── details.html         single product detail
+    ├── cart.html            localStorage cart + checkout
+    ├── wishlist.html        saved items
+    ├── artisans.html        artisan profiles
+    ├── about.html           mission page
+    ├── faq.html             FAQ accordion
+    ├── admin.html           admin dashboard
     ├── css/
-    │   ├── global.css           ← design system: tokens, nav, buttons, product cards
-    │   ├── home.css             ← home page specific styles
-    │   ├── products.css         ← products layout and filter sidebar
-    │   ├── cart.css             ← cart layout and item cards
-    │   ├── details.css          ← product detail page styles
-    │   ├── auth.css             ← login / signup form styles
-    │   ├── about.css            ← about page styles
-    │   └── artisans.css         ← artisan listing styles
-    │
+    │   └── global.css       design tokens, shared components
+    ├── javascript/
+    │   ├── auth.js          signup/login forms, password validation
+    │   ├── global.js        cart helpers, nav auth state
+    │   ├── products.js      product listing filter + sort
+    │   ├── cart.js          cart page, checkout call
+    │   ├── artisans.js      artisan page rendering
+    │   ├── admin.js         admin dashboard
+    │   └── bhutan.js        misc UI helpers
     └── images/
-        ├── hero.webp            ← full-bleed homepage hero
-        ├── bangchung.avif       ← product images (avif / webp format)
-        ├── palang.avif
-        ├── tea-cup.avif
-        ├── tsholam-keychain.avif
-        ├── high-altitude-honey.avif
-        ├── menjong-sorig.avif
-        ├── cordyceps.avif
-        ├── honey-bumthang.avif
-        ├── himalayan-tea.avif
-        ├── incense-stick.avif
-        ├── zoedow-ezay.avif
-        ├── bumthapa-puta.avif
-        ├── gift.webp
-        └── selwa.bt.jpeg        ← used on the auth panel
 ```
 
 ---
 
 ## Database Schema
 
-Three tables: `users`, `artisans`, `products`.
+### `users`
 
-```sql
-CREATE TABLE users (
-    id            BIGSERIAL PRIMARY KEY,
-    name          VARCHAR(255) NOT NULL,
-    email         VARCHAR(255) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,       -- bcrypt hash, never plain text
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+| Column          | Type           | Constraints                      |
+|-----------------|----------------|----------------------------------|
+| `id`            | BIGSERIAL      | PRIMARY KEY                      |
+| `name`          | VARCHAR(255)   | NOT NULL                         |
+| `email`         | VARCHAR(255)   | NOT NULL, UNIQUE                 |
+| `password_hash` | VARCHAR(255)   | NOT NULL — bcrypt, never plaintext |
+| `is_admin`      | BOOLEAN        | NOT NULL, DEFAULT false          |
+| `created_at`    | TIMESTAMP      | DEFAULT CURRENT_TIMESTAMP        |
 
-CREATE TABLE artisans (
-    id         BIGSERIAL PRIMARY KEY,
-    name       VARCHAR(255) NOT NULL,
-    location   VARCHAR(255) NOT NULL,
-    craft_type VARCHAR(100) NOT NULL,
-    bio        TEXT
-);
+### `artisans`
 
-CREATE TABLE products (
-    id             BIGSERIAL PRIMARY KEY,
-    name           VARCHAR(255) NOT NULL,
-    description    TEXT NOT NULL,
-    price          DECIMAL(10,2) NOT NULL,
-    category       VARCHAR(100) NOT NULL,      -- e.g. Crafts, Wellness, Food
-    artisan_id     BIGINT REFERENCES artisans(id),
-    region         VARCHAR(100),               -- e.g. Bumthang, Thimphu
-    materials      TEXT,
-    stock_quantity INTEGER DEFAULT 0,
-    image_url      VARCHAR(500),
-    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
+| Column       | Type           | Constraints |
+|--------------|----------------|-------------|
+| `id`         | BIGSERIAL      | PRIMARY KEY |
+| `name`       | VARCHAR(255)   | NOT NULL    |
+| `location`   | VARCHAR(255)   | NOT NULL    |
+| `craft_type` | VARCHAR(100)   | NOT NULL    |
+| `bio`        | TEXT           |             |
 
-The `schema.sql` file also contains `TRUNCATE` + `INSERT` statements that seed
-**4 artisans** and **16 products** so the app works immediately after setup.
+### `products`
 
-### Relationships
+| Column           | Type           | Constraints                                       |
+|------------------|----------------|---------------------------------------------------|
+| `id`             | BIGSERIAL      | PRIMARY KEY                                       |
+| `name`           | VARCHAR(255)   | NOT NULL                                          |
+| `description`    | TEXT           | NOT NULL                                          |
+| `price`          | DECIMAL(10,2)  | NOT NULL                                          |
+| `category`       | VARCHAR(100)   | NOT NULL                                          |
+| `artisan_id`     | BIGINT         | REFERENCES artisans(id), nullable                 |
+| `region`         | VARCHAR(100)   |                                                   |
+| `materials`      | TEXT           |                                                   |
+| `stock_quantity` | INTEGER        | DEFAULT 0                                         |
+| `image_url`      | VARCHAR(500)   |                                                   |
+| `created_at`     | TIMESTAMP      | DEFAULT CURRENT_TIMESTAMP                         |
 
-- A product has one artisan (`artisan_id` foreign key).
-- The `GET /api/products` query does a `LEFT JOIN` on `artisans` so the artisan
-  name, location, and craft type come back in the same JSON object as the product.
+### `wishlists`
+
+| Column       | Type      | Constraints                                               |
+|--------------|-----------|-----------------------------------------------------------|
+| `id`         | BIGSERIAL | PRIMARY KEY                                               |
+| `user_id`    | BIGINT    | NOT NULL, REFERENCES users(id) ON DELETE CASCADE          |
+| `product_id` | BIGINT    | NOT NULL, REFERENCES products(id) ON DELETE CASCADE       |
+| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP                                 |
+|              |           | UNIQUE (user_id, product_id)                              |
+
+### `orders`
+
+| Column         | Type          | Constraints                                     |
+|----------------|---------------|-------------------------------------------------|
+| `id`           | BIGSERIAL     | PRIMARY KEY                                     |
+| `user_id`      | BIGINT        | NOT NULL, REFERENCES users(id) ON DELETE CASCADE|
+| `status`       | VARCHAR(50)   | NOT NULL, DEFAULT `'pending'`                   |
+| `total_amount` | DECIMAL(10,2) | NOT NULL                                        |
+| `created_at`   | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP                       |
+| `updated_at`   | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP                       |
+
+### `order_items`
+
+| Column       | Type          | Constraints                                              |
+|--------------|---------------|----------------------------------------------------------|
+| `id`         | BIGSERIAL     | PRIMARY KEY                                              |
+| `order_id`   | BIGINT        | NOT NULL, REFERENCES orders(id) ON DELETE CASCADE        |
+| `product_id` | BIGINT        | REFERENCES products(id), nullable (preserved for historical records) |
+| `quantity`   | INTEGER       | NOT NULL                                                 |
+| `unit_price` | DECIMAL(10,2) | NOT NULL — price at time of purchase, not the live price |
 
 ---
 
-## Backend Architecture
+## Setup and Running
 
-### How the server starts
+### Prerequisites
 
-`main.go` is the only entry point:
+- Go 1.21+
+- PostgreSQL running locally
+
+### Steps
+
+```bash
+# 1. Create the database (once only)
+createdb selwa
+
+# 2. Create the tables (safe to re-run — uses IF NOT EXISTS)
+psql selwa < backend/schema.sql
+
+# 3. Insert demo artisans, products, and admin account (resets demo data)
+psql selwa < backend/seed.sql
+
+# 4. Start the server
+cd backend
+go run main.go
+```
+
+The server starts on `http://localhost:8080`. It also serves the entire `frontend/` directory as static files, so no separate dev server is needed.
+
+### Demo admin account (from seed.sql)
+
+| Field    | Value           |
+|----------|-----------------|
+| Email    | `admin@selwa.bt`|
+| Password | `admin123`      |
+
+---
+
+## Environment Variables
+
+| Variable         | Default                                                                          | Purpose                                                               |
+|------------------|----------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| `DATABASE_URL`   | `postgres://sundrabomjan@/selwa?host=/var/run/postgresql&sslmode=disable`        | Full Postgres connection string                                       |
+| `PORT`           | `8080`                                                                           | HTTP listen port                                                      |
+| `SESSION_SECRET` | `selwa-dev-secret-change-in-production`                                          | HMAC key for signing session tokens — must be changed in production   |
+| `COOKIE_SECURE`  | `""` (false)                                                                     | Set to `true` to force the `Secure` cookie flag behind a TLS proxy   |
+
+---
+
+## Authentication and Sessions
+
+### Mechanism
+
+Selwa uses a stateless, cookie-based session. There is no session store; the user ID is embedded directly in the cookie and protected with an HMAC signature.
+
+**On login or signup:**
+
+1. `utils.SetSessionCookie` is called with the authenticated user's ID.
+2. It builds a token in the form `<userID>.<HMAC-SHA256-hex>` where the HMAC is computed over the user ID string using `SESSION_SECRET` as the key.
+3. The token is written as an `HttpOnly` cookie named `selwa_sess` that expires in 30 days.
+
+**On every protected request:**
+
+1. The handler calls `utils.UserIDFromCookie(r)`.
+2. The function reads the `selwa_sess` cookie, splits on `.`, recomputes the HMAC from the ID portion, and compares with `hmac.Equal` (constant-time comparison to prevent timing attacks).
+3. If the signature is invalid or the cookie is absent the function returns an error and the handler responds `401 Unauthorized`.
+
+**On logout:**
+
+`utils.ClearSessionCookie` sets `Max-Age: -1` and `Expires: epoch` to instruct the browser to delete the cookie immediately.
+
+### Cookie attributes
+
+| Attribute  | Value                                                                                     |
+|------------|-------------------------------------------------------------------------------------------|
+| `Name`     | `selwa_sess`                                                                              |
+| `HttpOnly` | `true` — not readable from JavaScript                                                     |
+| `SameSite` | `Lax`                                                                                     |
+| `Secure`   | Set automatically when: request is over TLS, or `X-Forwarded-Proto: https`, or `COOKIE_SECURE=true` |
+| `Expires`  | 30 days from the time the cookie is issued                                                |
+| `Path`     | `/`                                                                                       |
+
+### Admin authorization
+
+Every admin handler calls the internal `adminGuard(w, r)` helper before doing any work:
 
 ```go
-func main() {
-    db.Init()               // open + ping PostgreSQL
-    routes.InitializeRoutes() // register routes, start HTTP server
+func adminGuard(w http.ResponseWriter, r *http.Request) (*model.User, bool) {
+    id, err := utils.UserIDFromCookie(r)       // 1. must have valid session
+    user, err := model.GetUserByID(id)         // 2. user must exist in DB
+    if err != nil || !user.IsAdmin {           // 3. user.is_admin must be true
+        utils.ResponseWithError(w, 403, "Admin access required")
+        return nil, false
+    }
+    return user, true
 }
 ```
 
-It does two things: connect to the database and start the router. Nothing else.
-
-### Router — Gorilla Mux
-
-`routes/routes.go` creates a Gorilla Mux router and registers every route on it.
-
-```go
-r := mux.NewRouter()
-
-r.HandleFunc("/api/health",        handler.HealthCheck).Methods("GET")
-r.HandleFunc("/api/products",      handler.GetProducts).Methods("GET")
-r.HandleFunc("/api/products/{id}", handler.GetProduct).Methods("GET")
-r.HandleFunc("/api/signup",        handler.Signup).Methods("POST")
-r.HandleFunc("/api/login",         handler.Login).Methods("POST")
-
-r.PathPrefix("/").Handler(http.FileServer(http.Dir("../frontend")))
-```
-
-Why Gorilla Mux instead of the standard library `ServeMux`?
-
-- **`{id}` path variables** — you can write `/api/products/{id}` and then read
-  `mux.Vars(r)["id"]` in the handler. With stdlib you have to manually trim the
-  path prefix with `strings.TrimPrefix`, which is fragile.
-- **Per-route method enforcement** — `.Methods("GET")` returns a `405 Method Not
-  Allowed` automatically if the wrong HTTP method is used. With stdlib you need a
-  custom wrapper function to do the same thing.
-- The last route (`PathPrefix("/")`) catches everything else and serves it as a
-  static file from the `frontend/` folder.
-
-### Handlers
-
-Located in `handler/`. Each handler receives an `http.ResponseWriter` and
-`*http.Request`, does its work, and writes a JSON response using the utils helpers.
-
-**`handler/auth.go`**
-
-| Function   | What it does                                                                 |
-|------------|------------------------------------------------------------------------------|
-| `Signup`   | Decodes JSON body → validates fields → calls `user.Create()` → returns 201  |
-| `Login`    | Decodes JSON body → calls `ValidateUserCredentials()` → returns 200         |
-
-Error cases handled:
-- Missing fields → `400 Bad Request`
-- Duplicate email on signup → `409 Conflict`
-- Wrong password / unknown email on login → `401 Unauthorized`
-- Any unexpected DB error → `500 Internal Server Error`
-
-**`handler/product.go`**
-
-| Function       | What it does                                                              |
-|----------------|---------------------------------------------------------------------------|
-| `HealthCheck`  | Returns `{ "status": "ok", "service": "selwa-backend" }`                |
-| `GetProducts`  | Calls `model.GetAllProducts()` → returns JSON array                      |
-| `GetProduct`   | Reads `{id}` via `mux.Vars(r)`, calls `product.Read()` → returns object |
-
-Error cases handled:
-- Non-integer `{id}` → `400 Bad Request`
-- Product not in DB → `404 Not Found`
-
-### Models
-
-Located in `model/`. Models handle all SQL — no SQL lives in handlers.
-
-**`model/user.go`**
-
-```
-User struct          { ID, Name, Email }   (no password hash — never sent to client)
-CreateUserInput      { Name, Email, Password }
-LoginInput           { Email, Password }
-
-User.Create(input)             → bcrypt hash → INSERT → scan returned id
-GetUserByEmail(email)          → SELECT by email → returns User + hash
-ValidateUserCredentials(e, p)  → GetUserByEmail → bcrypt.CompareHashAndPassword
-```
-
-Sentinel errors: `ErrDuplicateEmail`, `ErrInvalidCredentials` — handlers check
-these with `errors.Is()` to return the right HTTP status code.
-
-**`model/product.go`**
-
-```
-ArtisanSummary struct   { ID, Name, Location, CraftType }
-Product struct          { ID, Name, Description, Price, Category, Region,
-                          Materials, StockQuantity, ImageURL, Artisan }
-
-GetAllProducts()    → SELECT * FROM products LEFT JOIN artisans → []Product
-Product.Read()      → SELECT ... WHERE p.id = $1 → fills product fields
-```
-
-Both functions handle nullable artisan columns using `sql.NullInt64` /
-`sql.NullString` since `artisan_id` is nullable (LEFT JOIN may produce NULLs).
-
-### Utilities
-
-**`utils/response.go`** — two helpers used by every handler:
-
-```go
-ResponseWithJSON(w, statusCode, payload)   // sets Content-Type, writes JSON
-ResponseWithError(w, statusCode, message)  // wraps message in { "error": "..." }
-```
-
-**`db/db.go`** — opens the PostgreSQL connection once and stores it in `db.Db`:
-
-```go
-connStr := os.Getenv("DATABASE_URL")
-// fallback: postgres://sundrabomjan@/selwa?host=/var/run/postgresql&sslmode=disable
-```
-
-If `DATABASE_URL` is set (e.g. on a server), it uses that. Otherwise it falls
-back to a local Unix socket connection which works on the development machine.
+The `is_admin` column in the `users` table is the sole source of truth. Setting it to `true` in the database gives admin access.
 
 ---
 
-## API Reference
+## REST API Reference
 
-All API routes return `Content-Type: application/json`.
+All endpoints return `Content-Type: application/json`.
+All endpoints that accept a request body expect `Content-Type: application/json`.
 
-### GET /api/health
+Base URL: `http://localhost:8080`
 
-Returns a simple status check. Useful to confirm the server is running.
+---
 
+### Health
+
+#### `GET /api/health`
+
+Server liveness check. No authentication required.
+
+**Response `200 OK`**
 ```json
-// Response 200
 {
   "status": "ok",
   "service": "selwa-backend"
@@ -329,17 +322,147 @@ Returns a simple status check. Useful to confirm the server is running.
 
 ---
 
-### GET /api/products
+### `POST /api/signup`
 
-Returns all 16 products with their artisan data joined in.
+Creates a new user account. The submitted password is hashed with bcrypt before being stored — the plaintext password is never written to the database. A session cookie is set on success so the user is immediately logged in.
+
+**Request body**
+
+| Field      | Type   | Required | Notes                               |
+|------------|--------|----------|-------------------------------------|
+| `name`     | string | Yes      | Full display name                   |
+| `email`    | string | Yes      | Must not already exist in the database |
+| `password` | string | Yes      | Plaintext — hashed server-side with bcrypt cost 10 |
 
 ```json
-// Response 200 — array of product objects
+{
+  "name": "Pema Dorji",
+  "email": "pema@example.com",
+  "password": "MyPass@123"
+}
+```
+
+**Response `201 Created`**
+
+Sets `selwa_sess` cookie (30-day, HttpOnly).
+
+```json
+{
+  "message": "Account created successfully",
+  "user": {
+    "id": 12,
+    "name": "Pema Dorji",
+    "email": "pema@example.com",
+    "is_admin": false
+  }
+}
+```
+
+**Error responses**
+
+| HTTP status | `error` value                              | Cause                                          |
+|-------------|--------------------------------------------|------------------------------------------------|
+| 400         | `"Invalid JSON"`                           | Request body is not valid JSON                 |
+| 400         | `"Name, email, and password are required"` | One or more fields are empty strings           |
+| 409         | `"Email already exists"`                   | Postgres unique constraint violation (code 23505) |
+| 500         | `"Failed to create user"`                  | Any other database error                       |
+
+---
+
+### `POST /api/login`
+
+Validates credentials against the stored bcrypt hash and starts a session.
+
+**Request body**
+
+| Field      | Type   | Required |
+|------------|--------|----------|
+| `email`    | string | Yes      |
+| `password` | string | Yes      |
+
+```json
+{
+  "email": "pema@example.com",
+  "password": "MyPass@123"
+}
+```
+
+**Response `200 OK`**
+
+Sets `selwa_sess` cookie (30-day, HttpOnly).
+
+```json
+{
+  "message": "Login successful",
+  "user": {
+    "id": 12,
+    "name": "Pema Dorji",
+    "email": "pema@example.com",
+    "is_admin": false
+  }
+}
+```
+
+**Error responses**
+
+| HTTP status | `error` value                       | Cause                                              |
+|-------------|-------------------------------------|----------------------------------------------------|
+| 400         | `"Invalid JSON"`                    | Request body is not valid JSON                     |
+| 400         | `"Email and password are required"` | Email or password field is empty                   |
+| 401         | `"Invalid email or password"`       | No user with that email, or bcrypt comparison fails|
+| 500         | `"Failed to login"`                 | Unexpected database error                          |
+
+---
+
+### `POST /api/logout`
+
+Clears the session cookie. No request body. Always responds `200`.
+
+**Response `200 OK`**
+```json
+{ "message": "Logged out" }
+```
+
+The `selwa_sess` cookie is expired immediately via `Max-Age: -1`.
+
+---
+
+### `GET /api/me`
+
+Returns the currently authenticated user's profile. Requires a valid `selwa_sess` cookie.
+
+**Response `200 OK`**
+```json
+{
+  "id": 12,
+  "name": "Pema Dorji",
+  "email": "pema@example.com",
+  "is_admin": false
+}
+```
+
+**Error responses**
+
+| HTTP status | `error` value         | Cause                                                         |
+|-------------|-----------------------|---------------------------------------------------------------|
+| 401         | `"Not authenticated"` | No cookie, or the cookie cannot be read                       |
+| 401         | `"Session expired"`   | The user ID in the cookie no longer exists in the database; cookie is also cleared |
+
+---
+
+### `GET /api/products`
+
+Returns every product with its associated artisan joined in. No authentication required.
+
+Products are sorted by `products.id` ascending. If a product has no artisan, the artisan fields are zero values (`"id": 0`, `"name": ""`).
+
+**Response `200 OK`**
+```json
 [
   {
     "id": 1,
     "name": "Bangchung",
-    "description": "A traditional Bhutanese woven bamboo container...",
+    "description": "A traditional Bhutanese woven bamboo container used for storing and carrying food. Handwoven using split bamboo strips.",
     "price": 800,
     "category": "Crafts",
     "region": "Thimphu",
@@ -357,607 +480,618 @@ Returns all 16 products with their artisan data joined in.
 ]
 ```
 
+**Error responses**
+
+| HTTP status | `error` value              |
+|-------------|----------------------------|
+| 500         | `"Failed to fetch products"` |
+
 ---
 
-### GET /api/products/{id}
+### `GET /api/products/{id}`
 
 Returns a single product by its integer ID.
 
+**Path parameter**
+
+| Param | Type    | Description   |
+|-------|---------|---------------|
+| `id`  | integer | Product ID    |
+
+**Response `200 OK`**
 ```json
-// Response 200
 {
-  "id": 3,
-  "name": "Bhutanese Tea Cup",
-  ...
-}
-
-// Response 404 — if id does not exist
-{ "error": "Product not found" }
-
-// Response 400 — if id is not a number
-{ "error": "Invalid product ID" }
-```
-
----
-
-### POST /api/signup
-
-Creates a new user account. Password is hashed with bcrypt before storing.
-
-```json
-// Request body
-{
-  "name": "Tashi Dorji",
-  "email": "tashi@example.com",
-  "password": "mypassword123"
-}
-
-// Response 201 — success
-{
-  "message": "Account created successfully",
-  "user": {
-    "id": 1,
-    "name": "Tashi Dorji",
-    "email": "tashi@example.com"
+  "id": 4,
+  "name": "Happiness Tea",
+  "description": "A soothing herbal tea blend sourced from high-altitude Bhutanese valleys.",
+  "price": 450,
+  "category": "Wellness",
+  "region": "Bumthang",
+  "materials": "Wild herbs",
+  "stock_quantity": 20,
+  "image_url": "/images/happiness-tea.avif",
+  "artisan": {
+    "id": 3,
+    "name": "Dorji Wangchuk",
+    "location": "Bumthang",
+    "craft_type": "Wellness"
   }
 }
-
-// Response 400 — missing fields
-{ "error": "Name, email, and password are required" }
-
-// Response 409 — email already registered
-{ "error": "Email already exists" }
 ```
+
+**Error responses**
+
+| HTTP status | `error` value               | Cause                           |
+|-------------|-----------------------------|---------------------------------|
+| 400         | `"Invalid product ID"`      | `id` path param is not an integer |
+| 404         | `"Product not found"`       | No row with that ID             |
+| 500         | `"Failed to fetch product"` | Unexpected database error       |
 
 ---
 
-### POST /api/login
+### `GET /api/wishlist`
 
-Validates email + password. Returns the user object if correct.
+Returns the authenticated user's wishlist ordered by most recently added. Requires session cookie.
 
-```json
-// Request body
-{
-  "email": "tashi@example.com",
-  "password": "mypassword123"
-}
+**Response `200 OK`**
 
-// Response 200 — success
-{
-  "message": "Login successful",
-  "user": {
-    "id": 1,
-    "name": "Tashi Dorji",
-    "email": "tashi@example.com"
-  }
-}
-
-// Response 401 — wrong email or password
-{ "error": "Invalid email or password" }
-```
-
----
-
-## Frontend Architecture
-
-The frontend is served as static files by the Go server itself (the last route in
-`routes.go` is `http.FileServer`). There is no separate build step or dev server.
-
-### Pages
-
-| File               | Purpose                                                                                    | Has JS logic |
-|--------------------|--------------------------------------------------------------------------------------------|:------------:|
-| `index.html`       | Home page. Hero image, stats bar, 3 featured product cards, 3 artisan cards, CTA section  | global.js    |
-| `products.html`    | Full product grid. Category filter sidebar (functional). Sort dropdown (functional)        | Yes          |
-| `cart.html`        | Shopping cart. Items loaded from localStorage. Qty +/−, remove, total, checkout button    | Yes          |
-| `profile.html`     | Shown after login. Displays user name/email, cart summary, logout button                   | Yes          |
-| `login.html`       | Email + password form. POSTs to `/api/login`. Inline error display                        | Yes          |
-| `signup.html`      | Name, email, password, confirm-password. POSTs to `/api/signup`. Password strength bar    | Yes          |
-| `artisans.html`    | Static page listing featured artisans with bios and craft tags                             | global.js    |
-| `about.html`       | Static mission / about page                                                                | global.js    |
-| `details.html`     | Static product detail page — does NOT load real data from the API                         | global.js    |
-| `getintouch.html`  | Contact form — static only, no backend endpoint                                            | global.js    |
-| `faq.html`         | Static FAQ accordion                                                                       | global.js    |
-| `privacy.html`     | Static privacy policy                                                                      | global.js    |
-| `terms.html`       | Static terms of service                                                                    | global.js    |
-
-Every page that has a navbar loads `global.js` at the bottom. `global.js` runs
-`updateCartCount()` and `renderNavAuth()` on every page load automatically.
-
-### JavaScript files
-
-#### `javascript/global.js`
-
-Loaded on every page. Provides shared functions.
-
-```
-getCart()             reads the cart array from localStorage
-saveCart(cart)        writes cart to localStorage, then calls updateCartCount()
-getUser()             reads the logged-in user object from localStorage (or null)
-updateCartCount()     counts total qty in cart, sets the text of all #cart-count elements
-renderNavAuth()       if user exists → show their name linking to profile.html
-                      if no user    → show "Sign in" linking to login.html
-addToCart(event)      called by "Add" buttons on product cards:
-                        - stops the click from navigating to details.html
-                        - reads .p-card__name, .p-card__price, img src from the card
-                        - adds to cart or increments qty if already there
-                        - saves cart, briefly shows ✓ on the button
-```
-
-Cart data is stored in `localStorage` under the key `selwa_cart` as a JSON array:
+Returns an empty array `[]` when the wishlist is empty.
 
 ```json
 [
-  { "name": "Bangchung", "price": 850, "image": "images/bangchung.avif", "qty": 2 },
-  { "name": "Tsholam Keychain", "price": 450, "image": "images/tsholam-keychain.avif", "qty": 1 }
+  {
+    "id": 3,
+    "name": "Bhutanese Tea Cup",
+    "price": 950,
+    "image_url": "/images/tea-cup.avif",
+    "category": "Pottery"
+  },
+  {
+    "id": 8,
+    "name": "Wild Cordyceps",
+    "price": 3500,
+    "image_url": "/images/cordyceps.avif",
+    "category": "Wellness"
+  }
 ]
 ```
 
-User data is stored under `selwa_user`:
+**Error responses**
+
+| HTTP status | Body                       | Cause               |
+|-------------|----------------------------|---------------------|
+| 401         | `{"error":"unauthorized"}` | No valid session    |
+| 500         | `{"error":"db error"}`     | Database error      |
+
+---
+
+### `POST /api/wishlist`
+
+Adds a product to the authenticated user's wishlist. Idempotent — adding an already-wishlisted product is silently ignored (handled by `ON CONFLICT DO NOTHING`). Requires session cookie.
+
+**Request body**
+
+| Field        | Type    | Required | Notes                     |
+|--------------|---------|----------|---------------------------|
+| `product_id` | integer | Yes      | Must be a non-zero integer |
 
 ```json
-{ "id": 1, "name": "Tashi Dorji", "email": "tashi@example.com" }
+{ "product_id": 5 }
 ```
 
-#### `javascript/auth.js`
+**Response `204 No Content`** — empty body.
 
-Loaded on `login.html` and `signup.html`. Handles form submissions.
+**Error responses**
 
-```
-Password visibility toggle   — .password-toggle buttons switch input type
-                               between "password" and "text"
-
-Login form submit            — fetch POST /api/login
-                             — on success: localStorage.setItem('selwa_user', ...)
-                               then redirect to profile.html
-                             — on error: show inline error div above the form
-
-Signup form submit           — validates passwords match
-                             — fetch POST /api/signup
-                             — on success: localStorage.setItem('selwa_user', ...)
-                               then redirect to profile.html
-                             — on error: show inline error
-
-Password strength indicator  — listens to #password input events
-                             — scores 1 point each for: length ≥ 8,
-                               uppercase letter, digit, special character
-                             — updates #strength-fill width and colour
-                               (red → orange → yellow → green)
-```
-
-#### `javascript/cart.js`
-
-Loaded only on `cart.html`.
-
-```
-renderCart()         reads getCart(), builds HTML for each item, injects into
-                     #cart-items; hides #cart-main and shows #empty-cart if empty
-changeItemQty(idx, delta)   increments or decrements cart[idx].qty (minimum 1),
-                            saves and re-renders
-removeItem(idx)      splices item out of cart array, saves and re-renders
-updateSummary()      recalculates subtotal and total, updates #subtotal, #total,
-                     #summary-count elements
-checkout()           if cart empty → does nothing
-                     if user not logged in → redirects to login.html
-                     otherwise → clears cart, re-renders, shows alert
-```
-
-#### `javascript/products.js`
-
-Loaded only on `products.html`.
-
-```
-handleSort(value)    called by the sort <select> onchange
-                     grabs all .p-card elements, sorts by price extracted from
-                     .p-card__price text, reappends cards to #product-grid in
-                     the new order
-
-applyFilters()       reads all checked checkboxes that have data-category attribute
-                     for each .p-card: shows it if its data-category matches any
-                     checked box, hides it otherwise
-                     if nothing is checked → shows all cards
-                     updates the #product-count text
-```
-
-### CSS / Design system
-
-`css/global.css` defines the entire design system used across all pages.
-
-**Color tokens (CSS variables):**
-
-| Variable        | Value     | Used for                         |
-|-----------------|-----------|----------------------------------|
-| `--ink`         | `#0F0A05` | Darkest backgrounds (hero, CTA)  |
-| `--ink-2`       | `#1C1208` | Footer background, nav bar       |
-| `--bark`        | `#3D2008` | Heading text                     |
-| `--gold`        | `#B8701A` | Primary accent, buttons, links   |
-| `--gold-warm`   | `#D4920A` | Star ratings, hover states       |
-| `--gold-pale`   | `#EDD09A` | Text on dark backgrounds         |
-| `--gold-mist`   | `#FAF1E2` | Hover backgrounds, badges        |
-| `--cream`       | `#FAF7F2` | Page background                  |
-| `--text-muted`  | `#8B6040` | Secondary text                   |
-| `--border`      | `#E2D8C8` | Card and input borders           |
-
-**Typography:**
-- Headings: `Playfair Display` (serif, Google Fonts)
-- Body: `DM Sans` (sans-serif, Google Fonts)
-
-**Shared components defined in global.css:**
-- `.s-nav` — sticky navbar with blur backdrop
-- `.s-btn`, `.s-btn--gold`, `.s-btn--outline-dark`, `.s-btn--dark`, `.s-btn--add` — button variants
-- `.p-card`, `.p-grid` — product card and responsive grid
-- `.a-card` — artisan card with avatar and banner
-- `.s-filters`, `.s-filter-opt` — filter sidebar styles
-- `.s-footer` — two-tone footer
-- `.s-hero` — full-height hero with overlay gradient
+| HTTP status | Body                          | Cause                                   |
+|-------------|-------------------------------|-----------------------------------------|
+| 401         | `{"error":"unauthorized"}`    | No valid session                        |
+| 400         | `{"error":"invalid request"}` | Missing body, invalid JSON, or `product_id` is 0 |
+| 500         | `{"error":"db error"}`        | Database error                          |
 
 ---
 
-## Data flow walkthroughs
+### `DELETE /api/wishlist/{productID}`
 
-### Signup flow
+Removes a product from the authenticated user's wishlist. Succeeds silently even if the product was never in the wishlist. Requires session cookie.
 
-```
-User fills name, email, password, confirm-password on signup.html
-         │
-         ▼
-auth.js validates passwords match (client-side, instant)
-         │
-         ▼
-auth.js POST /api/signup  { name, email, password }
-         │
-         ▼
-handler/auth.go  Signup()
-  → decodes JSON body
-  → checks name/email/password are not empty (400 if missing)
-         │
-         ▼
-model/user.go  user.Create(input)
-  → bcrypt.GenerateFromPassword(password, cost=10)
-  → INSERT INTO users (name, email, password_hash) RETURNING id
-  → if pq error code 23505 → return ErrDuplicateEmail
-         │
-         ▼
-handler/auth.go
-  → ErrDuplicateEmail? → 409 Conflict
-  → success?           → 201 Created  { message, user: {id, name, email} }
-         │
-         ▼
-auth.js receives response
-  → localStorage.setItem('selwa_user', JSON.stringify(data.user))
-  → window.location.href = 'profile.html'
-         │
-         ▼
-profile.html loads → reads localStorage → displays name, email, cart summary
-```
+**Path parameter**
 
-### Login flow
+| Param       | Type    | Description |
+|-------------|---------|-------------|
+| `productID` | integer | Product ID  |
 
-```
-User fills email + password on login.html
-         │
-         ▼
-auth.js POST /api/login  { email, password }
-         │
-         ▼
-handler/auth.go  Login()
-  → decodes JSON
-  → calls model.ValidateUserCredentials(email, password)
-         │
-         ▼
-model/user.go  ValidateUserCredentials()
-  → SELECT id, name, email, password_hash FROM users WHERE email = $1
-  → sql.ErrNoRows? → return ErrInvalidCredentials
-  → bcrypt.CompareHashAndPassword(hash, password)
-  → mismatch?      → return ErrInvalidCredentials
-  → match          → return *User
-         │
-         ▼
-handler/auth.go
-  → ErrInvalidCredentials? → 401 Unauthorized
-  → success?               → 200 OK  { message, user: {id, name, email} }
-         │
-         ▼
-auth.js
-  → error? → showError() inserts a red div above the form
-  → ok?    → localStorage.setItem('selwa_user', ...) → redirect to profile.html
-```
+**Response `204 No Content`** — empty body.
 
-### Add to cart flow
+**Error responses**
 
-```
-User clicks "Add" button on a product card (index.html or products.html)
-         │
-         ▼
-global.js  addToCart(event)
-  → event.preventDefault()   — stops the parent <a> from navigating
-  → event.stopPropagation()  — stops event bubbling
-  → btn.closest('.p-card')   — walks up the DOM to find the card
-  → reads .p-card__name      → name string
-  → reads .p-card__price     → strips "Nu. " and commas → integer price
-  → reads img.src            → image path
-         │
-         ▼
-  → getCart() from localStorage
-  → if item with same name exists → qty += 1
-  → else → push { name, price, image, qty: 1 }
-  → saveCart(cart) → localStorage + updateCartCount()
-         │
-         ▼
-  → btn.textContent = '✓'
-  → after 900ms → restore original button text
-         │
-         ▼
-cart-count badge in navbar updates to reflect new total
-```
-
-### Checkout flow
-
-```
-User on cart.html clicks "Proceed to checkout"
-         │
-         ▼
-cart.js  checkout()
-  → getCart().length === 0?  → do nothing
-  → getUser() === null?      → redirect to login.html
-         │
-         ▼
-  → saveCart([])   — clears localStorage cart
-  → renderCart()  — re-renders: shows empty state
-  → alert('Order placed! Thank you for supporting Bhutanese artisans.')
-```
-
-Note: no order is saved to the database. This is a known limitation (see below).
+| HTTP status | Body                             | Cause                              |
+|-------------|----------------------------------|------------------------------------|
+| 401         | `{"error":"unauthorized"}`       | No valid session                   |
+| 400         | `{"error":"invalid product id"}` | `productID` is not a valid integer |
+| 500         | `{"error":"db error"}`           | Database error                     |
 
 ---
 
-## How to Run locally
+### `POST /api/orders`
 
-### Prerequisites
+Places an order for the authenticated user. Requires session cookie.
 
-- Go 1.21+
-- PostgreSQL running locally
-- A database named `selwa`
+The handler creates an `orders` row and one `order_items` row per item inside a single database transaction. If any insert fails the transaction is rolled back and nothing is written.
 
-### Steps
+The `total_amount` on the order is computed server-side as `SUM(unit_price * quantity)` across all items — the client supplies the prices so the frontend must pass the correct prices from the catalogue.
+
+**Request body**
+
+| Field                | Type    | Required | Notes                                         |
+|----------------------|---------|----------|-----------------------------------------------|
+| `items`              | array   | Yes      | Must contain at least one item                |
+| `items[].product_id` | integer | No       | Can be `null` — preserved for custom items    |
+| `items[].name`       | string  | No       | Informational label (not stored in orders table) |
+| `items[].quantity`   | integer | Yes      | Number of units                               |
+| `items[].unit_price` | number  | Yes      | Price per unit in BTN at time of checkout     |
+
+```json
+{
+  "items": [
+    { "product_id": 1, "name": "Bangchung",     "quantity": 2, "unit_price": 800.00 },
+    { "product_id": 4, "name": "Happiness Tea", "quantity": 1, "unit_price": 450.00 }
+  ]
+}
+```
+
+Computed total: `(2 × 800) + (1 × 450) = 2050.00 BTN`
+
+**Response `201 Created`**
+```json
+{ "order_id": 7 }
+```
+
+**Error responses**
+
+| HTTP status | `error` value                        | Cause                           |
+|-------------|--------------------------------------|---------------------------------|
+| 401         | `"Please sign in to place an order"` | No valid session                |
+| 400         | `"Invalid request"`                  | Malformed JSON body             |
+| 400         | `"Cart is empty"`                    | `items` array has zero elements |
+| 500         | `"Failed to place order"`            | Transaction or database error   |
+
+---
+
+### `GET /api/admin/stats`
+
+Returns aggregate platform statistics. Requires admin session.
+
+**Response `200 OK`**
+```json
+{
+  "users": 24,
+  "products": 16,
+  "orders": 58,
+  "revenue_nu": 148600
+}
+```
+
+`revenue_nu` is `SUM(total_amount)` across all orders where `status != 'cancelled'`, truncated to an integer (BTN).
+
+**Error responses**
+
+| HTTP status | `error` value               |
+|-------------|-----------------------------|
+| 401         | `"Authentication required"` |
+| 403         | `"Admin access required"`   |
+| 500         | `"Failed to fetch stats"`   |
+
+---
+
+### `GET /api/admin/users`
+
+Returns every registered user ordered by `id` ascending. Requires admin session.
+
+**Response `200 OK`**
+```json
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@selwa.bt",
+    "is_admin": true,
+    "created_at": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Pema Dorji",
+    "email": "pema@example.com",
+    "is_admin": false,
+    "created_at": "2024-06-15T10:22:00Z"
+  }
+]
+```
+
+**Error responses**
+
+| HTTP status | `error` value               |
+|-------------|-----------------------------|
+| 401         | `"Authentication required"` |
+| 403         | `"Admin access required"`   |
+| 500         | `"Failed to fetch users"`   |
+
+---
+
+### `GET /api/admin/orders`
+
+Returns all orders with basic customer information, ordered by `created_at` descending (newest first). Requires admin session.
+
+**Response `200 OK`**
+```json
+[
+  {
+    "id": 7,
+    "status": "pending",
+    "total_amount": 2050,
+    "created_at": "2024-06-20T14:33:00Z",
+    "user": {
+      "id": 12,
+      "name": "Pema Dorji",
+      "email": "pema@example.com"
+    }
+  }
+]
+```
+
+**Error responses**
+
+| HTTP status | `error` value               |
+|-------------|-----------------------------|
+| 401         | `"Authentication required"` |
+| 403         | `"Admin access required"`   |
+| 500         | `"Failed to fetch orders"`  |
+
+---
+
+### `POST /api/admin/products`
+
+Creates a new product. Returns the created product with its artisan data joined in. Requires admin session.
+
+**Request body**
+
+| Field            | Type    | Required | Notes                                         |
+|------------------|---------|----------|-----------------------------------------------|
+| `name`           | string  | Yes      |                                               |
+| `category`       | string  | Yes      |                                               |
+| `price`          | number  | Yes      | Must be greater than 0                        |
+| `description`    | string  | No       |                                               |
+| `artisan_id`     | integer | No       | Must reference an existing artisan; nullable  |
+| `region`         | string  | No       |                                               |
+| `materials`      | string  | No       |                                               |
+| `stock_quantity` | integer | No       | Defaults to 0 if omitted                      |
+| `image_url`      | string  | No       |                                               |
+
+```json
+{
+  "name": "Hand-woven Carry Bag",
+  "description": "A sturdy traditional bag made from dyed wool.",
+  "price": 1200.00,
+  "category": "Crafts",
+  "artisan_id": 1,
+  "region": "Thimphu",
+  "materials": "Wool",
+  "stock_quantity": 8,
+  "image_url": "/images/bag.avif"
+}
+```
+
+**Response `201 Created`**
+```json
+{
+  "id": 17,
+  "name": "Hand-woven Carry Bag",
+  "description": "A sturdy traditional bag made from dyed wool.",
+  "price": 1200,
+  "category": "Crafts",
+  "region": "Thimphu",
+  "materials": "Wool",
+  "stock_quantity": 8,
+  "image_url": "/images/bag.avif",
+  "artisan": {
+    "id": 1,
+    "name": "Karma Choden",
+    "location": "Thimphu",
+    "craft_type": "Crafts"
+  }
+}
+```
+
+**Error responses**
+
+| HTTP status | `error` value                               | Cause                          |
+|-------------|---------------------------------------------|--------------------------------|
+| 401         | `"Authentication required"`                 |                                |
+| 403         | `"Admin access required"`                   |                                |
+| 400         | `"Invalid JSON"`                            | Malformed request body         |
+| 400         | `"Name, category, and price are required"`  | Validation failure             |
+| 500         | `"Failed to create product"`                | Database error                 |
+
+---
+
+### `PUT /api/admin/products/{id}`
+
+Replaces all fields of an existing product. Every field in `CreateProductInput` is overwritten — any field omitted in the request body is set to its zero value. Returns the updated product with artisan join. Requires admin session.
+
+**Path parameter**
+
+| Param | Type    |
+|-------|---------|
+| `id`  | integer |
+
+**Request body** — same shape as `POST /api/admin/products`
+
+**Response `200 OK`** — updated product object with artisan join
+
+**Error responses**
+
+| HTTP status | `error` value                | Cause                          |
+|-------------|------------------------------|--------------------------------|
+| 401         | `"Authentication required"`  |                                |
+| 403         | `"Admin access required"`    |                                |
+| 400         | `"Invalid product ID"`       | `id` is not an integer         |
+| 400         | `"Invalid JSON"`             | Malformed request body         |
+| 404         | `"Product not found"`        | No row with that ID            |
+| 500         | `"Failed to update product"` | Database error                 |
+
+---
+
+### `DELETE /api/admin/products/{id}`
+
+Permanently deletes a product from the database. Requires admin session.
+
+**Path parameter**
+
+| Param | Type    |
+|-------|---------|
+| `id`  | integer |
+
+**Response `200 OK`**
+```json
+{ "message": "Product deleted" }
+```
+
+**Error responses**
+
+| HTTP status | `error` value                | Cause                          |
+|-------------|------------------------------|--------------------------------|
+| 401         | `"Authentication required"`  |                                |
+| 403         | `"Admin access required"`    |                                |
+| 400         | `"Invalid product ID"`       | `id` is not an integer         |
+| 404         | `"Product not found"`        | No row with that ID            |
+| 500         | `"Failed to delete product"` | Database error                 |
+
+---
+
+## Error Response Format
+
+All handlers that use `utils.ResponseWithError` produce this envelope:
+
+```json
+{ "error": "Human-readable description" }
+```
+
+The wishlist handler uses raw `http.Error` with the same `"error"` key in the JSON string.
+
+---
+
+## Frontend Pages
+
+| File            | Purpose                                                                   |
+|-----------------|---------------------------------------------------------------------------|
+| `index.html`    | Landing page — hero, featured products, artisan showcases                 |
+| `products.html` | Full catalogue — category filter sidebar, sort by price                   |
+| `details.html`  | Single product detail view — add to cart, add to wishlist                 |
+| `cart.html`     | Cart from `localStorage` — qty edit, remove, checkout                     |
+| `wishlist.html` | Saved items — calls `/api/wishlist`, remove items                         |
+| `signup.html`   | Registration form — real-time password strength + requirements checklist  |
+| `login.html`    | Sign-in form                                                              |
+| `profile.html`  | User profile — name, email, order history, logout                         |
+| `artisans.html` | Artisan profiles — bio, craft type, location                              |
+| `about.html`    | Mission and about page                                                    |
+| `faq.html`      | FAQ accordion                                                             |
+| `admin.html`    | Admin dashboard — stats, user list, order list, product management        |
+
+---
+
+## Password Validation
+
+The signup form enforces four rules in real-time entirely in the browser before the request reaches the server:
+
+| Rule                   | Check                   |
+|------------------------|-------------------------|
+| At least 8 characters  | `value.length >= 8`     |
+| One uppercase letter   | `/[A-Z]/`               |
+| One number             | `/[0-9]/`               |
+| One special character  | `/[^A-Za-z0-9]/`        |
+
+Each rule appears as a list item beneath the password field. While the field is empty the list is hidden. As soon as the user starts typing it becomes visible and each rule displays:
+- A green filled circle and green text when the rule is satisfied.
+- An unfilled red circle and red text when it is not.
+
+The strength bar above the list fills 25% per rule met and changes colour: red (Weak) → orange (Fair) → yellow (Good) → green (Strong).
+
+The confirm-password field shows a small inline message: "Passwords match" in green or "Passwords do not match" in red, updated on every keystroke.
+
+**Submitting the form is blocked** if any rule is still failing or if the two password fields do not match. All failing rules are forced to the red state and a top-level error message is shown. The `fetch` call to `/api/signup` is only reached when all four rules pass and the passwords match.
+
+---
+
+## Data Flow Walkthroughs
+
+### Signup
+
+```
+Browser                           Server                          Database
+  │                                 │                                │
+  │  User fills form, clicks submit │                                │
+  │                                 │                                │
+  │  auth.js validates:             │                                │
+  │  - all 4 password rules pass    │                                │
+  │  - passwords match              │                                │
+  │                                 │                                │
+  │  POST /api/signup               │                                │
+  │  {name, email, password}  ─────►│                                │
+  │                                 │  handler/auth.go Signup()      │
+  │                                 │  - decode JSON                 │
+  │                                 │  - validate fields not empty   │
+  │                                 │  - bcrypt.GenerateFromPassword │
+  │                                 │  INSERT INTO users ───────────►│
+  │                                 │                          ◄─────│ RETURNING id
+  │                                 │  SetSessionCookie(w, r, id)    │
+  │◄────────────────────────────────│  201 Created                   │
+  │  Set-Cookie: selwa_sess=...     │  {message, user}               │
+  │                                 │                                │
+  │  auth.js:                       │                                │
+  │  localStorage.setItem(user)     │                                │
+  │  redirect → profile.html        │                                │
+```
+
+### Login
+
+```
+Browser                           Server                          Database
+  │                                 │                                │
+  │  POST /api/login                │                                │
+  │  {email, password}        ─────►│                                │
+  │                                 │  handler/auth.go Login()       │
+  │                                 │  SELECT ... WHERE email=$1 ───►│
+  │                                 │                          ◄─────│ row or ErrNoRows
+  │                                 │  if no row → 401               │
+  │                                 │  bcrypt.Compare(hash, password)│
+  │                                 │  if mismatch → 401             │
+  │                                 │  SetSessionCookie(w, r, id)    │
+  │◄────────────────────────────────│  200 OK {message, user}        │
+  │  Set-Cookie: selwa_sess=...     │                                │
+```
+
+### Wishlist add
+
+```
+Browser                           Server                          Database
+  │                                 │                                │
+  │  POST /api/wishlist             │                                │
+  │  {product_id: 5}          ─────►│                                │
+  │  Cookie: selwa_sess=...         │  handler/wishlist.go           │
+  │                                 │  UserIDFromCookie → userID     │
+  │                                 │  INSERT INTO wishlists         │
+  │                                 │  ON CONFLICT DO NOTHING  ─────►│
+  │◄────────────────────────────────│  204 No Content                │
+```
+
+### Place order
+
+```
+Browser                           Server                          Database
+  │                                 │                                │
+  │  POST /api/orders               │                                │
+  │  {items: [...]}           ─────►│                                │
+  │  Cookie: selwa_sess=...         │  handler/order.go PlaceOrder() │
+  │                                 │  UserIDFromCookie → userID     │
+  │                                 │  compute total = sum(qty*price)│
+  │                                 │  BEGIN TRANSACTION        ─────►│
+  │                                 │  INSERT INTO orders       ─────►│ → orderID
+  │                                 │  INSERT INTO order_items  ─────►│ (one per item)
+  │                                 │  COMMIT               ─────────►│
+  │◄────────────────────────────────│  201 Created {order_id: 7}     │
+```
+
+---
+
+## Tests
+
+Tests live in `backend/handler/` and use `go-sqlmock` so no real database is needed.
 
 ```bash
-# 1. Create the database (only needed once)
-createdb selwa
-
-# 2. Create the tables (safe to re-run — uses IF NOT EXISTS)
-psql -d selwa -f backend/schema.sql
-
-# 3. Insert demo products and artisans (only run once, or to reset data)
-psql -d selwa -f backend/seed.sql
-
-# 4. Start the server
 cd backend
-go run main.go
+go test ./handler/...
+
+# Verbose output:
+go test -v ./handler/...
 ```
 
-The server listens on **http://localhost:8080** and serves the `frontend/` directory
-as static files — no separate dev server needed.
+### `auth_test.go` — Signup and Login handlers
 
-#### Live reload (optional)
+#### Setup helpers
 
-If you have [air](https://github.com/air-verse/air) installed:
+**`setupMockDB(t)`** — creates a `go-sqlmock` mock, assigns it to `db.Db`, and registers a cleanup function that closes the mock when the test ends.
 
-```bash
-cd backend
-air
-```
+**`postJSON(body string)`** — returns an `*http.Request` with `POST` method and the given string as the JSON body.
 
-#### Custom database URL
+#### Signup tests
 
-```bash
-DATABASE_URL="postgres://user:password@localhost/selwa?sslmode=disable" go run main.go
-```
+| Test name                   | What it does                                                                                 | Expected status |
+|-----------------------------|----------------------------------------------------------------------------------------------|-----------------|
+| `TestSignup_InvalidJSON`    | Sends the string `"not json"` as the body                                                    | `400`           |
+| `TestSignup_MissingName`    | Sends `{"email":"a@b.com","password":"secret"}` — name field absent                        | `400`           |
+| `TestSignup_MissingEmail`   | Sends `{"name":"Alice","password":"secret"}` — email field absent                          | `400`           |
+| `TestSignup_MissingPassword`| Sends `{"name":"Alice","email":"a@b.com"}` — password field absent                         | `400`           |
+| `TestSignup_DuplicateEmail` | Configures mock to return a `*pq.Error{Code: "23505"}` on INSERT; sends valid body         | `409`           |
+| `TestSignup_Success`        | Configures mock to return `id=7` on INSERT; sends valid body; verifies `user.ID=7` in response | `201`       |
+
+#### Login tests
+
+| Test name                 | What it does                                                                                        | Expected status |
+|---------------------------|-----------------------------------------------------------------------------------------------------|-----------------|
+| `TestLogin_InvalidJSON`   | Sends `"{bad}"` as the body                                                                         | `400`           |
+| `TestLogin_MissingEmail`  | Sends `{"password":"secret"}` — email absent                                                        | `400`           |
+| `TestLogin_MissingPassword` | Sends `{"email":"a@b.com"}` — password absent                                                    | `400`           |
+| `TestLogin_UserNotFound`  | Configures mock to return `sql.ErrNoRows` on SELECT; sends valid body with unknown email            | `401`           |
+| `TestLogin_WrongPassword` | Configures mock to return a valid user row with a known bcrypt hash; sends wrong password           | `401`           |
+| `TestLogin_Success`       | Configures mock to return a valid user row; sends the matching password; verifies user email in response | `200`      |
 
 ---
 
-## Deploying to Render
+### `product_test.go` — HealthCheck, GetProducts, GetProduct handlers
 
-The repo contains a `render.yaml` Blueprint at the root. Render reads this file and
-creates everything automatically.
+#### Setup helpers
 
-### What render.yaml defines
+**`productCols()`** — returns a `*sqlmock.Rows` with the 13 columns that the product + artisan join query scans: `id`, `name`, `description`, `price`, `category`, `region`, `materials`, `stock_quantity`, `image_url`, `artisan_id`, `artisan_name`, `artisan_location`, `artisan_craft_type`.
 
-```yaml
-databases:
-  - name: selwa-db       # free-tier managed PostgreSQL
-    databaseName: selwa
-    user: selwa
+**`addProductRow(rows)`** — adds one row representing the "Bangchung" product (id=1, artisan Karma from Paro) to the provided rows object.
 
-services:
-  - type: web
-    name: selwa
-    runtime: go
-    rootDir: backend     # commands run from the backend/ folder
-    buildCommand: go build -o ./selwa-server .
-    startCommand: ./selwa-server
-    healthCheckPath: /api/health
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: selwa-db
-          property: connectionString  # auto-wired from the DB above
-```
+**`getRequest(path)`** — returns an `*http.Request` with `GET` method and the given path.
 
-Key points:
-- `rootDir: backend` — Render runs build and start commands from the `backend/`
-  directory, so the compiled binary's working directory is `backend/`. This means
-  `../frontend` (the static file path in `routes.go`) still resolves correctly to the
-  `frontend/` folder at the repo root.
-- `DATABASE_URL` is automatically set by Render from the managed database — no
-  manual copy-pasting of credentials needed.
-- `PORT` is automatically set by Render (to 10000). The server reads it with
-  `os.Getenv("PORT")` and falls back to `8080` for local development.
-- `/api/health` is used by Render to check that the service started successfully.
+**`withID(r, id)`** — uses `mux.SetURLVars` to inject an `"id"` path variable into the request, simulating what Gorilla Mux does when a route like `/api/products/{id}` matches.
 
-### Step-by-step deployment
+#### HealthCheck tests
 
-**1. Push the code to GitHub**
+| Test name           | What it does                                               | Expected |
+|---------------------|------------------------------------------------------------|----------|
+| `TestHealthCheck`   | Calls handler directly; checks status and response fields  | `200`, `status:"ok"`, `service:"selwa-backend"` |
 
-Make sure all changes are committed and pushed to your GitHub repository.
+#### GetProducts tests
 
-**2. Create a new Render account (or log in)**
+| Test name                        | What it does                                                          | Expected |
+|----------------------------------|-----------------------------------------------------------------------|----------|
+| `TestGetProducts_Success`        | Mock returns one Bangchung row; verifies array length and name        | `200`, `len=1`, `Name="Bangchung"` |
+| `TestGetProducts_DBError`        | Mock returns `sql.ErrConnDone`; checks error response                 | `500`    |
+| `TestGetProducts_ReturnsEmptyList` | Mock returns zero rows; verifies response is `[]` not `null`       | `200`, `len=0` |
 
-Go to [render.com](https://render.com) and sign in with GitHub.
+#### GetProduct tests
 
-**3. Create resources from the Blueprint**
-
-- In the Render dashboard click **New → Blueprint**
-- Connect your GitHub repository
-- Render detects `render.yaml` and shows you a preview of what will be created:
-  one Web Service + one PostgreSQL database
-- Click **Apply** — Render provisions the database and deploys the backend
-
-**4. Run the schema and seed data (one time)**
-
-After the first deploy, the database tables do not exist yet. You need to run the SQL files once.
-
-Open the Render dashboard → your **selwa-db** database → **Connect** tab.
-Copy the **PSQL Command** (it looks like `psql postgres://selwa:...@...`).
-
-Run it in your terminal, then apply the files:
-
-```bash
-# Paste the PSQL command from Render here to connect:
-psql postgres://selwa:<password>@<host>/selwa
-
-# Once inside the psql shell, run:
-\i backend/schema.sql
-\i backend/seed.sql
-\q
-```
-
-Or run both files directly without opening the shell:
-
-```bash
-psql "postgres://selwa:<password>@<host>/selwa" -f backend/schema.sql
-psql "postgres://selwa:<password>@<host>/selwa" -f backend/seed.sql
-```
-
-**5. Your app is live**
-
-Render gives the web service a URL like `https://selwa.onrender.com`.
-Opening it in a browser loads the home page.
-
-### Subsequent deploys
-
-Every `git push` to the connected branch triggers an automatic redeploy.
-You do **not** need to re-run `schema.sql` or `seed.sql` again — the tables and
-data already exist in the managed database.
-
-### Environment variables summary
-
-| Variable       | Where it comes from             | Used for                          |
-|----------------|---------------------------------|-----------------------------------|
-| `DATABASE_URL` | Auto-set by Render from the DB  | PostgreSQL connection string      |
-| `PORT`         | Auto-set by Render (e.g. 10000) | Port the HTTP server binds to     |
-
-Both variables have local fallbacks in the code so `go run main.go` still works
-without setting anything.
+| Test name               | What it does                                                                                              | Expected |
+|-------------------------|-----------------------------------------------------------------------------------------------------------|----------|
+| `TestGetProduct_BadID`  | Sets `db.Db = nil`; passes `"abc"` as the id path var; handler must return 400 before touching the DB   | `400`    |
+| `TestGetProduct_NotFound` | Mock returns `sql.ErrNoRows` for id=999; checks 404 response                                           | `404`    |
+| `TestGetProduct_Success`  | Mock returns the Bangchung row for id=1; checks product fields and artisan name                         | `200`, `ID=1`, `Artisan.Name="Karma"` |
 
 ---
 
 ## Dependencies
 
 ```
-backend/go.mod:
+backend/go.mod
 
-github.com/gorilla/mux v1.8.1        — HTTP router with path variables
-github.com/lib/pq v1.10.9            — PostgreSQL driver for database/sql
-golang.org/x/crypto v0.17.0          — bcrypt for password hashing
+github.com/gorilla/mux v1.8.1         HTTP router — path variables, per-route method enforcement
+github.com/lib/pq v1.10.9             Postgres driver for database/sql
+golang.org/x/crypto v0.17.0           bcrypt for password hashing
+github.com/DATA-DOG/go-sqlmock v1.5.2 SQL mock for handler unit tests (test only)
 ```
 
-No frontend build dependencies. Bootstrap and Google Fonts are loaded from CDN via
-`<link>` tags in each HTML file.
-
----
-
-## What Is Working
-
-### Backend
-
-| Feature                        | Detail                                                                                   |
-|--------------------------------|------------------------------------------------------------------------------------------|
-| Gorilla Mux router             | Clean route table, `{id}` path vars, automatic 405 on wrong method                     |
-| `GET /api/health`              | Returns `{ status: "ok" }` — useful to confirm server is up                            |
-| `GET /api/products`            | Queries all 16 products with LEFT JOIN on artisans, returns JSON array                  |
-| `GET /api/products/{id}`       | Fetches one product by integer ID; 404 if not found, 400 if id is not a number         |
-| `POST /api/signup`             | Hashes password with bcrypt, inserts user; 409 on duplicate email                      |
-| `POST /api/login`              | Looks up user, compares bcrypt hash; 401 on bad credentials                            |
-| Error responses                | All errors return `{ "error": "..." }` JSON with the correct HTTP status code          |
-| Static file serving            | `frontend/` directory is served automatically — no separate web server needed          |
-
-### Frontend
-
-| Feature                        | Detail                                                                                   |
-|--------------------------------|------------------------------------------------------------------------------------------|
-| Cart (localStorage)            | Add, remove, increment/decrement qty; total recalculates live                           |
-| Cart count badge               | Updates in the navbar on every page whenever cart changes                               |
-| "Add" button feedback          | Button briefly shows ✓ and reverts — confirms the item was added                       |
-| Login form                     | POSTs to API, stores user in localStorage, redirects to profile, shows inline error     |
-| Signup form                    | POSTs to API, password match check, stores user in localStorage, redirects to profile  |
-| Password strength bar          | Live indicator on signup: scores length, uppercase, digits, special characters          |
-| Password visibility toggle     | Eye icon on login and signup toggles between hidden/visible password                    |
-| Nav auth state                 | "Sign in" link when logged out; user's first name linking to profile when logged in     |
-| Profile page                   | Shows initials avatar, name, email; lists cart items with prices; logout button         |
-| Logout                         | Clears `selwa_user` from localStorage, redirects to home                               |
-| Category filter (products)     | Checking a category shows only matching cards; unchecking all shows everything          |
-| Sort by price (products)       | "Price: Low to high" and "Price: High to low" reorder cards in the DOM                 |
-| Empty cart state               | Dedicated empty-state panel shown when cart has no items                               |
-| Checkout guard                 | Checkout redirects to login if user is not signed in                                   |
-| Mobile responsive navbar       | Hamburger menu on small screens; search collapses to icon                              |
-
----
-
-## What Is NOT Working
-
-### Backend
-
-| Missing feature             | Explanation                                                                                                                     |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| No JWT / sessions           | After login the server returns the user object and forgets about it. The browser stores it in localStorage. Anyone who opens DevTools can edit localStorage and impersonate another user. A real app would issue a signed JWT or a server-side session cookie. |
-| No protected routes         | All API endpoints are public. There is no middleware that reads a token and rejects requests from unauthenticated users. `/api/products` being public is fine, but a real checkout endpoint should require authentication. |
-| No logout endpoint          | Logout is done purely by deleting `selwa_user` from localStorage. The server never knew the user was logged in, so there is nothing to invalidate. |
-| No order storage            | When checkout() runs, it clears the cart locally but nothing is written to the database. There is no `orders` table and no `/api/orders` endpoint. |
-| No password reset           | `forgot-password.html` exists as a file but is not linked from anywhere. There is no backend endpoint to send a reset email or update a password. |
-
-### Frontend
-
-| Missing feature              | Explanation                                                                                                                    |
-|------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Products page is static HTML | The 6 cards in `products.html` are hardcoded. They do not call `GET /api/products`. The database has 16 products but only 6 are displayed. A proper implementation would `fetch('/api/products')` and build the cards dynamically. |
-| `details.html` is static     | Every "Add" / product card links to `details.html` but that page always shows the same hardcoded content. It does not read a product ID from the URL and call `GET /api/products/{id}`. |
-| Search bar does nothing      | The search form submits to `products.html?q=...` and the URL parameter is set, but `products.js` does not read `URLSearchParams` and filter cards. |
-| `getintouch.html` form       | The contact / artisan inquiry form on this page has a submit button, but there is no backend endpoint. Submitting it does nothing. |
-| No real checkout             | The checkout flow clears the cart and shows an alert. No payment processing, no order confirmation email, no order history. |
-| Static info pages            | `about.html`, `artisans.html`, `faq.html`, `privacy.html`, `terms.html` are plain HTML with no dynamic data. Artisan profiles are hardcoded; they don't come from the database. |
-
----
-
-## Security Notes
-
-### Passwords
-
-Passwords are hashed with **bcrypt** from `golang.org/x/crypto/bcrypt` at cost factor 10:
-
-```go
-passwordHash, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
-```
-
-- The plain-text password is never written to the database.
-- bcrypt is a slow, adaptive hash function designed specifically for passwords. It includes a random salt so two users with the same password get different hashes.
-- `bcrypt.CompareHashAndPassword` is used on login — it re-hashes the attempt and compares in constant time, preventing timing attacks.
-
-### What is NOT secure (for this project scope)
-
-- **No HTTPS** — the server runs on plain HTTP. A production deployment would need TLS.
-- **No CSRF protection** — the API accepts any POST with the right JSON body.
-- **localStorage is not secure storage** — tokens or user data in localStorage can be
-  read by any JavaScript on the page (XSS risk). A production app uses `HttpOnly`
-  cookies for session tokens.
-- **No rate limiting** — the login endpoint has no brute-force protection.
+Frontend has no build-time dependencies. Bootstrap Icons and Google Fonts are loaded from CDN via `<link>` tags.

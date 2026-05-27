@@ -95,7 +95,7 @@ async function checkout() {
     });
 
     if (res.status === 401) {
-      window.location.href = 'index.html';
+      window.location.href = 'login.html';
       return;
     }
     if (!res.ok) {

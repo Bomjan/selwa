@@ -13,8 +13,17 @@
     <style>
       .wl-page { max-width: 860px; margin: 0 auto; padding: 48px 24px 100px; }
       .wl-header { margin-bottom: 32px; }
-      .wl-header h1 { font-size: 1.75rem; }
+      .wl-header h1 { font-size: clamp(1.3rem, 5vw, 1.75rem); }
       .wl-header p { color: var(--text-muted); font-size: .9rem; margin-top: 6px; }
+      @media (max-width: 640px) {
+        .wl-page { padding: 28px 20px 100px; }
+        .wl-header { margin-bottom: 22px; }
+        .wl-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      }
+      @media (max-width: 400px) {
+        .wl-grid { grid-template-columns: 1fr; }
+        .wl-card__body { padding: 12px 14px 14px; }
+      }
       .wl-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

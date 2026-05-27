@@ -26,10 +26,29 @@
         <div class="ad-topbar__brand">Selwa <span>Admin</span></div>
         <div class="ad-topbar__user">
           <div class="ad-topbar__avatar" id="ad-avatar">A</div>
-          <span id="ad-name">—</span>
+          <span class="ad-topbar__name" id="ad-name">—</span>
           <button class="ad-logout" onclick="adminLogout()">Sign out</button>
         </div>
       </header>
+
+      <!-- MOBILE NAB BAR (visible only on small screens, replaces sidebar) -->
+      <nav class="ad-mobile-nav" aria-label="Admin navigation">
+        <button class="ad-nav-item ad-mnav-item active" data-section="dashboard" onclick="showSection('dashboard', this)">
+          <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+        </button>
+        <button class="ad-nav-item ad-mnav-item" data-section="products" onclick="showSection('products', this)">
+          <i class="bi bi-box-seam"></i><span>Products</span>
+        </button>
+        <button class="ad-nav-item ad-mnav-item" data-section="orders" onclick="showSection('orders', this)">
+          <i class="bi bi-receipt"></i><span>Orders</span>
+        </button>
+        <button class="ad-nav-item ad-mnav-item" data-section="users" onclick="showSection('users', this)">
+          <i class="bi bi-people"></i><span>Users</span>
+        </button>
+        <a href="index.html" class="ad-mnav-item" style="text-decoration:none">
+          <i class="bi bi-arrow-left"></i><span>Site</span>
+        </a>
+      </nav>
 
       <div class="ad-layout">
         <!-- SIDEBAR -->

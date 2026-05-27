@@ -827,7 +827,10 @@ p { margin: 0; }
   .p-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
-  .p-grid { grid-template-columns: 1fr; gap: 12px; }
+  .p-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .p-card__by { display: none; }
+  .p-card__body { padding: 10px 0 12px; }
+  .p-card__name { font-size: .82rem; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1026,6 +1029,8 @@ p { margin: 0; }
     gap: 24px;
   }
   .s-footer-inner > div:first-child { grid-column: 1 / -1; }
+  .s-trust-inner { grid-template-columns: 1fr; }
+  .s-trust-inner > div:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
 }
 @media (max-width: 480px) {
   .s-footer-inner { grid-template-columns: 1fr; }

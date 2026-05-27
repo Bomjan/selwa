@@ -1,3 +1,17 @@
+async function pushLocalWishlist() {
+  const list = JSON.parse(localStorage.getItem('selwa_wishlist') || '[]');
+  for (const item of list) {
+    if (!item.id) continue;
+    try {
+      await fetch('/api/wishlist', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: item.id }),
+      });
+    } catch (_) {}
+  }
+}
+
 function showError(msg) {
   let el = document.getElementById('auth-error');
   if (!el) {
@@ -45,6 +59,7 @@ if (loginForm) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Login failed');
       localStorage.setItem('selwa_user', JSON.stringify(data.user));
+      await pushLocalWishlist();
       const redirect = new URLSearchParams(window.location.search).get('redirect');
       window.location.href = redirect || (data.user.is_admin ? 'admin.html' : 'profile.html');
     } catch (err) {
@@ -159,6 +174,7 @@ if (signupForm) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to create account');
       localStorage.setItem('selwa_user', JSON.stringify(data.user));
+      await pushLocalWishlist();
       window.location.href = 'profile.html';
     } catch (err) {
       showError(err.message);

@@ -24,10 +24,21 @@
       .profile-email { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
       .profile-section { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }
       .profile-section h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
-      .cart-summary-item { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 6px 0; border-bottom: 1px solid var(--border); }
+      .cart-summary-item { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 0.9rem; padding: 6px 0; border-bottom: 1px solid var(--border); }
       .cart-summary-item:last-child { border-bottom: none; }
+      .cart-summary-item span:first-child { flex: 1; min-width: 0; overflow-wrap: break-word; }
+      .cart-summary-item span:last-child { white-space: nowrap; flex-shrink: 0; font-weight: 600; }
       .empty-note { color: var(--text-muted); font-size: 0.875rem; }
       .logout-btn { margin-top: 24px; width: 100%; }
+      @media (max-width: 640px) {
+        .profile-page { margin: 28px auto 0; padding: 0 16px 80px; }
+        .profile-card { padding: 22px 16px; }
+        .profile-avatar { width: 60px; height: 60px; font-size: 1.3rem; }
+        .profile-name { font-size: 1.1rem; }
+      }
+      @media (max-width: 400px) {
+        .profile-card { padding: 18px 14px; }
+      }
     </style>
   </head>
   <body>

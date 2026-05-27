@@ -61,6 +61,21 @@
       .pd-spec-cell__label { font-size:.72rem; color:var(--text-muted); }
       .pd-spec-cell__val { font-weight:600; font-size:.875rem; }
       .pd-loading { padding:80px 0; text-align:center; color:var(--text-muted); }
+
+      /* ── additional mobile fixes ── */
+      @media (max-width: 640px) {
+        .pd-artisan-chip { flex-wrap: wrap; gap: 10px; }
+        .pd-artisan-chip i { margin-left: 0; }
+        .pd-tabs { margin-top: 28px; }
+      }
+      @media (max-width: 480px) {
+        .pd-specs-grid { grid-template-columns: repeat(2, 1fr); }
+        .pd-price { font-size: 1.5rem; }
+        .pd-title { font-size: clamp(1.2rem, 5vw, 1.6rem); }
+        .pd-actions .s-btn { padding: 10px 16px; font-size: .82rem; }
+        .pd-info-box { padding: 10px 12px; }
+        .pd-info-row { font-size: .78rem; }
+      }
     </style>
   </head>
   <body>
