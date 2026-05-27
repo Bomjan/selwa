@@ -61,7 +61,7 @@ if (loginForm) {
       localStorage.setItem('selwa_user', JSON.stringify(data.user));
       await pushLocalWishlist();
       const redirect = new URLSearchParams(window.location.search).get('redirect');
-      window.location.href = redirect || (data.user.is_admin ? 'admin.html' : 'profile.html');
+      window.location.href = redirect || 'profile.html';
     } catch (err) {
       showError(err.message);
       btn.disabled = false;

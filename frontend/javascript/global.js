@@ -378,7 +378,6 @@ function buildAuthModal() {
       initWishlistButtons();
       closeAuthModal();
       renderNavAuth();
-      if (data.user.is_admin) window.location.href = 'admin.html';
     } catch (err) {
       errEl.textContent = err.message; errEl.style.display = 'block';
       btn.disabled = false; btn.textContent = 'Sign in';
