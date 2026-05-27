@@ -1736,6 +1736,6 @@ html.page-exit { opacity: 0; }
     align-items: center;
   }
 
-  /* Footer: no extra bottom padding (dock handles it) */
-  .s-footer { padding-bottom: 0; }
+  /* Footer bottom bar clears the dock */
+  .s-footer-bottom { padding-bottom: calc(62px + 12px); }
 }

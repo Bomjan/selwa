@@ -31,16 +31,18 @@
       .pf-empty__icon { font-size: 2rem; color: var(--text-faint); margin-bottom: 12px; }
       .pf-empty__text { font-size: .875rem; color: var(--text-muted); }
       .pf-loading { display: flex; justify-content: center; padding: 80px 0; color: var(--text-muted); font-size: .875rem; gap: 10px; align-items: center; }
-      @media (max-width: 768px) {
-        .pf-bar { position: sticky; top: 52px; background: #fff; z-index: 90; }
-      }
+      /* mobile category select — hidden on desktop */
+      .pf-cat-select { display: none; }
+
       @media (max-width: 640px) {
-        .pf-bar { gap: 0; flex-direction: column; }
-        .pf-meta { padding: 10px 0; border-top: 1px solid var(--border); justify-content: space-between; }
-        .pf-count { text-align: left; }
-        .pf-tag { padding: 12px 14px; font-size: .62rem; }
-        .pf-grid-wrap { padding-top: 16px; padding-bottom: 32px; }
-        .products-header { padding: 18px 0 14px; }
+        /* replace tab strip with a select on mobile */
+        .pf-tags { display: none; }
+        .pf-bar { gap: 0; flex-direction: row; flex-wrap: nowrap; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .pf-cat-select { display: block; flex: 1; min-width: 0; }
+        .pf-meta { padding: 0; border-top: none; gap: 8px; flex-shrink: 0; }
+        .pf-count { display: none; }
+        .products-header { padding: 16px 0 12px; }
+        .pf-grid-wrap { padding-top: 16px; padding-bottom: 90px; }
       }
       @media (max-width: 480px) {
         .p-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
@@ -48,6 +50,7 @@
         .p-card__by { display: none; }
         .p-card__body { padding: 10px 0 12px; }
         .pf-sort { font-size: .65rem; padding: 6px 26px 6px 9px; }
+        .pf-cat-select { font-size: .65rem; }
       }
     </style>
   </head>
@@ -96,6 +99,16 @@
         <button class="pf-tag" data-category="souvenirs" role="tab" aria-selected="false">Souvenirs</button>
         <div class="pf-indicator" id="pf-indicator" aria-hidden="true"></div>
       </div>
+      <!-- mobile category select — replaces the tab strip on small screens -->
+      <select class="pf-cat-select pf-sort" id="pf-cat-select" aria-label="Filter by category">
+        <option value="">All categories</option>
+        <option value="crafts">Crafts</option>
+        <option value="woodcraft">Woodcraft</option>
+        <option value="pottery">Pottery</option>
+        <option value="wellness">Wellness</option>
+        <option value="food">Food &amp; Honey</option>
+        <option value="souvenirs">Souvenirs</option>
+      </select>
       <div class="pf-meta">
         <span class="pf-count" id="product-count"></span>
         <select class="pf-sort" id="pf-sort" aria-label="Sort products">
@@ -196,6 +209,20 @@
           if (catParam) {
             const tag = document.querySelector(`.pf-tag[data-category="${catParam}"]`);
             if (tag && typeof selectTag === 'function') selectTag(tag);
+            const catSelect = document.getElementById('pf-cat-select');
+            if (catSelect) catSelect.value = catParam;
+          }
+
+          // Wire up mobile category select
+          const catSelect = document.getElementById('pf-cat-select');
+          if (catSelect) {
+            catSelect.addEventListener('change', () => {
+              if (typeof filterProducts === 'function') filterProducts(catSelect.value);
+              // keep desktop tab state in sync in case of rotation
+              document.querySelectorAll('.pf-tag').forEach(t => {
+                t.classList.toggle('active', t.dataset.category === catSelect.value);
+              });
+            });
           }
         } catch (_) {
           document.getElementById('pf-loading').innerHTML =
