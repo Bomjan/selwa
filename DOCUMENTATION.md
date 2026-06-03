@@ -118,63 +118,159 @@ To design and develop a full-stack web application that allows users to browse a
 
 ## System Architecture
 
-Selwa follows a layered monolithic architecture. The Go backend serves both the REST API and the static frontend files from a single process.
+Selwa is a layered monolithic application. A single Go process serves both the REST API and all static frontend files. The browser communicates with the server over HTTP; the server communicates with PostgreSQL over a TCP connection managed by the `lib/pq` driver.
+
+### High-Level Overview
+
+```
++---------------------------+          +------------------------------+
+|         Browser           |          |        Render Cloud          |
+|                           |          |                              |
+|  HTML / CSS / JS pages    |  HTTP    |  +------------------------+  |
+|  (served as static files) | <------> |  |   Go HTTP Server       |  |
+|                           |          |  |   (port 8080)          |  |
+|  fetch() API calls        | <------> |  |                        |  |
+|                           |  JSON    |  |  routes/routes.go      |  |
++---------------------------+          |  |  (gorilla/mux)         |  |
+                                       |  +----------+-------------+  |
+                                       |             |                |
+                                       |    +--------+--------+       |
+                                       |    |  Handler Layer  |       |
+                                       |    | auth / product  |       |
+                                       |    | order / wishlist|       |
+                                       |    +--------+--------+       |
+                                       |             |                |
+                                       |    +--------+--------+       |
+                                       |    |   Model Layer   |       |
+                                       |    |  (SQL queries)  |       |
+                                       |    +--------+--------+       |
+                                       |             |                |
+                                       |    +--------+--------+       |
+                                       |    |    db/db.go     |       |
+                                       |    | database/sql    |       |
+                                       |    |   + lib/pq      |       |
+                                       |    +--------+--------+       |
+                                       |             |                |
+                                       +-------------|----------------+
+                                                     | TCP
+                                       +-------------|----------------+
+                                       |    +--------+--------+       |
+                                       |    |   PostgreSQL    |       |
+                                       |    | (Render managed)|       |
+                                       |    +-----------------+       |
+                                       +------------------------------+
+```
+
+### Layer Responsibilities
+
+| Layer | Package | Responsibility |
+|---|---|---|
+| Router | `routes/routes.go` | Maps URL paths and HTTP methods to handler functions |
+| Handler | `handler/` | Decodes request, validates input, calls model, writes response |
+| Model | `model/` | Executes all SQL queries; owns data structs |
+| Database | `db/db.go` | Opens and holds the single `*sql.DB` connection pool |
+| Utils | `utils/` | Session cookie signing/reading, JSON response helpers |
+| Frontend | `../frontend` | Served as static files by `http.FileServer` |
+
+### Request Flow
 
 ```
 Browser
   |
+  | HTTP request
   v
-[ Go HTTP Server — port 8080 ]
-  |-- /api/*         --> Handler layer
-  |                       |-- model layer (SQL queries)
-  |                             |-- db package (database/sql + lib/pq)
-  |                                   |-- PostgreSQL
-  |-- /* (static)    --> http.FileServer (../frontend)
-```
-
-### Package Layout
-
-```
-backend/
-  main.go              -- entry point: init DB, start router
-  db/db.go             -- opens and pings the PostgreSQL connection
-  routes/routes.go     -- registers all HTTP routes via gorilla/mux
-  handler/             -- HTTP handlers (thin: parse input, call model, write response)
-    auth.go
-    product.go
-    order.go
-    wishlist.go
-  model/               -- database query functions (all SQL lives here)
-    user.go
-    product.go
-    order.go
-    wishlist.go
-  utils/
-    session.go         -- HMAC-signed cookie creation, verification, clearing
-    response.go        -- JSON response helpers
-
-frontend/
-  index.html           -- home page
-  products.html        -- product catalogue
-  details.html         -- single product detail (reads ?id= from URL)
-  artisans.html        -- artisan profiles
-  cart.html            -- shopping cart (localStorage)
-  wishlist.html        -- saved items
-  login.html / signup.html
-  about.html / faq.html / profile.html
-  css/                 -- global.css + page-specific stylesheets
-  js/                  -- page-specific JS files
-  images/              -- product and hero images (.avif, .webp)
+gorilla/mux router         -- matches path + method
+  |
+  v
+Handler function           -- decodes JSON body, validates required fields
+  |
+  v
+Model function             -- runs parameterised SQL via db.Db
+  |
+  v
+PostgreSQL                 -- returns rows or executes write
+  |
+  v
+Handler                    -- calls utils.ResponseWithJSON
+  |
+  v
+Browser                    -- receives JSON response
 ```
 
 ### Authentication Flow
 
 ```
 POST /api/signup or /api/login
-  --> handler validates input
-  --> model hashes password (bcrypt) or validates it
-  --> utils.SetSessionCookie writes HMAC-signed HttpOnly cookie
-  --> subsequent requests read cookie via utils.UserIDFromCookie
+          |
+          v
+   handler decodes body, checks required fields
+          |
+          v
+   model: bcrypt.GenerateFromPassword  (signup)
+          bcrypt.CompareHashAndPassword (login)
+          |
+          v
+   utils.SetSessionCookie
+     - builds token: "<userID>.<HMAC-SHA256 signature>"
+     - sets HttpOnly, SameSite=Lax, Secure (on HTTPS), 30-day expiry
+          |
+          v
+   subsequent protected requests
+     - utils.UserIDFromCookie verifies HMAC signature
+     - returns userID or 401 Unauthorized
+```
+
+### Package Layout
+
+```
+backend/
+  main.go                    entry point — init DB, start router
+  go.mod                     module: selwa, Go 1.21
+  schema.sql                 CREATE TABLE statements (idempotent)
+  seed.sql                   demo data: 4 artisans, 16 products, 1 admin
+
+  db/
+    db.go                    opens *sql.DB, reads DATABASE_URL env var
+
+  routes/
+    routes.go                registers all 11 API routes + static file server
+
+  handler/
+    auth.go                  Signup, Login, Logout, Me
+    product.go               HealthCheck, GetProducts, GetProduct
+    order.go                 PlaceOrder
+    wishlist.go              GetWishlist, AddToWishlist, RemoveFromWishlist
+    auth_test.go             unit tests for auth handlers (sqlmock)
+    product_test.go          unit tests for product handlers (sqlmock)
+
+  model/
+    user.go                  User struct, Create, ValidateCredentials, GetByID
+    product.go               Product struct, GetAllProducts, product.Read()
+    order.go                 Order/OrderItem structs, CreateOrder
+    wishlist.go              Wishlist queries
+
+  utils/
+    session.go               HMAC cookie sign, verify, set, clear
+    response.go              ResponseWithJSON, ResponseWithError helpers
+    response_test.go         unit tests for response helpers
+
+frontend/
+  index.html                 home — hero, featured categories
+  products.html              product grid (fetched from API)
+  details.html               single product (?id= URL param)
+  artisans.html              artisan profile cards
+  cart.html                  cart (localStorage) + checkout
+  wishlist.html              user wishlist (API)
+  login.html / signup.html   auth forms
+  about.html / faq.html / profile.html
+
+  css/
+    global.css               Selwa design system — nav, cards, footer, buttons
+    home.css / products.css / details.css / artisans.css
+    cart.css / auth.css / about.css
+
+  js/                        one JS file per page (fetch calls to API)
+  images/                    product images (.avif, .webp)
 ```
 
 ---
